@@ -1,0 +1,14 @@
+<div class="control-container flex-column justify-content-center">
+  <div class="image-container" *ngIf="!imgSrc()">
+    <img alt="testImg" [src]="imageSource()" [width]="imageWidth()" [height]="imageHeight()" />
+  </div>
+  <input
+    #inputField
+    hidden
+    type="file"
+    (change)="fileSelected($event, keyImage())"
+    (click)="inputField.value = ''" />
+  <button mat-flat-button class="m-t-16" color="primary" (click)="inputField.click()">
+    เลือกรูปภาพ
+  </button>
+</div>

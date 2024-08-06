@@ -1,0 +1,12 @@
+<h5 mat-dialog-title class="mat-subtitle-1">{{ tiltle }}</h5>
+<div mat-dialog-content class="mat-subtitle-2 lh-16">
+  {{ subTiltle }}
+</div>
+<div mat-dialog-actions class="p-24 p-t-0">
+  <button mat-stroked-button color="warn" (click)="onNoClick()">
+    {{ cancel }}
+  </button>
+  <button mat-flat-button color="primary" [mat-dialog-close]="'OK'" cdkFocusInitial>
+    {{ done }}
+  </button>
+</div>

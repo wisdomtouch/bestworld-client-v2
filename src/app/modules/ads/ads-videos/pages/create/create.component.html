@@ -1,0 +1,136 @@
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <mat-card-title class="f-s-16">เพิ่มวิดีโอโฆษณา</mat-card-title>
+    <mat-divider></mat-divider>
+    <form class="m-t-24 ads-video-container" [formGroup]="formGroup!">
+      <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+        ชื่อวิดีโอโฆษณา<span class="text-error">*</span></mat-label
+      >
+      <mat-form-field appearance="outline" class="w-100 m-b-8">
+        <input
+          matInput
+          [formControlName]="'name'"
+          type="text"
+          Input
+          placeholder="ใส่ชื่อวิดีโอโฆษณา" />
+        <mat-error *ngIf="formGroup!.get('name')?.hasError('required')"> กรุณากรอกชื่อ</mat-error>
+      </mat-form-field>
+      <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+        URL วิดีโอโฆษณา<span class="text-error">*</span></mat-label
+      >
+      <mat-form-field appearance="outline" class="w-100 m-b-8">
+        <input matInput [formControlName]="'url'" type="text" Input placeholder="https://" />
+        <mat-icon matSuffix>
+          <i-tabler name="external-link" class="icon-20 d-flex text-gray-100"></i-tabler>
+        </mat-icon>
+        <mat-error *ngIf="formGroup!.get('url')?.hasError('required')"> กรุณากรอก URL</mat-error>
+      </mat-form-field>
+      <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+        เลือกวันที่แสดงโฆษณาบนเว็บไซต์-จนถึงวันที่สิ้นสุด<span class="text-error">*</span>
+      </mat-label>
+      <mat-form-field appearance="outline" class="w-100 m-b-30">
+        <mat-date-range-input [rangePicker]="dateTimes" [min]="nowDate" [max]="maxDate">
+          <input matStartDate placeholder="วันที่แสดงโฆษณา" [formControlName]="'dateTimeStart'" />
+          <input matEndDate placeholder="วันที่สิ้นสุดโฆษณา" [formControlName]="'dateTimeEnd'" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="dateTimes"></mat-datepicker-toggle>
+        <mat-date-range-picker #dateTimes></mat-date-range-picker>
+        <mat-error class="m-b-3" *ngIf="formGroup!.get('dateTimeStart')?.hasError('required')">
+          กรุณา เลือกวันที่แสดงโฆษณา
+        </mat-error>
+        <mat-error
+          class="m-b-3"
+          *ngIf="
+            formGroup!.get('dateTimeEnd')?.hasError('required') && formGroup!.get('dateTimeStart')!
+          ">
+          กรุณา เลือกวันที่สิ้นสุดโฆษณา
+        </mat-error>
+      </mat-form-field>
+
+      <div class="row justify-content-between m-b-16">
+        <div class="flex-column col-md-5">
+          <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block m-t-16"
+            >วิดีโอโฆษณา<span class="text-error">*</span></mat-label
+          >
+          <div>
+            <div [class]="isClickVideo ? 'card-image border-red' : 'card-image'">
+              <div *ngIf="!videoSrc" class="m-b-12">
+                <div
+                  class="bg-light-primary d-flex align-items-center justify-content-center cursor-pointer rounded h-200">
+                  <img
+                    ngSrc="assets/images/ads-video/file.png"
+                    alt="image"
+                    width="120"
+                    height="120" />
+                </div>
+              </div>
+              <div #videoContainer></div>
+              <button
+                mat-flat-button
+                color="primary"
+                class="m-r-8 m-b-16 m-t-16"
+                type="button"
+                (click)="PreviewVideo.click()">
+                Upload
+              </button>
+              <input
+                type="file"
+                hidden
+                #PreviewVideo
+                (change)="handleFileInputChangeVideo($event)" />
+              <span class="f-s-14 d-block">ใช้ไฟล์ MP4 ขนาดไม่เกิน 100 MB เท่านั้น</span>
+            </div>
+            <mat-error *ngIf="isClickVideo" class="f-s-12 f-w-100 l-s-3">
+              กรุณาเลือกวิดีโอโฆษณา
+            </mat-error>
+          </div>
+        </div>
+        <div class="flex-column col-md-5">
+          <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block m-t-16"
+            >ภาพวิดีโอโฆษณา<span class="text-error">*</span></mat-label
+          >
+          <div>
+            <div [class]="isClickImage ? 'card-image border-red' : 'card-image'">
+              <div class="d-flex align-items-center justify-content-center cursor-pointer p-10">
+                <app-crop-image
+                  [width]="40"
+                  [height]="40"
+                  [key]="'adsVideoProfile'"
+                  (imageAdsVideoProfileReady)="imageAdsVideoProfileEvent($event)" />
+              </div>
+              <span class="f-s-14 d-block">เฉพาะไฟล์ JPEG และ PNG ขนาดสูงสุด 500 KB</span>
+            </div>
+            <mat-error *ngIf="isClickImage" class="f-s-12 f-w-100 l-s-3">
+              กรุณาเลือกภาพวิดีโอโฆษณา
+            </mat-error>
+          </div>
+        </div>
+      </div>
+
+      <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> สถานะ</mat-label>
+      <mat-slide-toggle [formControlName]="'status'" class="m-l-auto"></mat-slide-toggle>
+      {{ !formGroup || formGroup.get("status")?.value === true ? "ใช้งาน" : "ปิดการใช้งาน" }}
+
+      <br />
+      <br />
+
+      <div class="m-t-12" *ngIf="isShowAlert">
+        <app-alert [color]="'error'">
+          {{ alertMessage }}
+        </app-alert>
+      </div>
+
+      <mat-card-actions class="b-t-1">
+        <button
+          mat-flat-button
+          color="primary"
+          class="m-r-8"
+          (click)="submitForm()"
+          [disabled]="formGroup?.disabled">
+          {{ !formGroup?.disabled ? "บันทึก" : "กำลังโหลด..." }}
+        </button>
+        <a href="ads/ads-video/list" mat-flat-button color="warn">ยกเลิก</a>
+      </mat-card-actions>
+    </form>
+  </mat-card-content>
+</mat-card>

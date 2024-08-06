@@ -1,0 +1,187 @@
+<mat-card class="cardWithShadow theme-card">
+  <mat-card-header class="d-flex justify-content-between bg-extra-light">
+    <mat-card-title class="m-t-8">รายละเอียดแนวเพลง</mat-card-title>
+    <a href="/style/edit/{{ styleDetail?.id }}" mat-raised-button color="primary" class="m-r-8">
+      <div class="d-flex align-items-center">
+        <i-tabler class="icon-20" name="edit"></i-tabler> แก้ไข
+      </div>
+    </a>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <div class="row justify-content-start m-t-12">
+      <div class="flex-column col-lg-6 col-sm-12 col-md-12">
+        <div class="d-flex col-12 justify-content-space-around">
+          <div class="col-4 col-sm-4 col-md-4">
+            <p class="f-w-500">Genre ID</p>
+          </div>
+          <div class="col-8 col-sm-8 col-md-8">
+            <p class="f-w-300">{{ styleDetail?.id }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-space-around">
+          <div class="col-4">
+            <p class="f-w-600">แนวเพลง</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ styleDetail?.name }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-space-around">
+          <div class="col-4">
+            <p>Slug</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ styleDetail?.slug }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-around">
+          <div class="col-4">
+            <p class="f-w-600">สถานะปัจจุบัน</p>
+          </div>
+          <div class="d-flex col-8 align-items-center">
+            <app-chip-status
+              [isActive]="styleDetail?.isActive"
+              [backgroundColor]="
+                styleDetail?.isActive
+                  ? chipColorConstants.activeColor
+                  : chipColorConstants.inActiveColor
+              "
+              [textColor]="
+                styleDetail?.isActive
+                  ? chipColorConstants.activeColorText
+                  : chipColorConstants.inActiveColorText
+              "
+              [massage]="styleDetail?.isActive ? 'เปิดใช้งาน' : 'ปิดใช้งาน'">
+            </app-chip-status>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-around">
+          <div class="col-4">
+            <p class="f-w-600">เพลงที่ใช้แนวเพลง</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ styleDetail?.songsUsed }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-around">
+          <div class="col-4">
+            <p class="f-w-600">ผู้ใช้ที่ใช้แนวเพลง</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ styleDetail?.totalView }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-around">
+          <div class="col-4">
+            <p>Publish Date</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ styleDetail?.createdAt | date: "d/MM/yyyy H:mm" }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-around">
+          <div class="col-4">
+            <p class="f-w-600">สร้างโดย</p>
+          </div>
+          <div class="col-8">
+            <a
+              href="admin/detail/{{ styleDetail?.createdBy?.id }}"
+              target="_blank"
+              class="text-decoration-none">
+              <p class="f-w-300">
+                {{ styleDetail?.createdBy?.firstname }} {{ styleDetail?.createdBy?.lastname }}
+              </p>
+            </a>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-around">
+          <div class="col-4">
+            <p class="f-w-600">วันที่แก้ไข</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ styleDetail?.updatedAt | date: "d/MM/yyyy H:mm" }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-around">
+          <div class="col-4">
+            <p class="f-w-600">แก้ไขโดย</p>
+          </div>
+          <div class="col-8">
+            <a
+              href="admin/detail/{{ styleDetail?.updatedBy?.id }}"
+              target="_blank"
+              class="text-decoration-none">
+              <p class="f-w-300">
+                {{ styleDetail?.updatedBy?.firstname }} {{ styleDetail?.updatedBy?.lastname }}
+              </p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card class="cardWithShadow" *ngIf="isShow">
+  <mat-card-content>
+    <div class="row m-l-20">
+      <div>
+        <button mat-stroked-button class="m-r-10">ทั้งหมด</button>
+      </div>
+      <div>
+        <button mat-stroked-button class="m-r-10">ย้อนหลัง 7 วัน</button>
+      </div>
+      <div>
+        <button mat-stroked-button class="m-r-10">ย้อนหลัง 30 วัน</button>
+      </div>
+      <div>
+        <button mat-stroked-button class="m-r-10">แสดงเฉพาะเดือนนี้</button>
+      </div>
+      <div>
+        <button mat-stroked-button class="m-r-10">กำหนดเอง</button>
+      </div>
+    </div>
+    <div class="row justify-content-around m-b-10">
+      <div class="col-lg-6 col-sm-12 col-md-6 m-b-10">
+        <mat-card-header>
+          <mat-card-title class="f-s-16">จำนวนเพลงที่ใช้แนวเพลง</mat-card-title>
+          <mat-card-subtitle class="mat-body-1"
+            >ตั้งแต่ (วันเริ่มลงแนวเพลง) ถึง ปัจจุบัน
+          </mat-card-subtitle>
+        </mat-card-header>
+        <div class="d-flex align-items-center m-l-20">
+          <i-tabler name="hand-click" class="icon-40 m-r-8"></i-tabler>
+          <h2 class="f-s-32">35</h2>
+        </div>
+      </div>
+      <div class="col-lg-6 col-sm-12 col-md-6 m-b-10">
+        <mat-card-header>
+          <mat-card-title class="f-s-16">จำนวนผู้ใช้ที่ฟังแนวเพลง</mat-card-title>
+          <mat-card-subtitle class="mat-body-1"
+            >ตั้งแต่ (วันเริ่มลงแนวเพลง) ถึง ปัจจุบัน
+          </mat-card-subtitle>
+        </mat-card-header>
+        <div class="d-flex align-items-center m-l-20">
+          <i-tabler name="brand-youtube" class="icon-40 m-r-8"></i-tabler>
+          <h2 class="f-s-32">100</h2>
+        </div>
+      </div>
+    </div>
+    <mat-card-header>
+      <mat-card-title class="m-b-0">Static Pop Genre </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="b-t-1">
+      <apx-chart
+        [series]="gredientChartOptions.series"
+        [chart]="gredientChartOptions.chart"
+        [stroke]="gredientChartOptions.stroke"
+        [xaxis]="gredientChartOptions.xaxis"
+        [fill]="gredientChartOptions.fill"
+        [markers]="gredientChartOptions.markers"
+        [yaxis]="gredientChartOptions.yaxis"
+        [plotOptions]="gredientChartOptions.plotOptions"
+        [tooltip]="gredientChartOptions.tooltip"
+        [grid]="gredientChartOptions.grid">
+      </apx-chart>
+    </mat-card-content>
+  </mat-card-content>
+</mat-card>

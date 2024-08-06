@@ -1,0 +1,25 @@
+<h1 class="text-center">ศิลปิน</h1>
+<mat-dialog-content>
+  <mat-form-field appearance="outline" class="w-100 p-10 search">
+    <input matInput type="text" (keyup)="applyFilter($any($event.target).value)" />
+    <mat-icon matSuffix>
+      <i-tabler name="search" class="icon-20"></i-tabler>
+    </mat-icon>
+  </mat-form-field>
+  <div *ngFor="let item of filteredItems">
+    <div class="d-flex align-items-center gap-16 p-8 cursor-pointer" [mat-dialog-close]="{ item }">
+      <i-tabler *ngIf="artistId === item.id" name="check" class="icon-20 text-primary"></i-tabler>
+      <i-tabler *ngIf="artistId !== item.id" name="plus" class="icon-20"></i-tabler>
+      <img [src]="urlImage + item.image" alt="users" width="50" height="50" class="rounded" />
+      <p>
+        {{ item.name }}
+      </p>
+    </div>
+  </div>
+  <span *ngIf="filteredItems && filteredItems.length <= 0" class="mat-subtitle-2 m-l-12 f-s-16"
+    >ไม่พบข้อมูล</span
+  >
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-flat-button class="m-l-8 button-close" (click)="onNoClick()">ยกเลิก</button>
+</mat-dialog-actions>

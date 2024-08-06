@@ -1,0 +1,211 @@
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <!--  Header -->
+    <div class="row no-gutters justify-content-between align-items-center gap-12">
+      <!--  Right -->
+      <div class="row no-gutters gap-12 col-sm-12 col-md-9 align-items-center">
+        <div>
+          <button mat-stroked-button [matMenuTriggerFor]="filtermenu">
+            <mat-icon matSuffix>
+              <i-tabler name="adjustments-horizontal" class="icon-20"></i-tabler>
+            </mat-icon>
+            <span
+              matBadge="{{ this.filterCount === 0 ? null : this.filterCount }}"
+              matBadgeOverlap="false"
+              class="text-decoration-none"
+              >ตัวกรอง</span
+            >
+          </button>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <mat-form-field appearance="outline" class="w-100 hide-hint">
+            <input matInput placeholder="Search" [formControl]="searchInput" />
+            <mat-icon matSuffix>
+              <i-tabler name="search" class="icon-20"></i-tabler>
+            </mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!--  Left -->
+    </div>
+    <mat-menu
+      #filtermenu="matMenu"
+      xPosition="before"
+      yPosition="below"
+      [hasBackdrop]="false"
+      [overlapTrigger]="false"
+      class="topbar-dd cardWithShadow">
+      <app-filter-menu
+        [filterMenuData]="filterMenuData"
+        (selectStartDateEvent)="selectStartDateEvent($event)"
+        (selectEndDateEvent)="selectEndDateEvent($event)"
+        (filterCountEvent)="filterCountEvent($event)"
+        (clearEvent)="clearChipEvent($event)"
+        (closeMenuEvent)="closeMenu()">
+      </app-filter-menu>
+    </mat-menu>
+    <div class="row justify-content-end m-t-8">
+      <mat-chip
+        class="m-r-4 m-t-4"
+        *ngFor="let item of searchGroup; let i = index"
+        [removable]="true"
+        (removed)="onRemoved(item.type)">
+        <p class="f-s-14">{{ item.name }}</p>
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <mat-chip
+        *ngIf="this.searchGroup.length > 0"
+        (removed)="clearAllChipEvent()"
+        class="bg-light-primary m-r-4 m-t-4">
+        <p class="f-s-14">ล้างทั้งหมด</p>
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </div>
+
+    <div class="table-responsive m-t-24" *ngIf="ticketPagination">
+      <table
+        mat-table
+        [dataSource]="ticketPagination.tickets"
+        class="w-100"
+        matSort
+        matSortActive="updatedAt"
+        matSortDisableClear
+        matSortDirection="desc">
+        <!-- Title Column -->
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">หัวข้อ</th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+            <div class="d-flex align-items-center">
+              <div class="m-l-16">
+                <p>
+                  {{ element.title }}
+                </p>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Partner Column -->
+        <ng-container matColumnDef="partner">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            disableClear
+            class="f-w-600 mat-subtitle-1 f-s-14">
+            ค่ายเพลง
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+            {{ element.partner.name }}
+          </td>
+        </ng-container>
+
+        <!-- CreatedBy Column -->
+        <ng-container matColumnDef="createdBy">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            disableClear
+            class="f-w-600 mat-subtitle-1 f-s-14">
+            ผู้ส่ง
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+            {{ element.createdBy.firstname }}
+          </td>
+        </ng-container>
+
+        <!-- Created Column -->
+        <ng-container matColumnDef="createdAt">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            disableClear
+            class="f-w-600 mat-subtitle-1 f-s-14">
+            วันที่ส่ง
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+            {{ element.createdAt | date: "d/MM/yyyy H:mm" }}
+          </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            disableClear
+            class="f-w-600 mat-subtitle-1 f-s-14">
+            สถานะ
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+            <app-chip-status
+              *ngIf="element.status === TicketStatus.approve"
+              [reqStatus]="element.status"
+              [backgroundColor]="chipColorConstants.approveColor"
+              [textColor]="chipColorConstants.approveColorText"
+              [massage]="'อนุมัติ'">
+            </app-chip-status>
+            <app-chip-status
+              *ngIf="element.status === TicketStatus.waiting"
+              [reqStatus]="element.status"
+              [backgroundColor]="chipColorConstants.waitingColor"
+              [textColor]="chipColorConstants.waitingColorText"
+              [massage]="'รออนุมัติ'">
+            </app-chip-status>
+            <app-chip-status
+              *ngIf="element.status === TicketStatus.inProgress"
+              [reqStatus]="element.status"
+              [backgroundColor]="chipColorConstants.inProgressColor"
+              [textColor]="chipColorConstants.inProgressColorText"
+              [massage]="'กำลังดำเนินการ'">
+            </app-chip-status>
+            <app-chip-status
+              *ngIf="element.status === TicketStatus.reject"
+              [reqStatus]="element.status"
+              [backgroundColor]="chipColorConstants.rejectColor"
+              [textColor]="chipColorConstants.rejectColorText"
+              [massage]="'ถูกปฏิเสธ'">
+            </app-chip-status>
+          </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">Action</th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+            <div *ngIf="accountTicketPermission">
+              <a
+                href="/ticket-requests/detail/{{ element.id }}"
+                *ngIf="accountTicketPermission.isUpdate"
+                class="m-r-10 cursor-pointer">
+                <i-tabler name="eye" class="icon-18"></i-tabler>
+              </a>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="ticketDisplayColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: ticketDisplayColumns"></tr>
+      </table>
+    </div>
+
+    <div *ngIf="ticketPagination && ticketPagination.tickets.length <= 0">
+      <app-data-not-found></app-data-not-found>
+    </div>
+
+    <!--  Pagination -->
+    <mat-paginator
+      class="m-t-12"
+      *ngIf="ticketPagination"
+      [length]="ticketPagination.pagination.length"
+      (page)="(ticketPagination.pagination.page)"
+      [pageSize]="ticketPagination.pagination.size"
+      [pageSizeOptions]="paginationOption.pageSize"
+      [showFirstLastButtons]="true">
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>

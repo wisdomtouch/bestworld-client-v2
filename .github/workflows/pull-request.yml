@@ -1,0 +1,71 @@
+name: Pull Request
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - staging
+      - production
+    types:
+      - opened
+      - synchronize
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  code_analysis:
+    name: Code analysis - Pull request
+    if: false
+    runs-on:
+      group: Self-Hosted
+    steps:
+      - name: Clean up .scannerwork folder
+        run: |
+          docker run --name sonar --volume "$(pwd):/usr/src" sonarsource/sonar-scanner-cli rm -rf .scannerwork
+          docker container rm -f sonar
+
+      - name: Check out repository code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Code scanning
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Check the Quality Gate
+        id: quality-gate-check
+        uses: SonarSource/sonarqube-quality-gate-action@master
+        timeout-minutes: 3
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    
+      - name: Clean up .scannerwork folder
+        run: |
+          docker run --name sonar --volume "$(pwd):/usr/src" sonarsource/sonar-scanner-cli rm -rf .scannerwork
+          docker container rm -f sonar
+
+  build:
+    name: Build
+    runs-on:
+      group: Self-Hosted
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Move and rename for docker compose file
+        run: |
+          rm -rf docker-compose.yml
+          mv ./docker/merge/docker-compose.yml ./docker-compose.yml
+          ls ${{ github.workspace }}
+          docker compose down -v
+
+      - name: Build the docker compose
+        run: docker compose up -d --build
+
+      - name: Clear the resources
+        run: docker compose down -v

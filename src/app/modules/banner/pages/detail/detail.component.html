@@ -1,0 +1,257 @@
+<app-loading [isSubmit]="isSubmit"></app-loading>
+<div class="row">
+  <div class="col-12">
+    <mat-card class="cardWithShadow theme-card">
+      <mat-card-header class="d-flex justify-content-between bg-extra-light">
+        <mat-card-title class="m-t-8">รายละเอียดแบนเนอร์</mat-card-title>
+        <a href="/banner/edit/{{ banner.id }}" mat-raised-button color="primary" class="m-r-8">
+          <div class="d-flex align-items-center">
+            <i-tabler class="icon-20" name="edit"></i-tabler>
+            <mat-card-title class="f-s-16">แก้ไข</mat-card-title>
+          </div>
+        </a>
+      </mat-card-header>
+      <mat-card-content class="b-t-1">
+        <div class="flex-column col-lg-6 col-sm-12 col-md-12">
+          <div class="d-flex col-12 justify-content-between">
+            <div class="col-4 col-sm-4 col-md-4">
+              <p class="f-w-600">ชื่อแบนเนอร์</p>
+            </div>
+            <div class="col-8 col-sm-8 col-md-8">
+              <p class="f-w-300">{{ banner.name }}</p>
+            </div>
+          </div>
+          <div class="d-flex col-12 justify-content-between">
+            <div class="col-4 col-sm-4 col-md-4">
+              <p class="f-w-600">ลิงก์ไปที่</p>
+            </div>
+            <div class="col-8 col-sm-8 col-md-8">
+              <a href="{{ banner.link }}" target="_blank">{{ banner.link }}</a>
+            </div>
+          </div>
+          <div class="d-flex col-12 justify-content-between">
+            <div class="col-4 col-sm-4 col-md-4">
+              <p class="f-w-600">สถานะปัจจุบัน</p>
+            </div>
+            <div class="col-8 col-sm-8 col-md-8">
+              <div class="d-flex align-items-lg-center">
+                <app-chip-status
+                  [isActive]="banner?.isActive"
+                  [backgroundColor]="
+                    banner?.isActive
+                      ? chipColorConstants.activeColor
+                      : chipColorConstants.inActiveColor
+                  "
+                  [textColor]="
+                    banner?.isActive
+                      ? chipColorConstants.activeColorText
+                      : chipColorConstants.inActiveColorText
+                  "
+                  [massage]="banner?.isActive ? 'เปิดใช้งาน' : 'ปิดใช้งาน'">
+                </app-chip-status>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex col-12 justify-content-between">
+            <div class="col-4 col-sm-4 col-md-4">
+              <p class="f-w-600">ลำดับที่แสดง</p>
+            </div>
+            <div class="col-8 col-sm-8 col-md-8">
+              <p class="f-w-300">{{ banner.order }}</p>
+            </div>
+          </div>
+          <div class="d-flex col-12 justify-content-between">
+            <div class="col-4 col-sm-4 col-md-4">
+              <p class="f-w-600">แสดงแบนเนอร์ตั้งแต่</p>
+            </div>
+            <div class="col-8 col-sm-8 col-md-8">
+              <p class="f-w-300">
+                {{ banner.publishedAt | date: "dd/MM/yyyy" }} -
+                {{ banner.expiredAt | date: "dd/MM/yyyy" }}
+              </p>
+            </div>
+          </div>
+          <div class="d-flex col-12 justify-content-between">
+            <div class="col-4 col-sm-4 col-md-4">
+              <p class="f-w-600">วันที่สร้าง</p>
+            </div>
+            <div class="col-8 col-sm-8 col-md-8">
+              <p class="f-w-300">
+                {{ banner.createdAt | date: "dd/MM/yyyy, HH:mm" }}
+              </p>
+            </div>
+          </div>
+          <div class="d-flex col-12 justify-content-between">
+            <div class="col-4 col-sm-4 col-md-4">
+              <p class="f-w-600">แก้ไขล่าสุด</p>
+            </div>
+            <div class="col-8 col-sm-8 col-md-8">
+              <p class="f-w-300">
+                {{ banner.updatedAt | date: "dd/MM/yyyy, HH:mm" }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 m-t-10">
+          <div class="row">
+            <div class="col-12 m-b-16">
+              <p class="f-w-600">รูปแบนเนอร์บนคอมพิวเตอร์</p>
+              <img
+                *ngIf="imageDesktop"
+                [src]="imageDesktop"
+                alt="desktop"
+                class="card-image img-desktop" />
+            </div>
+            <div class="col-sm-12 col-lg-6">
+              <p class="f-w-600">รูปแบนเนอร์บนไอแพด</p>
+              <img
+                *ngIf="imageIpad"
+                [src]="imageIpad"
+                alt="ipad"
+                class="card-image img-ipad m-b-12" />
+            </div>
+            <div class="col-sm-12 col-lg-6">
+              <p class="f-w-600">รูปแบนเนอร์บนมือถือ</p>
+              <img
+                *ngIf="imageMobile"
+                [src]="imageMobile"
+                alt="mobile"
+                class="card-image img-ipad" />
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div *ngIf="isShow" class="col-12 d-flex flex-sm-row flex-column gap-8 m-b-16">
+    <button
+      mat-stroked-button
+      (click)="onClickShow(1)"
+      [class]="showClick === 1 ? 'text-primary bg-light-primary' : ''">
+      <div class="d-flex align-items-center gap-8">
+        <i-tabler *ngIf="showClick === 1" name="check" class="icon-20"></i-tabler> ทั้งหมด
+      </div>
+    </button>
+    <button
+      mat-stroked-button
+      (click)="onClickShow(2)"
+      [class]="showClick === 2 ? 'text-primary bg-light-primary' : ''">
+      <div class="d-flex align-items-center gap-8">
+        <i-tabler *ngIf="showClick === 2" name="check" class="icon-20"></i-tabler> ย้อนหลัง 7 วัน
+      </div>
+    </button>
+    <button
+      mat-stroked-button
+      (click)="onClickShow(3)"
+      [class]="showClick === 3 ? 'text-primary bg-light-primary' : ''">
+      <div class="d-flex align-items-center gap-8">
+        <i-tabler *ngIf="showClick === 3" name="check" class="icon-20"></i-tabler>ย้อนหลัง 30 วัน
+      </div>
+    </button>
+    <button
+      mat-stroked-button
+      (click)="onClickShow(4)"
+      [class]="showClick === 4 ? 'text-primary bg-light-primary' : ''">
+      <div class="d-flex align-items-center gap-8">
+        <i-tabler name="check" *ngIf="showClick === 4" class="icon-20"></i-tabler> แสดงเฉพาะเดือนนี้
+      </div>
+    </button>
+  </div>
+  <div *ngIf="isShow" class="col-12">
+    <mat-card class="cardWithShadow theme-card">
+      <mat-card-content>
+        <div class="row">
+          <div class="col-sm-12 col-md-4 m-b-12">
+            <mat-card-title class="f-s-16">จำนวนแสดงผลแบนเนอร์บนเว็บไซต์</mat-card-title>
+            <div class="d-flex align-items-center m-t-16">
+              <span
+                class="text-primary bg-light-primary rounded icon-45 d-flex align-items-center justify-content-center">
+                <i-tabler name="eye" class="icon-24 d-flex"></i-tabler>
+              </span>
+              <div class="m-l-16 m-r-auto">
+                <h5 class="mat-headline-5 m-b-4">0</h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-4 m-b-12">
+            <mat-card-title class="f-s-16">จำนวนคลิกแบนเนอร์เว็บไซต์</mat-card-title>
+            <div class="d-flex align-items-center m-t-16">
+              <span
+                class="text-success bg-light-success rounded icon-45 d-flex align-items-center justify-content-center">
+                <i-tabler name="pointer" class="icon-24 d-flex"></i-tabler>
+              </span>
+              <div class="m-l-16 m-r-auto">
+                <h5 class="mat-headline-5 m-b-4">0</h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-4 m-b-12">
+            <mat-card-title class="f-s-16">CTR</mat-card-title>
+            <div class="d-flex align-items-center m-t-16">
+              <span
+                class="text-error bg-light-error rounded icon-45 d-flex align-items-center justify-content-center">
+                <i-tabler name="click" class="icon-24 d-flex"></i-tabler>
+              </span>
+              <div class="m-l-16 m-r-auto">
+                <h5 class="mat-headline-5 m-b-4">0</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive m-t-24" *ngIf="bannerPagination">
+          <table
+            mat-table
+            [dataSource]="bannerPagination.detail"
+            class="w-100"
+            matSort
+            matSortActive="order"
+            matSortDisableClear
+            matSortDirection="desc">
+            <!-- Date Column -->
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                วันที่
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+                {{ element.data }}
+              </td>
+            </ng-container>
+
+            <!-- View Column -->
+            <ng-container matColumnDef="view">
+              <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                จำนวนแสดงผล
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+                <div class="d-flex align-items-center">
+                  {{ element.view }}
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="click">
+              <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                จำนวนคลิก
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+                <div class="d-flex align-items-center">
+                  {{ element.click }}
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="ctr">
+              <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">CTR</th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+                <div class="d-flex align-items-center">
+                  {{ element.ctr }}
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="bannerColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: bannerColumns"></tr>
+          </table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

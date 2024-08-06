@@ -1,0 +1,178 @@
+.role-container {
+  .chip-color:nth-child(1) {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    border-radius: 8px;
+
+    ::ng-deep span {
+      display: grid;
+
+      > button {
+        padding: 0 !important;
+        background-color: #e81a0c !important;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  .chip-color:nth-child(2) {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    border-radius: 8px;
+
+    ::ng-deep span {
+      display: grid;
+
+      > button {
+        padding: 0 !important;
+        background-color: #fe6900 !important;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  .chip-color:nth-child(3) {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    border-radius: 8px;
+
+    ::ng-deep span {
+      display: grid;
+
+      > button {
+        padding: 0 !important;
+        background-color: #feda49 !important;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  .chip-color:nth-child(4) {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    border-radius: 8px;
+
+    ::ng-deep span {
+      display: grid;
+
+      > button {
+        padding: 0 !important;
+        background-color: #aff218 !important;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  .chip-color:nth-child(5) {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    border-radius: 8px;
+
+    ::ng-deep span {
+      display: grid;
+
+      > button {
+        padding: 0 !important;
+        background-color: #039c55 !important;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  .chip-color:nth-child(6) {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    border-radius: 8px;
+
+    ::ng-deep span {
+      display: grid;
+
+      > button {
+        padding: 0 !important;
+        background-color: #33a8a1 !important;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  .chip-color:nth-child(7) {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    border-radius: 8px;
+
+    ::ng-deep span {
+      display: grid;
+
+      > button {
+        padding: 0 !important;
+        background-color: #2c81fb !important;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  .chip-color:nth-child(8) {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    border-radius: 8px;
+
+    ::ng-deep span {
+      display: grid;
+
+      > button {
+        padding: 0 !important;
+        background-color: #702bfe !important;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  .chip-color:nth-child(9) {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    border-radius: 8px;
+
+    ::ng-deep span {
+      display: grid;
+
+      > button {
+        padding: 0 !important;
+        background-color: #e54887 !important;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  .text-permission {
+    display: none;
+  }
+
+  @media (width <= 599px) {
+    .permission-option {
+      display: none;
+    }
+
+    .text-permission {
+      display: block;
+    }
+
+    .text-checkbox {
+      display: block;
+    }
+  }
+
+  @media (width >= 600px) {
+    .text-checkbox {
+      display: none;
+    }
+  }
+}

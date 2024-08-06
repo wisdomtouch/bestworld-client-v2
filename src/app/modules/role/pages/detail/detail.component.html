@@ -1,0 +1,38 @@
+<mat-card class="cardWithShadow theme-card">
+  <mat-card-header class="d-flex justify-content-between bg-extra-light">
+    <mat-card-title class="m-t-8">รายละเอียดระดับแอดมิน</mat-card-title>
+    <a href="/role/edit/{{ role?.id }}" mat-raised-button color="primary" class="m-r-8">
+      <div class="d-flex align-items-center">
+        <i-tabler class="icon-20" name="edit"></i-tabler> แก้ไข
+      </div>
+    </a>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <div class="flex-column col-lg-6 col-sm-12 col-md-12">
+      <div class="d-flex col-12 justify-content-between">
+        <div class="col-4 col-sm-4 col-md-4">
+          <p class="f-w-600">ชื่อระดับ</p>
+        </div>
+        <div class="col-8 col-sm-8 col-md-8">
+          <p class="f-w-300">{{ role?.roleName }}</p>
+        </div>
+      </div>
+      <div class="d-flex col-12 justify-content-space-around">
+        <div class="col-4 col-sm-4 col-md-4">
+          <p class="f-w-600">วันที่เพิ่ม</p>
+        </div>
+        <div class="col-8 col-sm-8 col-md-8">
+          <p class="f-w-300">{{ role?.createdAt | date: "d/MM/yyyy H:mm" }}</p>
+        </div>
+      </div>
+      <div class="d-flex col-12 justify-content-space-around">
+        <div class="col-4 col-sm-4 col-md-4">
+          <p class="f-w-600">วันที่แก้ไข</p>
+        </div>
+        <div class="col-8 col-sm-8 col-md-8">
+          <p class="f-w-300">{{ role?.updatedAt | date: "d/MM/yyyy H:mm" }}</p>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

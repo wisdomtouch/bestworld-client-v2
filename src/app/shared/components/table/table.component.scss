@@ -1,0 +1,76 @@
+@import "src/assets/scss/variables";
+
+.table-grid {
+  display: grid;
+}
+
+mat-header-cell {
+  font-weight: bold;
+}
+
+.text-over {
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.badge-color {
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
+}
+
+.mat-column-no {
+  flex: 0 0 5%;
+}
+
+.mat-column-color {
+  flex: 0 0 20%;
+}
+
+.mat-column-action {
+  display: flex;
+  flex: 0 0 15%;
+  justify-content: center;
+}
+
+.select-row {
+  position: relative;
+  left: -15px;
+}
+
+.menu-link:hover {
+  color: $primary;
+}
+
+.table-image {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 80px;
+  height: 40px;
+  cursor: pointer;
+  object-fit: cover;
+  border-radius: 5px !important;
+}
+
+.icon-role {
+  width: 12px;
+  height: 14px;
+  margin-top: 4px;
+  border-radius: 50% !important;
+}
+
+.mat-column-denom {
+  flex: 0 0 25%;
+}
+
+.text-gray {
+  font-weight: 600;
+  color: #7c8fac;
+}
+
+.mat-column-start-end {
+  flex: 0 0 260px;
+}

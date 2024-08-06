@@ -1,0 +1,48 @@
+<div mat-subheader *ngIf="navItem.navCap" class="nav-caption">
+  {{ navItem.navCap }}
+</div>
+<a
+  routerLink="."
+  mat-list-item
+  (click)="onItemSelected(navItem)"
+  [ngClass]="{
+    'mat-toolbar mat-primary activeMenu': navItem.route
+      ? router.isActive(navItem.route, true)
+      : false,
+    expanded: isExpanded,
+    disabled: navItem.disabled
+  }"
+  class="menu-list-item"
+  *ngIf="!navItem.navCap && !navItem.external && !navItem.twoLines">
+  <i-tabler class="routeIcon" name="{{ navItem.iconName }}" matListItemIcon></i-tabler>
+  <span class="hide-menu">{{ navItem.displayName! | translate }}</span>
+  <span class="arrow-icon" fxFlex *ngIf="navItem.children && navItem.children.length">
+    <span fxFlex></span>
+    <mat-icon [@indicatorRotate]="isExpanded ? 'expanded' : 'collapsed'"> expand_more </mat-icon>
+  </span>
+  <span *ngIf="navItem.chip">
+    <span class="{{ navItem.chipClass }} p-x-8 p-y-4 item-chip f-w-500 rounded-pill ">{{
+      navItem.chipContent
+    }}</span>
+  </span>
+</a>
+
+<!-- External Link -->
+<mat-list-item
+  onClick="window.open('//google.com')"
+  class="menu-list-item"
+  *ngIf="!navItem.navCap && navItem.external"
+  target="_blank">
+  <i-tabler class="routeIcon" name="{{ navItem.iconName }}" matListItemIcon></i-tabler>
+  <span class="hide-menu">{{ navItem.displayName! | translate }}</span>
+</mat-list-item>
+
+<!-- Children -->
+<div *ngIf="isExpanded">
+  <app-nav-item
+    *ngFor="let child of navItem.children"
+    [navItem]="child"
+    (click)="onSubItemSelected(child)"
+    [depth]="depth + 1">
+  </app-nav-item>
+</div>

@@ -1,0 +1,26 @@
+<h1 class="text-center">แนวเพลง</h1>
+<mat-dialog-content>
+  <mat-form-field appearance="outline" class="w-100 p-10 search">
+    <input matInput type="text" (keyup)="applyFilter($any($event.target).value)" />
+    <mat-icon matSuffix>
+      <i-tabler name="search" class="icon-20"></i-tabler>
+    </mat-icon>
+  </mat-form-field>
+  <div *ngFor="let item of filteredItems">
+    <mat-checkbox
+      color="primary"
+      (change)="selectedRow($event, item)"
+      [checked]="checkBox(item.name)">
+      {{ item.name }}
+    </mat-checkbox>
+  </div>
+  <span *ngIf="filteredItems && filteredItems.length <= 0" class="mat-subtitle-2 m-l-12 f-s-16"
+    >ไม่พบข้อมูล</span
+  >
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-flat-button class="button-add" [mat-dialog-close]="{ styleName, styleId }">
+    เพิ่มแนวเพลง
+  </button>
+  <button mat-flat-button class="m-l-8 button-close" (click)="onNoClick()">ยกเลิก</button>
+</mat-dialog-actions>

@@ -1,0 +1,245 @@
+<mat-card class="cardWithShadow theme-card">
+  <mat-card-header class="d-flex justify-content-between bg-extra-light">
+    <mat-card-title class="m-t-8">รายละเอียดโฆษณา</mat-card-title>
+    <button (click)="onRoute()" mat-raised-button color="primary" class="m-r-8">
+      <div class="d-flex align-items-center">
+        <i-tabler class="icon-20" name="edit"></i-tabler> แก้ไข
+      </div>
+    </button>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <div class="row justify-content-between">
+      <div class="flex-column col-lg-5 col-sm-12 col-md-12">
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 col-sm-4 col-md-4">
+            <p class="f-w-500">ADS Banner ID</p>
+          </div>
+          <div class="col-8 col-sm-8 col-md-8">
+            <p class="f-w-300">{{ adsImageDetail?.id }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4">
+            <p class="f-w-600">ชื่อโฆษณา</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ adsImageDetail?.name }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4">
+            <p class="f-w-600">ลิ้งค์ไปที่</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ adsImageDetail?.url }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4">
+            <p class="f-w-600">สถานะปัจจุบัน</p>
+          </div>
+          <div class="d-flex col-8 align-items-center">
+            <app-chip-status
+              [isActive]="adsImageDetail?.isActive"
+              [backgroundColor]="
+                adsImageDetail?.isActive
+                  ? chipColorConstants.activeColor
+                  : chipColorConstants.inActiveColor
+              "
+              [textColor]="
+                adsImageDetail?.isActive
+                  ? chipColorConstants.activeColorText
+                  : chipColorConstants.inActiveColorText
+              "
+              [massage]="adsImageDetail?.isActive ? 'เปิดใช้งาน' : 'ปิดใช้งาน'">
+            </app-chip-status>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4">
+            <p class="f-w-600">แสดงโฆษณาตั้งแต่</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">
+              {{ adsImageDetail?.publishedAt | date: "d/MM/yyyy" }}{{ "-" }}
+              {{ adsImageDetail?.expiredAt | date: "d/MM/yyyy" }}
+            </p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4">
+            <p class="f-w-500">Publish Date</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ adsImageDetail?.publishedAt | date: "d/MM/yyyy" }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4">
+            <p class="f-w-500">สร้างโดย</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">
+              {{ adsImageDetail?.createdBy?.firstname + " " + adsImageDetail?.createdBy?.lastname }}
+            </p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4">
+            <p class="f-w-600">แก้ไขล่าสุด</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ adsImageDetail?.updatedAt | date: "d/MM/yyyy,H:mm" }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4">
+            <p class="f-w-600">แก้ไขโดย</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">
+              {{ adsImageDetail?.updatedBy?.firstname + " " + adsImageDetail?.updatedBy?.lastname }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row gap-5 col-lg-7">
+        <div class="ads-image-detail-container col-lg-7 col-sm-12 col-md-12">
+          <p class="f-w-600">รูปโฆษณาบนคอมพิวเตอร์</p>
+          <div [class]="'card-image'">
+            <div>
+              <div
+                *ngIf="!adsImageDetail?.imageDesktop"
+                class="bg-light-primary d-flex align-items-center justify-content-center cursor-pointer rounded h-200">
+                <img src="assets/images/banners/no-image.png" alt="image" width="54" />
+              </div>
+            </div>
+            <img
+              *ngIf="adsImageDetail?.imageDesktop"
+              [src]="urlImage + adsImageDetail?.imageDesktop"
+              alt="Desktop"
+              class="rounded w-100 h-200 img" />
+          </div>
+        </div>
+        <div class="ads-image-detail-container col-lg-5 col-sm-6 col-md-6">
+          <p class="f-w-600">รูปโฆษณาบนมือถือ</p>
+          <div [class]="'card-image'">
+            <div>
+              <div
+                *ngIf="!adsImageDetail?.imageMobile"
+                class="bg-light-primary d-flex align-items-center justify-content-center cursor-pointer rounded h-200">
+                <img src="assets/images/banners/no-image.png" alt="image" width="54" />
+              </div>
+            </div>
+            <div class="w-100" *ngIf="adsImageDetail?.imageMobile">
+              <img
+                *ngIf="adsImageDetail?.imageMobile"
+                [src]="urlImage + adsImageDetail?.imageMobile"
+                alt="Mobile"
+                class="rounded w-100 h-200 img" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <div class="col-12 d-flex flex-sm-row flex-column gap-10">
+      <button
+        mat-stroked-button
+        (click)="getViewerStatAll()"
+        [class]="showClick === 1 ? 'text-primary bg-light-primary' : ''">
+        <div class="d-flex align-items-center gap-8">
+          <i-tabler *ngIf="showClick === 1" name="check" class="icon-20"></i-tabler> ทั้งหมด
+        </div>
+      </button>
+
+      <button
+        mat-stroked-button
+        (click)="getViewerStatSevenDayAgo()"
+        [class]="showClick === 2 ? 'text-primary bg-light-primary' : ''">
+        <div class="d-flex align-items-center gap-8">
+          <i-tabler *ngIf="showClick === 2" name="check" class="icon-20"></i-tabler> ย้อนหลัง 7 วัน
+        </div>
+      </button>
+      <button
+        mat-stroked-button
+        (click)="getViewerStatThirtyDayAgo()"
+        [class]="showClick === 3 ? 'text-primary bg-light-primary' : ''">
+        <div class="d-flex align-items-center gap-8">
+          <i-tabler *ngIf="showClick === 3" name="check" class="icon-20"></i-tabler>ย้อนหลัง 30 วัน
+        </div>
+      </button>
+      <button
+        mat-stroked-button
+        (click)="getViewerOnlyThisMonth()"
+        [class]="showClick === 4 ? 'text-primary bg-light-primary' : ''">
+        <div class="d-flex align-items-center gap-8">
+          <i-tabler name="check" *ngIf="showClick === 4" class="icon-20"></i-tabler>
+          แสดงเฉพาะเดือนนี้
+        </div>
+      </button>
+    </div>
+    <div class="row justify-content-between m-b-10">
+      <div class="col-lg-4 col-sm-12 col-md-12 m-b-10">
+        <mat-card-header>
+          <mat-card-title class="f-s-16">จำนวนแสดงผลโฆษณาบนเว็บไซต์</mat-card-title>
+          <mat-card-subtitle class="mat-body-1"
+            >ตั้งแต่ {{ startDate }} ถึง {{ endDate }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <div class="d-flex align-items-center m-l-20">
+          <i-tabler name="eye-filled" class="icon-40 m-r-8"></i-tabler>
+          <h2 class="f-s-32">{{ adsImageDetailStat.totalView }}</h2>
+        </div>
+      </div>
+      <div class="col-lg-4 col-sm-12 col-md-12 m-b-10">
+        <mat-card-header>
+          <mat-card-title class="f-s-16">จำนวนคลิกโฆษณาบนเว็บไซต์</mat-card-title>
+          <mat-card-subtitle class="mat-body-1"
+            >ตั้งแต่ {{ startDate }} ถึง {{ endDate }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <div class="d-flex align-items-center m-l-20">
+          <i-tabler name="hand-click" class="icon-40 m-r-8"></i-tabler>
+          <h2 class="f-s-32">{{ adsImageDetailStat.totalClick }}</h2>
+        </div>
+      </div>
+      <div class="col-lg-4 col-sm-12 col-md-12 m-b-10">
+        <mat-card-header>
+          <mat-card-title class="f-s-16">CTR</mat-card-title>
+          <mat-card-subtitle class="mat-body-1"
+            >ตั้งแต่ {{ startDate }} ถึง {{ endDate }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <div class="d-flex align-items-center m-l-20">
+          <i-tabler name="click" class="icon-40 m-r-8"></i-tabler>
+          <h2 class="f-s-32">{{ adsImageDetailStat.totalCtr }}%</h2>
+        </div>
+      </div>
+    </div>
+    <mat-card class="cardWithShadow theme-card">
+      <mat-card-header>
+        <mat-card-title class="m-b-0">Statistics {{ adsImageDetail?.name }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="b-t-1">
+        <div id="chart">
+          <apx-chart
+            [series]="gredientChartOptions.series"
+            [chart]="gredientChartOptions.chart"
+            [stroke]="gredientChartOptions.stroke"
+            [xaxis]="gredientChartOptions.xaxis"
+            [fill]="gredientChartOptions.fill"
+            [yaxis]="gredientChartOptions.yaxis"
+            [plotOptions]="gredientChartOptions.plotOptions"
+            [tooltip]="gredientChartOptions.tooltip"
+            [grid]="gredientChartOptions.grid">
+            >
+          </apx-chart>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-card-content>
+</mat-card>

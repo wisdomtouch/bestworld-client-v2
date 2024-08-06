@@ -1,0 +1,122 @@
+<form class="user-container" *ngIf="formGroup" [formGroup]="formGroup">
+  <mat-card class="cardWithShadow theme-card">
+    <mat-card-header>
+      <mat-card-title class="m-b-0">แก้ไขสมาชิก</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="b-t-1">
+      <div>
+        <div class="row m-t-20">
+          <div class="col-sm-12 col-lg-8">
+            <div class="col-lg-12">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+                ชื่อ <span class="text-error">*</span>
+              </mat-label>
+              <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+                <input [formControlName]="'name'" matInput type="text" />
+                <mat-error *ngIf="formGroup.get('name')?.hasError('required')">
+                  กรูณากรอก ชื่อ
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-12">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> Google Username </mat-label>
+              <mat-form-field appearance="outline" class="w-100 m-b-8">
+                <input [formControlName]="'googleUsername'" matInput type="text" />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-12">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+                เพศ <span class="text-error">*</span>
+              </mat-label>
+              <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+                <mat-select [formControlName]="'gender'">
+                  <mat-option [value]="'Male'">Male </mat-option>
+                  <mat-option [value]="'Female'">Female </mat-option>
+                  <mat-option [value]="'NoIdentify'">No Identify </mat-option>
+                  <mat-option [value]="'Transgender'">Transgender </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formGroup.get('gender')?.hasError('required')">
+                  กรูณาเลือก เพศ
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-12">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> วันเกิด </mat-label>
+              <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+                <input
+                  matInput
+                  [matDatepicker]="dateOfBirth"
+                  placeholder="mm/dd/yyyy"
+                  name="dateOfBirth"
+                  formControlName="dateOfBirth" />
+                <mat-datepicker-toggle matSuffix [for]="dateOfBirth"></mat-datepicker-toggle>
+                <mat-datepicker #dateOfBirth></mat-datepicker>
+                <mat-error *ngIf="formGroup.get('dateOfBirth')?.hasError('required')">
+                  กรุณากรอก วันเกิด
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-12">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> สถานะ </mat-label>
+              <mat-slide-toggle [formControlName]="'isActive'" class="m-l-auto"></mat-slide-toggle>
+              {{ formGroup.get("isActive")?.value === true ? "ใช้งาน" : "ปิดการใช้งาน" }}
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-4">
+            <div class="col-12 m-b-16">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">รูปภาพ</mat-label>
+              <div [class]="!isClickImage ? 'card-image border-red' : 'card-image'">
+                <div *ngIf="!imageSrc" class="m-b-12">
+                  <div
+                    class="bg-light-primary d-flex align-items-center justify-content-center cursor-pointer rounded h-200">
+                    <img src="assets/images/banners/no-image.png" alt="image" width="54" />
+                  </div>
+                </div>
+                <img
+                  *ngIf="imageSrc"
+                  [src]="imageSrc"
+                  alt="your image"
+                  class="w-100 h-200 img m-b-12" />
+                <button
+                  mat-flat-button
+                  color="primary"
+                  class="m-r-8 m-b-8"
+                  type="button"
+                  (click)="profile.click()">
+                  Upload
+                </button>
+                <input
+                  type="file"
+                  hidden
+                  #profile
+                  (change)="handleFileInputChangeProfile($event)" />
+                <span class="f-s-14 d-block">เฉพาะไฟล์ JPEG และ PNG ขนาดสูงสุด 10 MB</span>
+              </div>
+              <mat-error *ngIf="!isClickImage" class="f-s-12 f-w-100 l-s-3">
+                กรุณาเลือก รูปภาพ
+              </mat-error>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-t-12" *ngIf="isShowAlert">
+        <app-alert [color]="'error'">
+          {{ alertMessage }}
+        </app-alert>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="b-t-1">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="submitForm()"
+        [disabled]="formGroup.disabled">
+        {{ !formGroup.disabled ? "บันทึก" : "Loading..." }}
+      </button>
+      <a href="/user/list" mat-flat-button color="warn" class="m-l-8">ยกเลิก</a>
+    </mat-card-actions>
+  </mat-card>
+</form>

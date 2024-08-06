@@ -1,0 +1,42 @@
+.video-detail-container {
+  .img {
+    object-fit: contain;
+  }
+
+  .h-250 {
+    height: 250px;
+  }
+
+  .h-50 {
+    height: 50px;
+  }
+
+  .card-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 325px;
+    text-align: center;
+    border: 1px dashed #585858;
+    border-radius: 8px;
+  }
+
+  .border-red {
+    border: 1px dashed #fa896b;
+  }
+
+  .l-s-3 {
+    letter-spacing: 0.0333em;
+  }
+}
+
+.scroll-viewport {
+  width: 100%;
+  height: 300px;
+  background-color: #eceaea;
+  border-radius: 8px;
+}
+
+.p-6 {
+  text-align: center;
+}

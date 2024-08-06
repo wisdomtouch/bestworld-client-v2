@@ -1,0 +1,347 @@
+<mat-card class="cardWithShadow theme-card">
+  <mat-card-header class="d-flex justify-content-between bg-extra-light">
+    <mat-card-title class="m-t-8">รายละเอียดวิดีโอเพลง</mat-card-title>
+    <a href="/video/edit/{{ musicDetail?.id }}" mat-raised-button color="primary" class="m-r-8">
+      <div class="d-flex align-items-center">
+        <i-tabler class="icon-20" name="edit"></i-tabler> แก้ไข
+      </div>
+    </a>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <div class="row justify-content-space-between">
+      <div class="flex-column col-lg-5 col-sm-12 col-md-12">
+        <div class="d-flex col-12 justify-content-space-between">
+          <div class="col-sm-4 col-md-4 m-r-16">
+            <p class="f-w-500">Music Video ID</p>
+          </div>
+          <div class="col-sm-8 col-md-8">
+            <p class="f-w-300">{{ musicDetail?.id }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-space-between">
+          <div class="col-sm-4 col-md-4 m-r-16">
+            <p class="f-w-600">ชื่อวิดีโอเพลง</p>
+          </div>
+          <div class="col-sm-8 col-md-8">
+            <p class="f-w-300">{{ musicDetail?.name }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-space-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-500">Slug</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ musicDetail?.slug }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-space-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">ชื่อศิลปินหลัก</p>
+          </div>
+          <div class="col-8">
+            <div *ngFor="let item of musicDetail?.artists">
+              <a href="artist/detail/{{ item.id }}" target="_blank" class="text-decoration-none">
+                <p class="f-w-300">{{ item.name }}</p>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-space-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">แนวเพลง</p>
+          </div>
+          <div class="col-8">
+            <div class="d-flex gap-8 style-item">
+              <div *ngFor="let item of musicDetail?.styles">
+                <a href="style/detail/{{ item.id }}" target="_blank" class="text-decoration-none">
+                  <p class="f-w-300">{{ item.name }}</p>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-space-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">สถานะปัจจุบัน</p>
+          </div>
+          <div class="d-flex col-8 align-items-lg-center">
+            <app-chip-status
+              [isActive]="musicDetail?.isActive"
+              [backgroundColor]="
+                musicDetail?.isActive
+                  ? chipColorConstants.activeColor
+                  : chipColorConstants.inActiveColor
+              "
+              [textColor]="
+                musicDetail?.isActive
+                  ? chipColorConstants.activeColorText
+                  : chipColorConstants.inActiveColorText
+              "
+              [massage]="musicDetail?.isActive ? 'เปิดใช้งาน' : 'ปิดใช้งาน'">
+            </app-chip-status>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-space-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">แสดงศิลปินตั้งแต่</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">
+              {{ musicDetail?.publishedAt | date: "d/MM/yyyy" }}{{ "-" }}
+              {{ musicDetail?.expiredAt | date: "d/MM/yyyy" }}
+            </p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-space-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-500">Partner</p>
+          </div>
+          <div class="col-8 m-b-16">
+            <a
+              href="partner/detail/{{ musicDetail?.partner?.id }}"
+              target="_blank"
+              class="text-decoration-none">
+              <p class="f-w-300">{{ musicDetail?.partner?.name }}</p>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="video-detail-container col-lg-7 col-sm-12 col-md-12">
+        <div class="row justify-content-around p-b-16">
+          <div class="col-sm-12 col-lg-5">
+            <p class="m-b-16 f-w-600">รูปปกวิดีโอเพลง</p>
+            <div [class]="'card-image'" class="col-12">
+              <div>
+                <div
+                  *ngIf="!musicDetail?.image"
+                  class="bg-light-primary d-flex align-items-center justify-content-center cursor-pointer rounded h-250">
+                  <img src="assets/images/banners/no-image.png" alt="image" width="54" />
+                </div>
+                <img
+                  *ngIf="musicDetail?.image"
+                  [src]="urlImage + musicDetail?.image"
+                  alt="artist"
+                  class="rounded w-100 h-250 img" />
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-7">
+            <p class="m-b-16 f-w-600">วิดีโอเพลง</p>
+            <div [class]="'card-image'" class="col-12">
+              <div>
+                <div
+                  *ngIf="!musicDetail?.video"
+                  class="bg-light-primary d-flex align-items-center justify-content-center cursor-pointer rounded h-250">
+                  <img src="assets/images/banners/no-image.png" alt="image" width="54" />
+                </div>
+              </div>
+              <div class="w-100" *ngIf="musicDetail?.video && musicDetail?.status === 'approved'">
+                <app-play-video [video]="steamPath"></app-play-video>
+              </div>
+              <div
+                class="row justify-content-center align-items-lg-center gap-20"
+                *ngIf="musicDetail?.video && musicDetail?.status === 'in progress'">
+                <mat-spinner></mat-spinner>
+                <p class="f-w-500 f-s-16">กำลังอัพโหลดเพลง กรุณารอสักครู่</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-space-between">
+      <div class="flex-column col-lg-10 col-sm-12 col-md-12">
+        <div class="d-flex col-12 justify-content-space-between m-b-16">
+          <div class="col-sm-4 col-md-2">
+            <p class="f-w-600">รายละเอียด</p>
+          </div>
+          <cdk-virtual-scroll-viewport
+            appendOnly
+            itemSize="50"
+            class="scroll-viewport col-sm-8 col-md-10 m-l-16 m-t-10">
+            <div [innerHTML]="musicDetail?.description" class="p-x-16 p-y-10">
+              {{ musicDetail?.description }}
+            </div>
+          </cdk-virtual-scroll-viewport>
+        </div>
+        <div class="d-flex col-12 justify-content-space-between">
+          <div class="col-sm-4 col-md-2">
+            <p class="f-w-600">เนื้อเพลง</p>
+          </div>
+          <cdk-virtual-scroll-viewport
+            appendOnly
+            itemSize="50"
+            class="scroll-viewport col-sm-8 col-md-10 m-l-16 m-t-10">
+            <div [innerHTML]="musicDetail?.lyrics" class="p-x-16 p-y-10">
+              {{ musicDetail?.lyrics }}
+            </div>
+          </cdk-virtual-scroll-viewport>
+        </div>
+        <div class="d-flex col-12 justify-content-space-between m-t-10">
+          <div class="col-4 col-sm-4 col-md-2">
+            <p class="f-w-500">Publish Date</p>
+          </div>
+          <div class="col-8 col-sm-8 col-md-10">
+            <p class="f-w-300">{{ musicDetail?.publishedAt | date: "d/MM/yyyy" }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-space-between">
+          <div class="col-4 col-sm-4 col-md-2">
+            <p class="f-w-600">สร้างโดย</p>
+          </div>
+          <div class="col-8 col-sm-8 col-md-10">
+            <a
+              href="admin/detail/{{ musicDetail?.createdBy?.id }}"
+              target="_blank"
+              class="text-decoration-none">
+              <p class="f-w-300">
+                {{ musicDetail?.createdBy?.firstname }} {{ musicDetail?.createdBy?.lastname }}
+              </p>
+            </a>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-space-between">
+          <div class="col-4 col-sm-4 col-md-2">
+            <p class="f-w-600">วันที่แก้ไข</p>
+          </div>
+          <div class="col-8 col-sm-8 col-md-10">
+            <p class="f-w-300">{{ musicDetail?.updatedAt | date: "d/MM/yyyy ,H:mm" }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-space-between">
+          <div class="col-4 col-sm-4 col-md-2">
+            <p class="f-w-600">แก้ไขโดย</p>
+          </div>
+          <div class="col-8 col-sm-8 col-md-10">
+            <a
+              href="admin/detail/{{ musicDetail?.updatedBy?.id }}"
+              target="_blank"
+              class="text-decoration-none">
+              <p class="f-w-300">
+                {{ musicDetail?.updatedBy?.firstname }} {{ musicDetail?.updatedBy?.lastname }}
+              </p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card class="cardWithShadow" *ngIf="isShow">
+  <mat-card-content>
+    <div class="col-12 d-flex flex-sm-row flex-column gap-10">
+      <button
+        mat-stroked-button
+        (click)="getViewerStatAll()"
+        [class]="showClick === 1 ? 'text-primary bg-light-primary' : ''">
+        <div class="d-flex align-items-center gap-8">
+          <i-tabler *ngIf="showClick === 1" name="check" class="icon-20"></i-tabler> ทั้งหมด
+        </div>
+      </button>
+
+      <button
+        mat-stroked-button
+        (click)="getViewerStatSevenDayAgo()"
+        [class.active]="activeOptionButton === '1m'"
+        [class]="showClick === 2 ? 'text-primary bg-light-primary' : ''">
+        <div class="d-flex align-items-center gap-8">
+          <i-tabler *ngIf="showClick === 2" name="check" class="icon-20"></i-tabler> ย้อนหลัง 7 วัน
+        </div>
+      </button>
+      <button
+        mat-stroked-button
+        (click)="getViewerStatThirtyDayAgo()"
+        [class]="showClick === 3 ? 'text-primary bg-light-primary' : ''">
+        <div class="d-flex align-items-center gap-8">
+          <i-tabler *ngIf="showClick === 3" name="check" class="icon-20"></i-tabler>ย้อนหลัง 30 วัน
+        </div>
+      </button>
+      <button
+        mat-stroked-button
+        (click)="getViewerOnlyThisMonth()"
+        [class]="showClick === 4 ? 'text-primary bg-light-primary' : ''">
+        <div class="d-flex align-items-center gap-8">
+          <i-tabler name="check" *ngIf="showClick === 4" class="icon-20"></i-tabler>
+          แสดงเฉพาะเดือนนี้
+        </div>
+      </button>
+    </div>
+    <div class="row justify-content-space-around m-b-10">
+      <div class="col-lg-6 col-sm-12 col-md-6 m-b-10">
+        <mat-card-header>
+          <mat-card-title class="f-s-16">จำนวนการเข้าชมวิดีโอเพลง</mat-card-title>
+          <mat-card-subtitle class="mat-body-1"
+            >ตั้งแต่ {{ startDate }} ถึง {{ endDate }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <div class="d-flex align-items-center m-l-20">
+          <i-tabler name="eye-filled" class="icon-40 m-r-8"></i-tabler>
+          <h2 class="f-s-32">{{ totalView }}</h2>
+        </div>
+      </div>
+    </div>
+    <mat-card class="cardWithShadow theme-card">
+      <mat-card-header class="row no-gutters justify-content-space-between bg-extra-light">
+        <mat-card-title class="m-b-0"
+          >Statistics {{ musicDetail?.name }} -
+          <span *ngFor="let item of musicDetail?.artists">
+            {{ item.name }}
+          </span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="b-t-1">
+        <div *ngIf="showClick === 1" class="row gap-10 justify-content-end m-b-10">
+          <button
+            mat-stroked-button
+            (click)="updateOptions('1m')"
+            [class]="showTimeFrame === 2 ? 'text-primary bg-light-primary' : ''"
+            [class.active]="activeOptionButton === '1m'">
+            1M
+          </button>
+          <button
+            mat-stroked-button
+            (click)="updateOptions('6m')"
+            [class]="showTimeFrame === 3 ? 'text-primary bg-light-primary' : ''"
+            [class.active]="activeOptionButton === '6m'">
+            6M
+          </button>
+          <button
+            mat-stroked-button
+            (click)="updateOptions('1y')"
+            [class]="showTimeFrame === 4 ? 'text-primary bg-light-primary' : ''"
+            [class.active]="activeOptionButton === '1y'">
+            1Y
+          </button>
+          <button
+            mat-stroked-button
+            (click)="updateOptions('1yd')"
+            [class]="showTimeFrame === 5 ? 'text-primary bg-light-primary' : ''"
+            [class.active]="activeOptionButton === '1yd'">
+            1YD
+          </button>
+          <button
+            mat-stroked-button
+            (click)="updateOptions('all')"
+            [class]="showTimeFrame === 1 ? 'text-primary bg-light-primary' : ''"
+            [class.active]="activeOptionButton === 'all'">
+            All
+          </button>
+        </div>
+        <apx-chart
+          #chart
+          [series]="gredientChartOptions.series"
+          [colors]="gredientChartOptions.colors"
+          [chart]="gredientChartOptions.chart"
+          [stroke]="gredientChartOptions.stroke"
+          [xaxis]="gredientChartOptions.xaxis"
+          [fill]="gredientChartOptions.fill"
+          [yaxis]="gredientChartOptions.yaxis"
+          [plotOptions]="gredientChartOptions.plotOptions"
+          [tooltip]="gredientChartOptions.tooltip"
+          [grid]="gredientChartOptions.grid">
+          >
+        </apx-chart>
+      </mat-card-content>
+    </mat-card>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,24 @@
+.ads-banner-container {
+  .img {
+    object-fit: contain;
+  }
+
+  .h-200 {
+    height: 200px;
+  }
+
+  .card-image {
+    padding: 16px 12px;
+    text-align: center;
+    border: 1px dashed #585858;
+    border-radius: 8px;
+  }
+
+  .border-red {
+    border: 1px dashed #fa896b;
+  }
+
+  .l-s-3 {
+    letter-spacing: 0.0333em;
+  }
+}

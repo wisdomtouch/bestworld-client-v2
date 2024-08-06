@@ -1,0 +1,11 @@
+.remove-border {
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.ck-rounded-corners .ck.ck-editor__editable:not(.ck-editor__nested-editable),
+.ck.ck-editor__editable.ck-rounded-corners:not(.ck-editor__nested-editable) {
+  min-height: 200px;
+  border: 1px solid #e5eaee;
+}

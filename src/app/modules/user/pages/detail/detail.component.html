@@ -1,0 +1,111 @@
+<div class="user-detail-container">
+  <mat-card class="cardWithShadow theme-card">
+    <mat-card-header class="d-flex justify-content-between bg-extra-light">
+      <mat-card-title class="m-t-8">รายละเอียดสมาชิก</mat-card-title>
+      <a href="/user/edit/{{ user?.id }}" mat-raised-button color="primary" class="m-r-8">
+        <div class="d-flex align-items-center">
+          <i-tabler class="icon-20" name="edit"></i-tabler> แก้ไข
+        </div>
+      </a>
+    </mat-card-header>
+    <mat-card-content class="b-t-1">
+      <div class="row">
+        <div class="col-lg-6 col-sm-12 col-md-12">
+          <div class="d-flex col-12 justify-content-space-around">
+            <div class="col-4 col-sm-4 col-md-4">
+              <p class="f-w-500">User ID</p>
+            </div>
+            <div class="col-8 col-sm-8 col-md-8">
+              <p class="f-w-300">{{ user?.id }}</p>
+            </div>
+          </div>
+          <div class="d-flex col-12 justify-content-space-around">
+            <div class="col-4 col-sm-4 col-md-4">
+              <p class="f-w-600">ชื่อสมาชิก</p>
+            </div>
+            <div class="col-8 col-sm-8 col-md-8">
+              <p class="f-w-300">{{ user?.name }}</p>
+            </div>
+          </div>
+          <div class="d-flex col-12 justify-content-space-around">
+            <div class="col-4 col-sm-4 col-md-4">
+              <p class="f-w-600">เพศ</p>
+            </div>
+            <div class="col-8 col-sm-8 col-md-8">
+              <p class="f-w-300">{{ user?.gender ?? "-" }}</p>
+            </div>
+          </div>
+          <div class="d-flex col-12 justify-content-space-around">
+            <div class="col-4 col-sm-4 col-md-4">
+              <p class="f-w-600">วันเดือนปีเกิด</p>
+            </div>
+            <div class="col-8 col-sm-8 col-md-8">
+              <p class="f-w-300" *ngIf="user?.dateOfBirth">
+                {{ user?.dateOfBirth | date: "d/MM/yyyy H:mm" }}
+              </p>
+              <p class="f-w-300" *ngIf="!user?.dateOfBirth">-</p>
+            </div>
+          </div>
+          <div class="d-flex col-12 justify-content-space-around">
+            <div class="col-4 col-sm-4 col-md-4">
+              <p class="f-w-600">อีเมล์</p>
+            </div>
+            <div class="col-8 col-sm-8 col-md-8">
+              <p class="f-w-300">{{ user?.googleUsername }}</p>
+            </div>
+          </div>
+          <div class="d-flex col-12 justify-content-space-around">
+            <div class="col-4">
+              <p class="f-w-600">สถานะปัจจุบัน</p>
+            </div>
+            <div class="d-flex col-8 align-items-center">
+              <app-chip-status
+                [isActive]="user?.isActive"
+                [backgroundColor]="
+                  user?.isActive ? chipColorConstants.activeColor : chipColorConstants.inActiveColor
+                "
+                [textColor]="
+                  user?.isActive
+                    ? chipColorConstants.activeColorText
+                    : chipColorConstants.inActiveColorText
+                "
+                [massage]="user?.isActive ? 'เปิดใช้งาน' : 'ปิดใช้งาน'">
+              </app-chip-status>
+            </div>
+          </div>
+          <div class="d-flex col-12 justify-content-space-around">
+            <div class="col-4 col-sm-4 col-md-4">
+              <p class="f-w-600">วันที่เพิ่ม</p>
+            </div>
+            <div class="col-8 col-sm-8 col-md-8">
+              <p class="f-w-300">{{ user?.createdAt | date: "d/MM/yyyy H:mm" }}</p>
+            </div>
+          </div>
+          <div class="d-flex col-12 justify-content-space-around">
+            <div class="col-4 col-sm-4 col-md-4">
+              <p class="f-w-600">วันที่แก้ไข</p>
+            </div>
+            <div class="col-8 col-sm-8 col-md-8">
+              <p class="f-w-300">{{ user?.updatedAt | date: "d/MM/yyyy H:mm" }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-sm-12 col-md-12">
+          <p class="f-w-600">รูปภาพ</p>
+          <div class="card-image">
+            <img
+              *ngIf="!user?.image"
+              src="assets/images/profile/user-1.jpg"
+              alt="profile"
+              class="w-100 img m-b-12" />
+            <img
+              *ngIf="user?.image"
+              [src]="urlImage + user?.image"
+              alt="profile"
+              class="w-100 img m-b-12" />
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

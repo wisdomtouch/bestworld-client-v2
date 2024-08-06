@@ -1,0 +1,148 @@
+<mat-card class="cardWithShadow theme-card">
+  <mat-card-header class="d-flex justify-content-between bg-extra-light">
+    <mat-card-title class="m-t-8">รายละเอียดแอดมิน</mat-card-title>
+    <a href="/admin/edit/{{ admin?.id }}" mat-raised-button color="primary" class="m-r-8">
+      <div class="d-flex align-items-center">
+        <i-tabler class="icon-20" name="edit"></i-tabler> แก้ไข
+      </div>
+    </a>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <div class="row justify-content-between">
+      <div class="flex-column col-lg-7 col-sm-12 col-md-12">
+        <div class="d-flex col-12 justify-content-space-between">
+          <div class="col-sm-4 col-md-4 m-r-16">
+            <p class="f-w-500">Admin ID</p>
+          </div>
+          <div class="col-sm-8 col-md-8">
+            <p class="f-w-300">{{ admin?.id }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">ชื่อแอดมิน</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ admin?.firstName }} {{ admin?.lastName }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">อีเมลล์</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ admin?.email }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 m-r-12">
+            <p class="f-w-600">สถานะปัจจุบัน</p>
+          </div>
+          <div class="d-flex col-8 align-items-center">
+            <app-chip-status
+              [isActive]="admin?.isActive"
+              [backgroundColor]="
+                admin?.isActive ? chipColorConstants.activeColor : chipColorConstants.inActiveColor
+              "
+              [textColor]="
+                admin?.isActive
+                  ? chipColorConstants.activeColorText
+                  : chipColorConstants.inActiveColorText
+              "
+              [massage]="admin?.isActive ? 'เปิดใช้งาน' : 'ปิดใช้งาน'">
+            </app-chip-status>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">ระดับแอดมิน</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ admin?.role?.roleName }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">เบอร์โทรศัพท์</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ admin?.mobile }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">ที่อยู่</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ admin?.address }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">วันที่สร้าง</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ admin?.createdAt | date: "d/MM/yyyy" }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">สร้างโดย</p>
+          </div>
+          <div class="col-8">
+            <a
+              href="admin/detail/{{ admin?.createdBy?.id }}"
+              target="_blank"
+              class="text-decoration-none">
+              <p class="f-w-300">
+                {{ admin?.createdBy?.firstname }} {{ admin?.createdBy?.lastname }}
+              </p>
+            </a>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">วันที่แก้ไขล่าสุด</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ admin?.updatedAt | date: "d/MM/yyyy ,H:mm" }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">วันที่แก้ไขล่าสุดโดย</p>
+          </div>
+          <div class="col-8">
+            <a
+              href="admin/detail/{{ admin?.updatedBy?.id }}"
+              target="_blank"
+              class="text-decoration-none">
+              <p class="f-w-300">
+                {{ admin?.updatedBy?.firstname }} {{ admin?.updatedBy?.lastname }}
+              </p>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="admin-detail-container col-lg-5 col-sm-12 col-md-12">
+        <div class="col-sm-12 col-lg-12">
+          <p class="f-w-600 m-b-16">รูปโปรไฟล์</p>
+          <div [class]="'card-image'" class="col-12">
+            <div>
+              <div
+                *ngIf="!admin?.image"
+                class="bg-light-primary d-flex align-items-center justify-content-center cursor-pointer rounded h-250">
+                <img src="assets/images/banners/no-image.png" alt="image" width="54" />
+              </div>
+              <img
+                *ngIf="admin?.image"
+                [src]="urlImage + admin?.image"
+                alt="artist"
+                class="rounded w-100 h-250 img" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

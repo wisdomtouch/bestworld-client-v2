@@ -1,0 +1,266 @@
+<form *ngIf="formGroup" [formGroup]="formGroup">
+  <div class="row">
+    <div class="col-sm-12 col-md-7">
+      <mat-card class="cardWithShadow theme-card">
+        <mat-card-header class="d-flex no no-gutters justify-content-between bg-extra-light">
+          <mat-card-title class="m-b-0">แก้ไขแบนเนอร์</mat-card-title>
+          <button
+            mat-raised-button
+            color="warn"
+            class="m-r-8"
+            (click)="openDialogDelete(formGroup.value.id)">
+            <div class="d-flex align-items-center">
+              <i-tabler class="icon-20" name="edit"></i-tabler>
+              <mat-card-title class="f-s-16">ลบข้อมูล</mat-card-title>
+            </div>
+          </button>
+        </mat-card-header>
+        <mat-card-content class="b-t-1">
+          <div class="row p-l-0 m-b-20">
+            <div class="col-12 m-b-8">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"
+                >ชื่อแบนเนอร์<span class="text-error">*</span></mat-label
+              >
+              <mat-form-field appearance="outline" class="w-100">
+                <input matInput [formControlName]="'name'" type="text" />
+                <mat-error *ngIf="formGroup.get('name')?.hasError('required')">
+                  โปรดระบุชื่อแบนเนอร์
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-12 m-b-8">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"
+                >URL แบนเนอร์<span class="text-error">*</span></mat-label
+              >
+              <mat-form-field appearance="outline" class="w-100">
+                <input matInput [formControlName]="'link'" type="text" />
+                <mat-error *ngIf="formGroup.get('link')?.hasError('required')">
+                  โปรดระบุ URL แบนเนอร์
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-12 m-b-8">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"
+                >ลำดับที่แสดง (หากมีแบนเนอร์อยู่ในลำดับนี้อยู่แล้ว
+                แบนเนอร์เดิมจะถูกเลื่อนลำดับออกไป)<span class="text-error">*</span></mat-label
+              >
+              <mat-form-field appearance="outline" class="w-100">
+                <input
+                  matInput
+                  [formControlName]="'order'"
+                  type="number"
+                  placeholder="https://www.youtube.com" />
+                <mat-error *ngIf="formGroup.get('order')?.hasError('required')">
+                  โปรดระบุลำดับภาพ
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-md-6 m-b-8">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"
+                >แสดงตั้งแต่วันที่<span class="text-error">*</span></mat-label
+              >
+              <mat-form-field appearance="outline" class="w-100">
+                <input
+                  matInput
+                  [matDatepicker]="publishedAt"
+                  placeholder="mm/dd/yyyy"
+                  name="publishedAt"
+                  formControlName="publishedAt" />
+                <mat-datepicker-toggle matSuffix [for]="publishedAt"></mat-datepicker-toggle>
+                <mat-datepicker #publishedAt></mat-datepicker>
+                <mat-error *ngIf="formGroup.get('publishedAt')?.hasError('required')">
+                  โปรดระบุวันเริ่มต้น
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 col-md-6 m-b-8">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"
+                >จนถึงวันที่<span class="text-error">*</span></mat-label
+              >
+              <mat-form-field appearance="outline" class="w-100">
+                <input
+                  matInput
+                  [matDatepicker]="expiredAt"
+                  placeholder="mm/dd/yyyy"
+                  name="expiredAt"
+                  formControlName="expiredAt" />
+                <mat-datepicker-toggle matSuffix [for]="expiredAt"></mat-datepicker-toggle>
+                <mat-datepicker #expiredAt></mat-datepicker>
+                <mat-error *ngIf="formGroup.get('expiredAt')?.hasError('required')">
+                  โปรดระบุวันสิ้นสุด
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-12 m-b-16">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">กำหนดวันเผยแพร่</mat-label>
+              <mat-slide-toggle [formControlName]="'isActive'" class="m-l-auto"></mat-slide-toggle>
+              {{ formGroup.get("isActive")?.value === true ? "ใช้งาน" : "ปิดการใช้งาน" }}
+            </div>
+            <div class="col-12 m-b-16">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"
+                >รูปบนคอมพิวเตอร์<span class="text-error">*</span></mat-label
+              >
+              <div [class]="!isClickDesktop ? 'card-image border-red' : 'card-image'">
+                <div
+                  class="flex-column no-gutters align-items-center justify-content-center cursor-pointer p-10">
+                  <img
+                    *ngIf="imageDesktop"
+                    [src]="imageDesktop"
+                    alt="Image Profile"
+                    class="w-100 h-200 img" />
+                  <div class="d-flex no-gutters justify-content-center">
+                    <app-crop-image
+                      [imgSrcOld]="imageDesktop"
+                      [width]="640"
+                      [height]="345"
+                      [key]="'imageDesktop'"
+                      (imageBannerDesktopReady)="imageBannerDesktopEvent($event)">
+                    </app-crop-image>
+                  </div>
+                </div>
+                <span class="f-s-14 d-block">เฉพาะไฟล์ JPEG และ PNG ขนาดสูงสุด 500 KB</span>
+              </div>
+              <mat-error *ngIf="!isClickDesktop"> โปรดระบุรูปบนคอมพิวเตอร์ </mat-error>
+            </div>
+
+            <div class="col-12 m-b-16">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"
+                >รูปบนไอแพด<span class="text-error">*</span></mat-label
+              >
+              <div [class]="!isClickIpad ? 'card-image border-red' : 'card-image'">
+                <div
+                  class="flex-column no-gutters align-items-center justify-content-center cursor-pointer p-10">
+                  <img
+                    *ngIf="imageIpad"
+                    [src]="imageIpad"
+                    alt="Image Profile"
+                    class="w-100 h-200 img" />
+                  <div class="d-flex no-gutters justify-content-center">
+                    <app-crop-image
+                      [imgSrcOld]="imageIpad"
+                      [width]="640"
+                      [height]="345"
+                      [key]="'imageIpad'"
+                      (imageBannerIpadReady)="imageBannerIpadEvent($event)">
+                    </app-crop-image>
+                  </div>
+                </div>
+              </div>
+              <mat-error *ngIf="!isClickIpad"> โปรดระบุรูปบนไอแพด </mat-error>
+            </div>
+
+            <div class="col-12 m-b-8">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"
+                >รูปบนมือถือ<span class="text-error">*</span></mat-label
+              >
+              <div [class]="!isClickMobile ? 'card-image border-red' : 'card-image'">
+                <div
+                  class="flex-column no-gutters align-items-center justify-content-center cursor-pointer p-10">
+                  <img
+                    *ngIf="imageMobile"
+                    [src]="imageMobile"
+                    alt="Image Profile"
+                    class="w-100 h-200 img" />
+                  <div class="d-flex no-gutters justify-content-center">
+                    <app-crop-image
+                      [imgSrcOld]="imageMobile"
+                      [width]="280"
+                      [height]="150"
+                      [key]="'imageMobile'"
+                      (imageBannerMobileReady)="imageBannerMobileEvent($event)">
+                    </app-crop-image>
+                  </div>
+                </div>
+                <span class="f-s-14 d-block">เฉพาะไฟล์ JPEG และ PNG ขนาดสูงสุด 500 KB</span>
+              </div>
+              <mat-error *ngIf="!isClickMobile"> โปรดระบุรูปบนมือถือ </mat-error>
+            </div>
+          </div>
+
+          <div class="m-t-12" *ngIf="isShowAlert">
+            <app-alert [color]="'error'">
+              {{ alertMessage }}
+            </app-alert>
+          </div>
+        </mat-card-content>
+        <mat-card-actions class="b-t-1">
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="submitForm()"
+            [disabled]="formGroup.disabled">
+            {{ !formGroup.disabled ? "บันทึก" : "Loading..." }}
+          </button>
+          <a href="/banner/list" mat-flat-button color="warn" class="m-l-8">ยกเลิก</a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <div class="col-sm-12 col-md-5">
+      <mat-card class="cardWithShadow theme-card">
+        <mat-card-header class="bg-extra-light">
+          <mat-card-title class="m-b-0">ตำแหน่งแบนเนอร์</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="b-t-1">
+          <div class="d-flex flex-sm-row flex-column justify-content-between text-wrap gap-4 w-100">
+            <button
+              mat-stroked-button
+              [class]="isClick === 1 ? 'active w-100' : 'w-100'"
+              (click)="viewBanner(1)">
+              <div class="d-flex align-items-center gap-2">
+                <i-tabler class="icon-20 m-r-4" name="device-imac"></i-tabler
+                ><span> คอมพิวเตอร์</span>
+              </div>
+            </button>
+
+            <button
+              mat-stroked-button
+              [class]="isClick === 2 ? 'active w-100' : 'w-100'"
+              (click)="viewBanner(2)">
+              <div class="d-flex align-items-center gap-2">
+                <i-tabler class="icon-20 m-r-4" name="device-ipad"></i-tabler><span> ไอแพด</span>
+              </div>
+            </button>
+            <button
+              mat-stroked-button
+              [class]="isClick === 3 ? 'active w-100' : 'w-100'"
+              (click)="viewBanner(3)">
+              <div class="d-flex align-items-center gap-2">
+                <i-tabler class="icon-20 m-r-4" name="device-mobile"></i-tabler><span> มือถือ</span>
+              </div>
+            </button>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="d-flex align-items-center justify-content-center m-t-16 m-b-12">
+                <img
+                  src="assets/images/banners/ex-desktop.png"
+                  alt="desktop"
+                  width="272px"
+                  *ngIf="isClick === 1" />
+                <img
+                  src="assets/images/banners/ex-desktop.png"
+                  alt="ipad"
+                  width="272px"
+                  *ngIf="isClick === 2" />
+                <img
+                  src="assets/images/banners/ex-mobile.png"
+                  alt="mobile"
+                  width="112px"
+                  *ngIf="isClick === 3" />
+              </div>
+              <div *ngIf="banner?.id">
+                <a
+                  href="/banners/{{ banner.id }}/{{ banner.name }}"
+                  class="text-decoration-none d-flex align-items-center justify-content-end text-primary gap-12">
+                  ดูรายละเอียดเพิ่มเติม
+                  <i-tabler name="arrow-narrow-right"></i-tabler>
+                </a>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</form>

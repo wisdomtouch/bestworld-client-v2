@@ -1,0 +1,207 @@
+<mat-card class="cardWithShadow theme-card">
+  <mat-card-header class="d-flex justify-content-between bg-extra-light">
+    <mat-card-title class="m-t-8">รายละเอียดศิลปิน</mat-card-title>
+    <a href="/artist/edit/{{ artistDetail?.id }}" mat-raised-button color="primary" class="m-r-8">
+      <div class="d-flex align-items-center">
+        <i-tabler class="icon-20" name="edit"></i-tabler> แก้ไข
+      </div>
+    </a>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <div class="row justify-content-between">
+      <div class="flex-column col-lg-5 col-sm-12 col-md-12">
+        <div class="d-flex col-12 justify-content-space-between">
+          <div class="col-sm-4 col-md-4 m-r-16">
+            <p class="f-w-500">Artist ID</p>
+          </div>
+          <div class="col-sm-8 col-md-8">
+            <p class="f-w-300">{{ artistDetail?.id }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-3 m-r-16">
+            <p class="f-w-600">ชื่อศิลปิน</p>
+          </div>
+          <div class="row col-10 justify-content-center">
+            <div class="d-flex no-gutters justify-content-start col-6">
+              <p class="f-w-300">
+                {{ artistDetail?.name }}
+              </p>
+            </div>
+            <div class="row justify-content-start col-4">
+              <span
+                *ngIf="codeColor"
+                class="dot m-t-16 m-r-10"
+                [ngStyle]="{ 'background-color': codeColor, border: '1px solid' }"></span>
+              <p class="f-w-300">{{ artistDetail?.codeColor }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">Slug</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ artistDetail?.slug }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">แนวเพลง</p>
+          </div>
+          <div class="col-8">
+            <div class="d-flex gap-8 style-item">
+              <div *ngFor="let item of artistDetail?.styles">
+                <a href="style/detail/{{ item.id }}" target="_blank" class="text-decoration-none">
+                  <p class="f-w-300">{{ item.name }}</p></a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">สถานะปัจจุบัน</p>
+          </div>
+          <div class="d-flex col-8 align-items-center">
+            <app-chip-status
+              [isActive]="artistDetail?.isActive"
+              [backgroundColor]="
+                artistDetail?.isActive
+                  ? chipColorConstants.activeColor
+                  : chipColorConstants.inActiveColor
+              "
+              [textColor]="
+                artistDetail?.isActive
+                  ? chipColorConstants.activeColorText
+                  : chipColorConstants.inActiveColorText
+              "
+              [massage]="artistDetail?.isActive ? 'เปิดใช้งาน' : 'ปิดใช้งาน'">
+            </app-chip-status>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">แสดงศิลปินตั้งแต่</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">
+              {{ artistDetail?.publishedAt | date: "d/MM/yyyy" }}{{ "-" }}
+              {{ artistDetail?.expiredAt | date: "d/MM/yyyy" }}
+            </p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">จำนวนเพลง</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ artistDetail?.videoCount }} เพลง</p>
+          </div>
+        </div>
+      </div>
+      <div class="artist-detail-container col-lg-7 col-sm-12 col-md-12">
+        <div class="row justify-content-around p-b-16">
+          <div class="col-sm-12 col-lg-5">
+            <p class="m-b-16 f-w-600">รูปศิลปิน</p>
+            <div [class]="'card-image'" class="col-12">
+              <div>
+                <div
+                  *ngIf="!artistDetail?.image"
+                  class="bg-light-primary d-flex align-items-center justify-content-center cursor-pointer rounded h-250">
+                  <img src="assets/images/banners/no-image.png" alt="image" width="54" />
+                </div>
+                <img
+                  *ngIf="artistDetail?.image"
+                  [src]="urlImage + artistDetail?.image"
+                  alt="artist"
+                  class="rounded w-100 h-250 img" />
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-7">
+            <p class="m-b-16 f-w-600">รูปหน้าปกศิลปิน</p>
+            <div [class]="'card-image'" class="col-12">
+              <div>
+                <div
+                  *ngIf="!artistDetail?.coverPage"
+                  class="bg-light-primary d-flex align-items-center justify-content-center cursor-pointer rounded h-250">
+                  <img src="assets/images/banners/no-image.png" alt="image" width="54" />
+                </div>
+                <img
+                  *ngIf="artistDetail?.coverPage"
+                  [src]="urlImage + artistDetail?.coverPage"
+                  alt="artist"
+                  width="100%"
+                  class="rounded w-100 h-250 img" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-between">
+      <div class="flex-column col-lg-10 col-sm-12 col-md-12">
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-sm-4 col-md-2">
+            <p class="f-w-600">รายละเอียด</p>
+          </div>
+          <cdk-virtual-scroll-viewport
+            appendOnly
+            itemSize="50"
+            class="scroll-viewport col-sm-8 col-md-10 m-l-16 m-t-10">
+            <div [innerHTML]="artistDetail?.description" class="p-x-16 p-y-10">
+              {{ artistDetail?.description }}
+            </div>
+          </cdk-virtual-scroll-viewport>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 col-sm-4 col-md-2">
+            <p class="f-w-500">Publish Date</p>
+          </div>
+          <div class="col-8 col-sm-8 col-md-10">
+            <p class="f-w-300">{{ artistDetail?.publishedAt | date: "d/MM/yyyy" }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 col-sm-4 col-md-2">
+            <p class="f-w-600">สร้างโดย</p>
+          </div>
+          <div class="col-8 col-sm-8 col-md-10">
+            <a
+              href="admin/detail/{{ artistDetail?.createdBy?.id }}"
+              target="_blank"
+              class="text-decoration-none">
+              <p class="f-w-300">
+                {{ artistDetail?.createdBy?.firstname }} {{ artistDetail?.createdBy?.lastname }}
+              </p>
+            </a>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 col-sm-4 col-md-2">
+            <p class="f-w-600">วันที่แก้ไข</p>
+          </div>
+          <div class="col-8 col-sm-8 col-md-10">
+            <p class="f-w-300">{{ artistDetail?.updatedAt | date: "d/MM/yyyy ,H:mm" }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 col-sm-4 col-md-2">
+            <p class="f-w-600">แก้ไขโดย</p>
+          </div>
+          <div class="col-8 col-sm-8 col-md-10">
+            <a
+              href="admin/detail/{{ artistDetail?.updatedBy?.id }}"
+              target="_blank"
+              class="text-decoration-none">
+              <p class="f-w-300">
+                {{ artistDetail?.updatedBy?.firstname }} {{ artistDetail?.updatedBy?.lastname }}
+              </p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

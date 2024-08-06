@@ -1,0 +1,16 @@
+<!-- ============================================================== -->
+<!-- Only Router Without Any Element -->
+<!-- ============================================================== -->
+<mat-sidenav-container
+  [ngClass]="{
+    cardBorder: option.cardBorder,
+    orange_theme: option.activeTheme === colorThemeConstants.Orange,
+    blue_theme: option.activeTheme === colorThemeConstants.Blue,
+    aqua_theme: option.activeTheme === colorThemeConstants.Aqua,
+    purple_theme: option.activeTheme === colorThemeConstants.Purple,
+    green_theme: option.activeTheme === colorThemeConstants.Green,
+    cyan_theme: option.activeTheme === colorThemeConstants.Cyan
+  }"
+  [dir]="option.dir!">
+  <router-outlet></router-outlet>
+</mat-sidenav-container>

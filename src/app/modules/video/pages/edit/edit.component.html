@@ -1,0 +1,256 @@
+<form class="video-container" *ngIf="formGroup" [formGroup]="formGroup">
+  <mat-card class="cardWithShadow theme-card">
+    <div class="row justify-content-space-between align-items-lg-center">
+      <div class="col-12">
+        <mat-card-header class="bg-extra-light row no-gutters justify-content-between">
+          <mat-card-title class="m-t-10">แก้ไขวิดีโอ</mat-card-title>
+          <div class="row justify-content-end align-items-lg-center m-r-16">
+            <div class="m-t-8">
+              <button
+                mat-flat-button
+                color="warn"
+                *ngIf="accountVideoPermission?.isDelete"
+                class="remove-border m-r-10 cursor-pointer"
+                (click)="openDialogDelete(formGroup.value.id)">
+                <mat-icon matSuffix>
+                  <i-tabler name="trash" class="icon-20"></i-tabler>
+                </mat-icon>
+                <mat-card-title class="f-s-16">ลบข้อมูล</mat-card-title>
+              </button>
+            </div>
+          </div>
+        </mat-card-header>
+      </div>
+    </div>
+
+    <mat-card-content class="b-t-1">
+      <div>
+        <div class="row m-t-20">
+          <div class="col-sm-12 col-lg-8">
+            <div class="col-lg-12">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+                ชื่อวิดีโอเพลง<span class="text-error">*</span>
+              </mat-label>
+              <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+                <input id="videoName" [formControlName]="'name'" matInput type="text" />
+                <mat-error *ngIf="formGroup.get('name')?.hasError('required')">
+                  กรุณากรอก ชื่อวิดีโอเพลง
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-12">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> Slug </mat-label>
+              <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+                <input [formControlName]="'slug'" matInput type="text" />
+                <mat-error *ngIf="formGroup.get('slug')?.hasError('required')">
+                  กรุณากรอก slug
+                </mat-error>
+                <mat-error *ngIf="formGroup.get('slug')?.hasError('invalidSlug')">
+                  ไม่สามารถใช้อักขระพิเศษและตัวพิมพ์ใหญ่ได้ Ex. name-news
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-12 m-b-8">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+                ศิลปิน<span class="text-error">*</span>
+              </mat-label>
+              <mat-form-field
+                appearance="outline"
+                class="w-100"
+                color="primary"
+                [class]="isArtist ? 'input-border-red' : ''">
+                <input [formControlName]="'artists'" matInput type="text" />
+              </mat-form-field>
+              <mat-error *ngIf="isArtist" class="f-s-12 f-w-100 l-s-3">
+                กรุณาเลือก ศิลปิน
+              </mat-error>
+
+              <button
+                mat-flat-button
+                id="addArtistName"
+                color="primary"
+                class="m-r-8 m-b-8"
+                type="button"
+                (click)="openDialogArtist()">
+                เพิ่มศิลปิน
+              </button>
+            </div>
+
+            <div class="col-lg-12 m-b-8">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+                แนวเพลง<span class="text-error">*</span>
+              </mat-label>
+              <mat-form-field
+                appearance="outline"
+                class="w-100"
+                color="primary"
+                [class]="isStyle ? 'input-border-red' : ''">
+                <input [formControlName]="'styleIds'" matInput type="text" />
+              </mat-form-field>
+              <mat-error *ngIf="isStyle" class="f-s-12 f-w-100 l-s-3">
+                กรุณาเลือก แนวเพลง
+              </mat-error>
+              <button
+                mat-flat-button
+                id="addStyle"
+                color="primary"
+                class="m-r-8 m-b-8"
+                type="button"
+                (click)="openDialogStyle()">
+                เพิ่มแนวเพลง
+              </button>
+            </div>
+
+            <div class="col-lg-12 m-b-16">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+                รายละเอียด<span class="text-error">*</span>
+              </mat-label>
+              <ckeditor
+                #editorDescription
+                id="editorDescription"
+                [data]="descriptionEdit"
+                [config]="editorConfig"
+                (ready)="onReadyDescription($event)"
+                (change)="onChangeDescription($event)"
+                [editor]="EditorDescription">
+              </ckeditor>
+              <mat-error *ngIf="isDescriptions" class="f-s-12 f-w-100 l-s-3">
+                กรุณากรอก รายละเอียด
+              </mat-error>
+            </div>
+
+            <div class="col-lg-12 m-b-16">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+                เนื้อเพลง<span class="text-error">*</span>
+              </mat-label>
+              <ckeditor
+                #editorLyric
+                id="editorLyric"
+                [data]="lyricsEdit"
+                [config]="editorConfig"
+                (ready)="onReadyLyric($event)"
+                (change)="onChangeLyric($event)"
+                [editor]="EditorLyrics">
+              </ckeditor>
+              <mat-error *ngIf="isLyrics" class="f-s-12 f-w-100 l-s-3">
+                กรุณากรอกเนื้อเพลง
+              </mat-error>
+            </div>
+            <div class="col-lg-12">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+                Partner <span class="text-error">*</span></mat-label
+              >
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-select [formControlName]="'partner'">
+                  <mat-option *ngFor="let val of partnerList" value="{{ val.id }}">{{
+                    val.name
+                  }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formGroup.get('partner')?.hasError('required')">
+                  กรุณาเลือก partner
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-12">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> สถานะ </mat-label>
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-select [formControlName]="'status'" *ngIf="status !== 'in progress'">
+                  <mat-option [value]="'pending'">Pending</mat-option>
+                  <mat-option [value]="'approved'">Approved</mat-option>
+                  <mat-option [value]="'rejected'">Rejected</mat-option>
+                </mat-select>
+                <mat-select [formControlName]="'status'" *ngIf="status === 'in progress'">
+                  <mat-option disabled="true" [value]="'in progress'">In progress</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formGroup.get('group')?.hasError('required')">
+                  กรุณาเลือกสถานะ
+                </mat-error>
+              </mat-form-field>
+              <mat-slide-toggle [formControlName]="'isActive'" class="m-l-auto"></mat-slide-toggle>
+              <span>{{
+                formGroup.get("isActive")?.value === true ? "ใช้งาน" : "ปิดการใช้งาน"
+              }}</span>
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-4">
+            <div class="col-12 m-b-16">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"
+                >รูปปกวิดีโอเพลง<span class="text-error">*</span></mat-label
+              >
+              <div [class]="isClickImage ? 'card-image border-red' : 'card-image'">
+                <div
+                  class="flex-column no-gutters align-items-center justify-content-center cursor-pointer p-10">
+                  <img
+                    *ngIf="imageSrc"
+                    [src]="imageSrc"
+                    alt="image album"
+                    class="w-100 h-200 img" />
+                  <div class="d-flex no-gutters justify-content-center">
+                    <app-crop-image
+                      [imgSrcOld]="imageSrc"
+                      [width]="180"
+                      [height]="180"
+                      [key]="'videoThumbnail'"
+                      (imageVideoThumbnailReady)="imageVideoThumbnailEvent($event)">
+                    </app-crop-image>
+                  </div>
+                </div>
+                <span class="f-s-14 d-block">เฉพาะไฟล์ JPEG และ PNG ขนาดสูงสุด 500 KB</span>
+              </div>
+              <mat-error *ngIf="isClickImage" class="f-s-14 f-w-100 l-s-3">
+                กรุณาเลือก รูปปกวิดีโอเพลง
+              </mat-error>
+            </div>
+            <div class="col-12 m-b-16">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">ไฟล์วิดีโอเพลง</mat-label>
+              <div [class]="isClickVideo ? 'card-image border-red' : 'card-image'">
+                <div class="m-b-12" *ngIf="!videoSrc && !video">
+                  <div
+                    class="bg-light-primary d-flex align-items-center justify-content-center cursor-pointer rounded h-200">
+                    <i-tabler class="icon-video" name="file-music"></i-tabler>
+                  </div>
+                </div>
+                <div class="w-100 m-b-16" *ngIf="video && !videoSrc">
+                  <app-play-video [video]="video"></app-play-video>
+                </div>
+                <div #videoContainer></div>
+
+                <button
+                  mat-flat-button
+                  color="primary"
+                  class="m-r-8 m-b-8"
+                  type="button"
+                  (click)="upVideo.click()">
+                  Upload
+                </button>
+                <input type="file" hidden #upVideo (change)="handleFileInputChangeVideo($event)" />
+                <span class="f-s-14 d-block m-t-8">เฉพาะไฟล์ MP4 ที่มีขนาดสูงสุด 100 MB</span>
+              </div>
+              <mat-error *ngIf="isClickVideo" class="f-s-12 f-w-100 l-s-3">
+                กรุณาเลือก ไฟล์วิดีโอเพลง
+              </mat-error>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="m-t-12" *ngIf="isShowAlert">
+        <app-alert [color]="'error'">
+          {{ alertMessage }}
+        </app-alert>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="b-t-1">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="submitForm()"
+        [disabled]="formGroup.disabled">
+        {{ !formGroup.disabled ? "บันทึก" : "Loading..." }}
+      </button>
+      <a href="/video/list" mat-flat-button color="warn" class="m-l-8">ยกเลิก</a>
+    </mat-card-actions>
+  </mat-card>
+</form>

@@ -1,0 +1,23 @@
+<app-loading [isSubmit]="isSubmit"></app-loading>
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <ckeditor
+      [data]="descriptionUpdate"
+      [config]="editorConfig"
+      (ready)="onReady($event)"
+      (change)="onChangeDescription($event)"
+      [editor]="Editor">
+    </ckeditor>
+    <div class="d-flex justify-content-end m-t-16">
+      <button
+        *ngIf="isCreate"
+        (click)="updatePolicy()"
+        [disabled]="isSubmit"
+        mat-flat-button
+        color="primary"
+        class="m-r-8">
+        Save
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

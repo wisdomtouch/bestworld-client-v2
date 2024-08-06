@@ -1,0 +1,243 @@
+<mat-card class="cardWithShadow theme-card">
+  <mat-card-header class="d-flex justify-content-between bg-extra-light">
+    <mat-card-title class="m-t-8">รายละเอียดโฆษณา</mat-card-title>
+    <a
+      href="ads/ads-video/edit/{{ adsVideoDetail?.id }}"
+      mat-raised-button
+      color="primary"
+      class="m-r-8">
+      <div class="d-flex align-items-center">
+        <i-tabler class="icon-20" name="edit"></i-tabler> แก้ไข
+      </div>
+    </a>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <div class="row justify-content-between">
+      <div class="flex-column col-lg-6 col-sm-12 col-md-12">
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 col-sm-4 col-md-4">
+            <p class="f-w-500">ADS Video ID</p>
+          </div>
+          <div class="col-8 col-sm-8 col-md-8">
+            <p class="f-w-300">{{ adsVideoDetail?.id }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4">
+            <p class="f-w-600">ชื่อโฆษณา</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ adsVideoDetail?.name }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4">
+            <p class="f-w-600">ภาพวิดีโอโฆษณา</p>
+          </div>
+          <div class="col-8">
+            <div *ngIf="!adsVideoDetail?.image">
+              <img src="assets/images/banners/no-image.png" alt="image" width="40" />
+            </div>
+            <img
+              *ngIf="adsVideoDetail?.image"
+              [src]="urlImage + adsVideoDetail?.image"
+              alt="ketube profile"
+              class="rounded img"
+              width="40" />
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4">
+            <p class="f-w-600">ลิ้งค์ไปที่</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ adsVideoDetail?.url }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4">
+            <p class="f-w-600">สถานะปัจจุบัน</p>
+          </div>
+          <div class="d-flex col-8 align-items-center">
+            <app-chip-status
+              [isActive]="adsVideoDetail?.isActive"
+              [backgroundColor]="
+                adsVideoDetail?.isActive
+                  ? chipColorConstants.activeColor
+                  : chipColorConstants.inActiveColor
+              "
+              [textColor]="
+                adsVideoDetail?.isActive
+                  ? chipColorConstants.activeColorText
+                  : chipColorConstants.inActiveColorText
+              "
+              [massage]="adsVideoDetail?.isActive ? 'เปิดใช้งาน' : 'ปิดใช้งาน'">
+            </app-chip-status>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4">
+            <p class="f-w-600">แสดงโฆษณาตั้งแต่</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">
+              {{ adsVideoDetail?.publishedAt | date: "d/MM/yyyy" }}{{ "-" }}
+              {{ adsVideoDetail?.expiredAt | date: "d/MM/yyyy" }}
+            </p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4">
+            <p class="f-w-500">Publish Date</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ adsVideoDetail?.publishedAt | date: "d/MM/yyyy" }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4">
+            <p class="f-w-600">สร้างโดย</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">
+              {{ adsVideoDetail?.createdBy?.firstname + " " + adsVideoDetail?.createdBy?.lastname }}
+            </p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4">
+            <p class="f-w-600">แก้ไขล่าสุด</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ adsVideoDetail?.updatedAt | date: "d/MM/yyyy,H:mm" }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4">
+            <p class="f-w-600">แก้ไขโดย</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">
+              {{ adsVideoDetail?.updatedBy?.firstname + " " + adsVideoDetail?.updatedBy?.lastname }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ads-video-detail-container col-lg-5 col-sm-12 col-md-12">
+        <p class="f-w-600">วิดีโอโฆษณา</p>
+        <div [class]="'card-image'">
+          <div>
+            <div
+              *ngIf="!adsVideoDetail?.video"
+              class="bg-light-primary d-flex align-items-center justify-content-center cursor-pointer rounded h-200">
+              <img src="assets/images/banners/no-image.png" alt="image" width="54" />
+            </div>
+          </div>
+          <div class="w-100" *ngIf="adsVideoDetail?.video">
+            <app-play-ads-video [video]="streamPath"></app-play-ads-video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <div class="col-12 d-flex flex-sm-row flex-column gap-10">
+      <button
+        mat-stroked-button
+        (click)="getViewerStatAll()"
+        [class]="showClick === 1 ? 'text-primary bg-light-primary' : ''">
+        <div class="d-flex align-items-center gap-8">
+          <i-tabler *ngIf="showClick === 1" name="check" class="icon-20"></i-tabler> ทั้งหมด
+        </div>
+      </button>
+
+      <button
+        mat-stroked-button
+        (click)="getViewerStatSevenDayAgo()"
+        [class]="showClick === 2 ? 'text-primary bg-light-primary' : ''">
+        <div class="d-flex align-items-center gap-8">
+          <i-tabler *ngIf="showClick === 2" name="check" class="icon-20"></i-tabler> ย้อนหลัง 7 วัน
+        </div>
+      </button>
+      <button
+        mat-stroked-button
+        (click)="getViewerStatThirtyDayAgo()"
+        [class]="showClick === 3 ? 'text-primary bg-light-primary' : ''">
+        <div class="d-flex align-items-center gap-8">
+          <i-tabler *ngIf="showClick === 3" name="check" class="icon-20"></i-tabler>ย้อนหลัง 30 วัน
+        </div>
+      </button>
+      <button
+        mat-stroked-button
+        (click)="getViewerOnlyThisMonth()"
+        [class]="showClick === 4 ? 'text-primary bg-light-primary' : ''">
+        <div class="d-flex align-items-center gap-8">
+          <i-tabler name="check" *ngIf="showClick === 4" class="icon-20"></i-tabler>
+          แสดงเฉพาะเดือนนี้
+        </div>
+      </button>
+    </div>
+    <div class="row justify-content-between m-b-10">
+      <div class="col-lg-4 col-sm-12 col-md-12 m-b-10">
+        <mat-card-header>
+          <mat-card-title class="f-s-16">จำนวนแสดงผลโฆษณาบนเว็บไซต์</mat-card-title>
+          <mat-card-subtitle class="mat-body-1"
+            >ตั้งแต่ {{ startDate }} ถึง {{ endDate }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <div class="d-flex align-items-center m-l-20">
+          <i-tabler name="eye-filled" class="icon-40 m-r-8"></i-tabler>
+          <h2 class="f-s-32">{{ adsVideoDetailStat.totalView }}</h2>
+        </div>
+      </div>
+      <div class="col-lg-4 col-sm-12 col-md-12 m-b-10">
+        <mat-card-header>
+          <mat-card-title class="f-s-16">จำนวนคลิกโฆษณาบนเว็บไซต์</mat-card-title>
+          <mat-card-subtitle class="mat-body-1"
+            >ตั้งแต่ {{ startDate }} ถึง {{ endDate }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <div class="d-flex align-items-center m-l-20">
+          <i-tabler name="hand-click" class="icon-40 m-r-8"></i-tabler>
+          <h2 class="f-s-32">{{ adsVideoDetailStat.totalClick }}</h2>
+        </div>
+      </div>
+      <div class="col-lg-4 col-sm-12 col-md-12 m-b-10">
+        <mat-card-header>
+          <mat-card-title class="f-s-16">CTR</mat-card-title>
+          <mat-card-subtitle class="mat-body-1"
+            >ตั้งแต่ {{ startDate }} ถึง {{ endDate }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <div class="d-flex align-items-center m-l-20">
+          <i-tabler name="click" class="icon-40 m-r-8"></i-tabler>
+          <h2 class="f-s-32">{{ adsVideoDetailStat.totalCtr }}%</h2>
+        </div>
+      </div>
+    </div>
+    <mat-card class="cardWithShadow theme-card">
+      <mat-card-header>
+        <mat-card-title class="m-b-0">Statistics {{ adsVideoDetail?.name }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="b-t-1">
+        <div id="chart">
+          <apx-chart
+            [series]="gredientChartOptions.series"
+            [chart]="gredientChartOptions.chart"
+            [stroke]="gredientChartOptions.stroke"
+            [xaxis]="gredientChartOptions.xaxis"
+            [fill]="gredientChartOptions.fill"
+            [yaxis]="gredientChartOptions.yaxis"
+            [plotOptions]="gredientChartOptions.plotOptions"
+            [tooltip]="gredientChartOptions.tooltip"
+            [grid]="gredientChartOptions.grid">
+            >
+          </apx-chart>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-card-content>
+</mat-card>

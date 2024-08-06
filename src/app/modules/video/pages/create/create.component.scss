@@ -1,0 +1,36 @@
+.video-container {
+  .img {
+    object-fit: contain;
+  }
+
+  .h-200 {
+    height: 200px;
+  }
+
+  .card-image {
+    padding: 16px 12px;
+    text-align: center;
+    border: 1px dashed #585858;
+    border-radius: 8px;
+  }
+
+  .input-border-red {
+    height: 56px;
+    border: 1.5px solid #fa896b;
+    border-radius: 8px;
+  }
+
+  .border-red {
+    border: 1px dashed #fa896b;
+  }
+
+  .icon-video {
+    width: 100px;
+    margin-top: -70px;
+    color: #d4d2e3;
+  }
+
+  .l-s-3 {
+    letter-spacing: 0.0333em;
+  }
+}

@@ -1,0 +1,26 @@
+export enum AdsImagePageEnum {
+  Home = "home",
+  Search = "search",
+  Playlist = "playlist",
+  Artist = "artist",
+  Karaoke = "karaoke",
+  FieldSearch = "field-search",
+  Album = "album",
+}
+export enum PagePositionEnum {
+  HomeBanner = "home-banner",
+  HomeBetweenNewMusic = "home-between-new-music",
+  HomeBottom = "home-bottom",
+  SearchRecommendMusic = "search-recommend-music",
+  PlaylistRecommendBottom = "playlist-recommend-bottom",
+  PlaylistMusicRight = "playlist-music-right",
+  PlaylistRight = "playlist-right",
+  PlaylistBottom = "playlist-bottom",
+  ArtistTopHitBottom = "artist-top-hit-bottom",
+  ArtistAllBottom = "artist-all-bottom",
+  ArtistBottom = "artist-bottom",
+  KaraokeBottom = "karaoke-bottom",
+  FieldSearchHome = "field-search-home",
+  FieldSearchKaraoke = "field-search-karaoke",
+  AlbumBottom = "album-bottom",
+}

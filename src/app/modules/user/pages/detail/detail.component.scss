@@ -1,0 +1,13 @@
+.user-detail-container {
+  .img {
+    height: 250px;
+    object-fit: contain;
+  }
+
+  .card-image {
+    padding: 16px 12px;
+    text-align: center;
+    border: 1px dashed #585858;
+    border-radius: 8px;
+  }
+}

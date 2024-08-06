@@ -1,0 +1,98 @@
+<form class="partner-create-container" *ngIf="formGroup" [formGroup]="formGroup">
+  <mat-card class="cardWithShadow theme-card">
+    <mat-card-header class="bg-extra-light">
+      <mat-card-title class="m-b-0">เพิ่มพาร์ทเนอร์</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="b-t-1">
+      <div>
+        <div class="row m-t-20">
+          <div class="col-sm-12 col-lg-8">
+            <div class="col-lg-12">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+                ชื่อพาร์ทเนอร์ <span class="text-error">*</span>
+              </mat-label>
+              <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+                <input id="partnerName" [formControlName]="'name'" matInput type="text" />
+                <mat-error *ngIf="formGroup.get('name')?.hasError('required')">
+                  กรูณากรอก ชื่อพาร์ทเนอร์
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-12">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+                Email User <span class="text-error">*</span>
+              </mat-label>
+              <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+                <input
+                  id="username"
+                  [formControlName]="'username'"
+                  matInput
+                  type="text"
+                  placeholder="ใส่อีเมล User" />
+                <mat-error *ngIf="formGroup.get('username')?.hasError('required')">
+                  กรูณากรอก username
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-12 m-b-16">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> รายละเอียด </mat-label>
+              <ckeditor
+                #editorDescription
+                id="editorDescription"
+                [config]="editorConfig"
+                (ready)="onReady($event)"
+                (change)="onChangeDescription($event)"
+                [editor]="Editor">
+              </ckeditor>
+              <mat-error *ngIf="isDescription" class="f-s-12 f-w-100 l-s-3">
+                กรุณากรอก รายละเอียด
+              </mat-error>
+            </div>
+
+            <div class="col-lg-12">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> สถานะ </mat-label>
+              <mat-slide-toggle [formControlName]="'isActive'" class="m-l-auto"></mat-slide-toggle>
+              {{ formGroup.get("isActive")?.value === true ? "ใช้งาน" : "ปิดการใช้งาน" }}
+            </div>
+          </div>
+          <div id="partnerProfile" class="col-sm-12 col-lg-4">
+            <div class="col-12 m-b-16">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">รูปภาพ</mat-label>
+              <div [class]="isClickImage ? 'card-image border-red' : 'card-image'">
+                <div class="d-flex align-items-center justify-content-center cursor-pointer p-10">
+                  <app-crop-image
+                    [width]="180"
+                    [height]="180"
+                    [key]="'partnerProfile'"
+                    (imagePartnerProfileReady)="imagePartnerProfileEvent($event)" />
+                </div>
+                <span class="f-s-14 d-block">เฉพาะไฟล์ JPEG และ PNG ขนาดสูงสุด 500 KB</span>
+              </div>
+              <mat-error *ngIf="isClickImage" class="f-s-12 f-w-100 l-s-3">
+                กรุณาเลือก รูปภาพ
+              </mat-error>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-t-12" *ngIf="isShowAlert">
+        <app-alert [color]="'error'">
+          {{ alertMessage }}
+        </app-alert>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="b-t-1">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="submitForm()"
+        [disabled]="formGroup.disabled">
+        {{ !formGroup.disabled ? "บันทึก" : "Loading..." }}
+      </button>
+      <a href="/partner/list" mat-flat-button color="warn" class="m-l-8">ยกเลิก</a>
+    </mat-card-actions>
+  </mat-card>
+</form>

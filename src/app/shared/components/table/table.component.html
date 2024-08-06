@@ -1,0 +1,269 @@
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
+<div class="table-grid">
+  <table
+    [className]="'table-container'"
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+    matSortDisableClear
+    (matSortChange)="sortData($event)">
+    <ng-container
+      *ngFor="let disCol of tableColumns; let colIndex = index"
+      matColumnDef="{{ disCol.columnDef }}">
+      <ng-container *ngIf="disCol.isSort">
+        <mat-header-cell mat-sort-header *matHeaderCellDef>
+          {{ disCol.header }}
+        </mat-header-cell>
+      </ng-container>
+      <ng-container *ngIf="!disCol.isSort">
+        <mat-header-cell *matHeaderCellDef>
+          {{ disCol.header }}
+        </mat-header-cell>
+      </ng-container>
+
+      <mat-cell *matCellDef="let element; let colIndex = index">
+        <span
+          *ngIf="
+            !disCol.isButton &&
+            !disCol.isStatus &&
+            !disCol.img &&
+            !disCol.statusType &&
+            !disCol.statusTypeTicket &&
+            !disCol.statusBande &&
+            !disCol.isMenu &&
+            !disCol.isColor &&
+            !disCol.isTypeTransaction &&
+            !disCol.isNo &&
+            !disCol.isVerify &&
+            !disCol.isCheckBox &&
+            !disCol.statusTypeCustomer &&
+            !disCol.isLink &&
+            !disCol.isStatusCurrency &&
+            !disCol.isRole &&
+            !disCol.isBuying &&
+            !disCol.isSelling &&
+            !disCol.isStatusBranch &&
+            !disCol.isDenom &&
+            !disCol.isCode &&
+            !disCol.isLinkCurrency
+          "
+          class="text-over">
+          {{ disCol.cell(element) }}</span
+        >
+        <span *ngIf="disCol.isCode" class="text-gray">
+          {{ disCol.cell(element) }}
+        </span>
+        <span *ngIf="disCol.isDenom">
+          <div *ngFor="let item of element.denominations">
+            {{ item.max | number }} - {{ item.min | number }}
+          </div>
+        </span>
+        <span *ngIf="disCol.isBuying">
+          <div *ngFor="let item of element.denominations">
+            {{ item.buyRate | addComma: 4 }}
+          </div>
+        </span>
+        <span *ngIf="disCol.isSelling">
+          <div *ngFor="let item of element.denominations">
+            {{ item.sellRate | addComma: 4 }}
+          </div>
+        </span>
+        <span *ngIf="disCol.isLink">
+          <a
+            class="cursor-pointer menu-link"
+            routerLink="."
+            (click)="onGoto(disCol.cell(element['admin'].id))"
+            >{{ disCol.cell(element["admin"].email) }}</a
+          >
+        </span>
+        <span *ngIf="disCol.isLinkCurrency">
+          <a
+            class="cursor-pointer menu-link"
+            routerLink="."
+            (click)="onGoto(disCol.cell(element['currency'].id))"
+            >{{ disCol.cell(element["currency"].currencyCode) }}</a
+          >
+        </span>
+
+        <span *ngIf="disCol.isRole">
+          <div class="d-flex">
+            <span
+              class="icon-role rounded f-w-600 p-6 p-y-4 f-s-12"
+              [ngStyle]="{
+                'background-color': '#' + disCol.cell(element['role'].roleColor),
+                'margin-right': '5px'
+              }">
+            </span>
+            <span>
+              {{ disCol.cell(element["role"].roleName) }}
+            </span>
+          </div>
+        </span>
+        <span *ngIf="disCol.isCheckBox">
+          <mat-checkbox
+            class="select-row"
+            #permission
+            color="primary"
+            (change)="selectedRow($event, disCol.cell(element))">
+          </mat-checkbox>
+        </span>
+        <span *ngIf="disCol.isColor">
+          <div
+            class="badge-color"
+            [ngStyle]="{
+              'background-color': '#' + disCol.cell(element)
+            }"></div>
+        </span>
+        <span *ngIf="disCol.isNo">
+          {{ no(colIndex) }}
+        </span>
+        <span *ngIf="disCol.isButton" class="button-table">
+          <div class="d-flex justify-content-between">
+            <a
+              *ngIf="isEdit"
+              routerLink="."
+              (click)="openDialog('Update', disCol.cell(element))"
+              class="m-r-10 cursor-pointer">
+              <i-tabler class="icon-18" name="pencil" matListItemIcon></i-tabler
+            ></a>
+
+            <a
+              *ngIf="isView"
+              routerLink="."
+              (click)="openDialog('Update', disCol.cell(element))"
+              class="m-r-10 cursor-pointer">
+              <i-tabler class="icon-18" name="pencil" matListItemIcon></i-tabler
+            ></a>
+
+            <a
+              *ngIf="isDelete"
+              routerLink="."
+              (click)="openDialog('Delete', disCol.cell(element))"
+              class="m-r-10 cursor-pointer">
+              <i-tabler class="icon-18" name="trash" matListItemIcon></i-tabler
+            ></a>
+          </div>
+        </span>
+        <span *ngIf="disCol.isVerify">
+          <ng-template [ngIf]="disCol.cell(element)">
+            <span class="bg-light-warning text-warning rounded f-w-600 p-6 p-y-4 f-s-12">
+              Pending
+            </span>
+          </ng-template>
+        </span>
+        <span *ngIf="disCol.statusTypeCustomer">
+          <ng-template [ngIf]="disCol.cell(element) === 'verify'">
+            <span class="bg-light-primary text-primary rounded f-w-600 p-6 p-y-4 f-s-12">
+              Approve
+            </span>
+          </ng-template>
+          <ng-template [ngIf]="disCol.cell(element) === 'pending'">
+            <span class="bg-light-warning text-warning rounded f-w-600 p-6 p-y-4 f-s-12">
+              Pending
+            </span>
+          </ng-template>
+          <ng-template [ngIf]="disCol.cell(element) === 'unVerify'">
+            <span class="bg-light-error text-error rounded f-w-600 p-6 p-y-4 f-s-12">
+              Decline
+            </span>
+          </ng-template>
+        </span>
+        <span *ngIf="disCol.isStatus">
+          <ng-template [ngIf]="disCol.cell(element) === 'active'">
+            <span class="bg-light-primary text-primary rounded f-w-600 p-6 p-y-4 f-s-12">
+              Active
+            </span>
+          </ng-template>
+          <ng-template [ngIf]="disCol.cell(element) === 'draft'">
+            <span class="bg-light-warning text-warning rounded f-w-600 p-6 p-y-4 f-s-12">
+              Draft
+            </span>
+          </ng-template>
+          <ng-template [ngIf]="disCol.cell(element) === 'in active'">
+            <span class="bg-light-error text-error rounded f-w-600 p-6 p-y-4 f-s-12">
+              Inactive
+            </span>
+          </ng-template>
+          <ng-template [ngIf]="disCol.cell(element) === 'true'">
+            <span class="bg-light-primary text-primary rounded f-w-600 p-6 p-y-4 f-s-12">
+              เปิดใช้งาน
+            </span>
+          </ng-template>
+          <ng-template [ngIf]="disCol.cell(element) === 'false'">
+            <span class="bg-light-error text-error rounded f-w-600 p-6 p-y-4 f-s-12">
+              ปิดใช้งาน
+            </span>
+          </ng-template>
+        </span>
+        <span *ngIf="disCol.img">
+          <div class="d-flex">
+            <button (click)="zoomImage(disCol.cell(element))">
+              <img
+                alt="#"
+                class="table-image"
+                *ngIf="disCol.cell(element)"
+                [src]="disCol.cell(element)" />
+            </button>
+            <div
+              class="flex items-center justify-center w-full h-full text-xs font-semibold leading-none text-center uppercase"
+              *ngIf="!disCol.cell(element)">
+              NO THUMB
+            </div>
+          </div>
+        </span>
+        <span *ngIf="disCol.isStatusCurrency">
+          <ng-template [ngIf]="disCol.cell(element) === 'Enable'">
+            <span class="bg-light-primary text-primary rounded f-w-600 p-6 p-y-4 f-s-12">
+              Enable
+            </span>
+          </ng-template>
+          <ng-template [ngIf]="disCol.cell(element) === 'Disable'">
+            <span class="bg-light-error text-error rounded f-w-600 p-6 p-y-4 f-s-12">
+              Disable
+            </span>
+          </ng-template>
+          <ng-template [ngIf]="disCol.cell(element) === 'true'">
+            <span class="bg-light-primary text-primary rounded f-w-600 p-6 p-y-4 f-s-12">
+              Enable
+            </span>
+          </ng-template>
+          <ng-template [ngIf]="disCol.cell(element) === 'false'">
+            <span class="bg-light-error text-error rounded f-w-600 p-6 p-y-4 f-s-12">
+              Disable
+            </span>
+          </ng-template>
+        </span>
+        <span *ngIf="disCol.isStatusBranch">
+          <ng-template [ngIf]="disCol.cell(element) === 'true'">
+            <span class="bg-light-primary text-primary rounded f-w-600 p-6 p-y-4 f-s-12">
+              Enable
+            </span>
+          </ng-template>
+          <ng-template [ngIf]="disCol.cell(element) === 'false'">
+            <span class="bg-light-error text-error rounded f-w-600 p-6 p-y-4 f-s-12">
+              Disable
+            </span>
+          </ng-template>
+        </span>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row
+      *matHeaderRowDef="displayedColumns; sticky: true"
+      ngClass="make-gold "></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </table>
+
+  <ng-container *ngIf="tableData?.length; else noProducts"> </ng-container>
+
+  <ng-template #noProducts>
+    <app-data-not-found></app-data-not-found>
+  </ng-template>
+
+  <mat-paginator
+    #paginator
+    [length]="length"
+    (page)="getPages()"
+    [pageSizeOptions]="[10, 20, 30, 50, 100]">
+  </mat-paginator>
+</div>

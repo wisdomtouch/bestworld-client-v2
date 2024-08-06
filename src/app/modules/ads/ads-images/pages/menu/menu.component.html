@@ -1,0 +1,256 @@
+<p class="f-s-20 f-w-700">ตำแหน่งโฆษณา</p>
+<div class="col-12 d-flex flex-sm-row gap-32 menu-responsive">
+  <button
+    (click)="selectHome()"
+    class="menu-container cursor-pointer"
+    [class]="showClick === 1 ? 'text-primary bg-light-primary' : ''">
+    <p class="f-s-18 f-w-500 mat-subtitle-2">หน้าแรก</p>
+    <!--    <p>จำนวน 25 โฆษณา</p>-->
+  </button>
+  <button
+    (click)="selectSearch()"
+    class="menu-container cursor-pointer"
+    [class]="showClick === 2 ? 'text-primary bg-light-primary' : ''">
+    <p class="f-s-18 f-w-500 mat-subtitle-2">หน้าค้นหา</p>
+    <!--    <p>จำนวน 25 โฆษณา</p>-->
+  </button>
+  <button
+    (click)="selectPlaylist()"
+    class="menu-container cursor-pointer"
+    [class]="showClick === 3 ? 'text-primary bg-light-primary' : ''">
+    <p class="f-s-18 f-w-500 mat-subtitle-2">หน้าเพลย์ลิสต์</p>
+    <!--    <p>จำนวน 25 โฆษณา</p>-->
+  </button>
+  <button
+    (click)="selectArtist()"
+    class="menu-container cursor-pointer"
+    [class]="showClick === 4 ? 'text-primary bg-light-primary' : ''">
+    <p class="f-s-18 f-w-500 mat-subtitle-2">หน้าศิลปิน</p>
+    <!--    <p>จำนวน 25 โฆษณา</p>-->
+  </button>
+  <button
+    (click)="selectAlbum()"
+    class="menu-container cursor-pointer"
+    [class]="showClick === 5 ? 'text-primary bg-light-primary' : ''">
+    <p class="f-s-18 f-w-500 mat-subtitle-2">หน้าอัลบั้ม</p>
+    <!--    <p>จำนวน 25 โฆษณา</p>-->
+  </button>
+  <button
+    (click)="selectKaraoke()"
+    class="menu-container cursor-pointer"
+    [class]="showClick === 6 ? 'text-primary bg-light-primary' : ''">
+    <p class="f-s-18 f-w-500 mat-subtitle-2">หน้าคาราโอเกะ</p>
+    <!--    <p>จำนวน 25 โฆษณา</p>-->
+  </button>
+  <button
+    (click)="selectFieldSearch()"
+    class="menu-container cursor-pointer"
+    [class]="showClick === 7 ? 'text-primary bg-light-primary' : ''">
+    <p class="f-s-18 f-w-500 mat-subtitle-2">ในช่องค้นหา</p>
+    <!--    <p>จำนวน 25 โฆษณา</p>-->
+  </button>
+</div>
+<br />
+<br />
+
+<div *ngIf="showClick === 1" class="card-page-container">
+  <div class="row gap-48 p-x-24">
+    <a href="/ads/ads-image/menu/home/home-banner/list">
+      <div class="card-image img cursor-pointer">
+        <img
+          class="p-b-24"
+          src="assets/images/ads-image-menu/Ads-Home-1.png"
+          alt="home1"
+          width="310px" />
+        <p class="f-s-20 f-w-500 mat-subtitle-2 m-b-10">หน้าแรก - แบนเนอร์</p>
+        <p class="mat-subtitle-2 m-b-10">Scale : Computer 637x342, Mobile 316x170</p>
+        <p class="mat-subtitle-2">Size : Max 1 MB</p>
+      </div>
+    </a>
+    <a href="/ads/ads-image/menu/home/home-between-new-music/list">
+      <div class="card-image img cursor-pointer">
+        <img
+          class="p-b-24"
+          src="assets/images/ads-image-menu/Ads-Home-2.png"
+          alt="home2"
+          width="310px" />
+        <p class="f-s-20 f-w-500 mat-subtitle-2 m-b-10">หน้าแรก - ระหว่างรายการเพลงใหม่</p>
+        <p class="mat-subtitle-2 m-b-10">Scale : Computer 180x180, Mobile 160x160</p>
+        <p class="mat-subtitle-2">Size : Max 500 KB</p>
+      </div>
+    </a>
+    <a href="/ads/ads-image/menu/home/home-bottom/list">
+      <div class="card-image img cursor-pointer">
+        <img
+          class="p-b-24"
+          src="assets/images/ads-image-menu/Ads-Home-3.png"
+          alt="home3"
+          width="310px" />
+        <p class="f-s-20 f-w-500 mat-subtitle-2 m-b-10">หน้าแรก - ด้านล่าง</p>
+        <p class="mat-subtitle-2 m-b-10">Scale : Computer 970x120, Mobile 320x320</p>
+        <p class="mat-subtitle-2">Size : Max 1 MB</p>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div *ngIf="showClick === 2" class="card-page-container">
+  <div class="row gap-48 p-x-24">
+    <a href="/ads/ads-image/menu/search/search-recommend-music/list">
+      <div class="card-image img cursor-pointer">
+        <img
+          class="p-b-24"
+          src="assets/images/ads-image-menu/Ads-explore-1.png"
+          alt="explore"
+          width="310px" />
+        <p class="f-s-18 f-w-500 mat-subtitle-2 m-b-10">หน้าค้นหา - ระหว่างรายการเพลงแนะนำ</p>
+        <p class="mat-subtitle-2 m-b-10">Scale : Computer 180x180, Mobile 160x160</p>
+        <p class="mat-subtitle-2">Size : Max 500 KB</p>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div *ngIf="showClick === 3" class="card-page-container">
+  <div class="row gap-48 p-x-24">
+    <a href="/ads/ads-image/menu/playlist/playlist-recommend-bottom/list">
+      <div class="card-image img cursor-pointer">
+        <img
+          class="p-b-24"
+          src="assets/images/ads-image-menu/Ads-Playlist-recommened-1.png"
+          alt="explore"
+          width="310px" />
+        <p class="f-s-18 f-w-500 mat-subtitle-2 m-b-10">หน้าเพลย์ลิสต์ - เพลย์ลิสต์แนะนำด้านล่าง</p>
+        <p class="mat-subtitle-2 m-b-10">Scale : Computer 970x120, Mobile 320x320</p>
+        <p class="mat-subtitle-2">Size : Max 1 MB</p>
+      </div>
+    </a>
+    <a href="/ads/ads-image/menu/playlist/playlist-right/list">
+      <div class="card-image img cursor-pointer">
+        <img
+          class="p-b-24"
+          src="assets/images/ads-image-menu/Ads-Playlist-main-2.png"
+          alt="explore"
+          width="310px" />
+        <p class="f-s-18 f-w-500 mat-subtitle-2 m-b-10">หน้าเพลย์ลิสต์ - ด้านขวา</p>
+        <p class="mat-subtitle-2 m-b-10">Scale : Computer 180x180, Mobile 160x160</p>
+        <p class="mat-subtitle-2">Size : Max 500 KB</p>
+      </div>
+    </a>
+    <a href="/ads/ads-image/menu/playlist/playlist-bottom/list">
+      <div class="card-image img cursor-pointer">
+        <img
+          class="p-b-24"
+          src="assets/images/ads-image-menu/Ads-Playlist-main-1.png"
+          alt="explore"
+          width="310px" />
+        <p class="f-s-18 f-w-500 mat-subtitle-2 m-b-10">หน้าเพลย์ลิสต์ - ด้านล่าง</p>
+        <p class="mat-subtitle-2 m-b-10">Scale : Computer 970x120, Mobile 320x320</p>
+        <p class="mat-subtitle-2">Size : Max 1 MB</p>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div *ngIf="showClick === 4" class="card-page-container">
+  <div class="row gap-48 p-x-24">
+    <a href="/ads/ads-image/menu/artist/artist-top-hit-bottom/list">
+      <div class="card-image img cursor-pointer">
+        <img
+          class="p-b-24"
+          src="assets/images/ads-image-menu/Ads-Artist.png"
+          alt="explore"
+          width="310px" />
+        <p class="f-s-18 f-w-500 mat-subtitle-2 m-b-10">หน้าศิลปิน - ศิลปินยอดนิยมด้านล่าง</p>
+        <p class="mat-subtitle-2 m-b-10">Scale : Computer 970x120, Mobile 320x320</p>
+        <p class="mat-subtitle-2">Size : Max 1 MB</p>
+      </div>
+    </a>
+    <a href="/ads/ads-image/menu/artist/artist-all-bottom/list">
+      <div class="card-image img cursor-pointer">
+        <img
+          class="p-b-24"
+          src="assets/images/ads-image-menu/Ads-Artist-all.png"
+          alt="explore"
+          width="310px" />
+        <p class="f-s-18 f-w-500 mat-subtitle-2 m-b-10">หน้าศิลปิน - ศิลปินรวมด้านล่าง</p>
+        <p class="mat-subtitle-2 m-b-10">Scale : Computer 970x120, Mobile 320x320</p>
+        <p class="mat-subtitle-2">Size : Max 1 MB</p>
+      </div>
+    </a>
+    <a href="/ads/ads-image/menu/artist/artist-bottom/list">
+      <div class="card-image img cursor-pointer">
+        <img
+          class="p-b-24"
+          src="assets/images/ads-image-menu/Ads-Artist-main.png"
+          alt="explore"
+          width="310px" />
+        <p class="f-s-18 f-w-500 mat-subtitle-2 m-b-10">หน้าศิลปิน - ด้านล่าง</p>
+        <p class="mat-subtitle-2 m-b-10">Scale : Computer 970x120, Mobile 320x320</p>
+        <p class="mat-subtitle-2">Size : Max 1 MB</p>
+      </div>
+    </a>
+  </div>
+</div>
+<div *ngIf="showClick === 5" class="card-page-container">
+  <div class="row gap-48 p-x-24">
+    <a href="/ads/ads-image/menu/album/album-bottom/list">
+      <div class="card-image img cursor-pointer">
+        <img
+          class="p-b-24"
+          src="assets/images/ads-image-menu/Ads-Album.png"
+          alt="explore"
+          width="310px" />
+        <p class="f-s-18 f-w-500 mat-subtitle-2 m-b-10">หน้าอัลบั้ม - ด้านล่าง</p>
+        <p class="mat-subtitle-2 m-b-10">Scale : Computer 970x90, Mobile 300x50</p>
+        <p class="mat-subtitle-2">Size : Max 1 MB</p>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div *ngIf="showClick === 6" class="card-page-container">
+  <div class="row gap-48 p-x-24">
+    <a href="/ads/ads-image/menu/karaoke/karaoke-bottom/list">
+      <div class="card-image img cursor-pointer">
+        <img
+          class="p-b-24"
+          src="assets/images/ads-image-menu/Ads-karaoke-1.png"
+          alt="explore"
+          width="310px" />
+        <p class="f-s-18 f-w-500 mat-subtitle-2 m-b-10">หน้าคาราโอเกะ - ด้านล่าง</p>
+        <p class="mat-subtitle-2 m-b-10">Scale : Computer 970x90, Mobile 300x50</p>
+        <p class="mat-subtitle-2">Size : Max 1 MB</p>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div *ngIf="showClick === 7" class="card-page-container">
+  <div class="row gap-48 p-x-24">
+    <a href="/ads/ads-image/menu/field-search/field-search-home/list">
+      <div class="card-image img cursor-pointer">
+        <img
+          class="p-b-24"
+          src="assets/images/ads-image-menu/Ads-Search.png"
+          alt="explore"
+          width="310px" />
+        <p class="f-s-18 f-w-500 mat-subtitle-2 m-b-10">ในช่องค้นหา - หน้าแรก</p>
+        <p class="mat-subtitle-2 m-b-10">Scale : Computer 500x57, Mobile 312x70</p>
+        <p class="mat-subtitle-2">Size : Max 500 KB</p>
+      </div>
+    </a>
+    <a href="/ads/ads-image/menu/field-search/field-search-karaoke/list">
+      <div class="card-image img cursor-pointer">
+        <img
+          class="p-b-24"
+          src="assets/images/ads-image-menu/Ads-Search-karaoke.png"
+          alt="explore"
+          width="310px" />
+        <p class="f-s-18 f-w-500 mat-subtitle-2 m-b-10">ในช่องค้นหา - หน้าคาราโอเกะ</p>
+        <p class="mat-subtitle-2 m-b-10">Scale : Computer 970x90, Mobile 300x50</p>
+        <p class="mat-subtitle-2">Size : Max 1 MB</p>
+      </div>
+    </a>
+  </div>
+</div>

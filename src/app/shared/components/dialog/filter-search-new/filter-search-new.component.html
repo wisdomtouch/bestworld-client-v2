@@ -1,0 +1,55 @@
+<form *ngIf="formGroup" [formGroup]="formGroup">
+  <mat-dialog-content>
+    <div class="row justify-content-between align-items-center m-b-8 m-r-8">
+      <div class="col-4">
+        <span
+          matBadge="{{ data.filterCount === 0 ? null : data.filterCount }}"
+          matBadgeOverlap="false"
+          class="f-w-600 text-decoration-none"
+          >ตัวกรอง</span
+        >
+      </div>
+      <button mat-flat-button class="col-4 bg-extra-light" (click)="onClearData()">
+        ล้างค่าตัวกรอง
+      </button>
+    </div>
+    <mat-divider class="m-b-16"></mat-divider>
+    <div class="col-lg-12 m-b-8 m-b-16" *ngIf="data.isStatus">
+      <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> สถานะ </mat-label>
+      <mat-divider class="m-b-16"></mat-divider>
+      <mat-radio-group aria-label="Select an option" class="m-t-8" [formControlName]="'status'">
+        <mat-radio-button value="true" color="primary">เปิดใช้งาน</mat-radio-button>
+        <mat-radio-button value="false" color="primary">ปิดใช้งาน</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="col-lg-12 m-b-8" *ngIf="data.isDate">
+      <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> เลือกวันที่ </mat-label>
+      <mat-divider class="m-b-16"></mat-divider>
+      <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+        <mat-date-range-input [rangePicker]="dateTimes">
+          <input matStartDate placeholder="วันที่เริ่ม" [formControlName]="'startDate'" />
+          <input matEndDate placeholder="วันที่สิ้นสุด" [formControlName]="'endDate'" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="dateTimes"></mat-datepicker-toggle>
+        <mat-date-range-picker #dateTimes></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-12 m-b-8" *ngIf="data.isName">
+      <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> สร้างโดย </mat-label>
+      <mat-divider class="m-b-16"></mat-divider>
+      <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+        <input [formControlName]="'createBy'" matInput type="text" placeholder="ค้นหา" />
+      </mat-form-field>
+    </div>
+    <div class="col-lg-12" *ngIf="data.isName">
+      <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> แก้ไขโดย </mat-label>
+      <mat-divider class="m-b-16"></mat-divider>
+      <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+        <input [formControlName]="'updateBy'" matInput type="text" placeholder="ค้นหา" />
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-flat-button class="button-add" (click)="onSubmit()">ใช้ตัวกรอง</button>
+  </mat-dialog-actions>
+</form>

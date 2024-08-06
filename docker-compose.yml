@@ -1,0 +1,20 @@
+services:
+  admin:
+    platform: "linux/amd64"
+    build:
+      context: ./
+      dockerfile: ./docker/local/Dockerfile
+    container_name: ketube-admin
+    ports:
+      - '0.0.0.0:4320:4320'
+    volumes:
+      - ./:/srv/app
+      - admin_node_modules:/srv/app/node_modules
+    networks:
+      - ketube-networks
+
+volumes:
+  admin_node_modules:
+
+networks:
+  ketube-networks:

@@ -1,0 +1,26 @@
+.ticket-detail-container {
+  .img {
+    height: 250px;
+    object-fit: contain;
+  }
+
+  .card-image {
+    padding: 16px 12px;
+    text-align: center;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+.scroll-viewport {
+  width: 100px;
+  height: 200px;
+  background-color: #eceaea;
+  border-radius: 8px;
+}

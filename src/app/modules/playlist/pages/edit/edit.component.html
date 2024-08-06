@@ -1,0 +1,377 @@
+<form class="playlist-container" *ngIf="formGroup" [formGroup]="formGroup">
+  <mat-card class="cardWithShadow theme-card">
+    <div class="row justify-content-space-between align-items-lg-center">
+      <div class="col-6">
+        <mat-card-header>
+          <mat-card-title class="f-s-16">แก้ไขเพลย์ลิสต์</mat-card-title>
+        </mat-card-header>
+      </div>
+    </div>
+
+    <mat-card-content class="b-t-1">
+      <div>
+        <div class="row m-t-20">
+          <div class="col-sm-12 col-lg-3">
+            <div class="row">
+              <div class="col-sm-6 col-lg-12 m-b-20">
+                <button mat-button class="p-x-16 p-b-4 h-80" (click)="nextStep(1)">
+                  <div class="d-flex align-items-start">
+                    <span
+                      class="bg-light-primary rounded-circle icon-40 d-flex align-items-center justify-content-center">
+                      <i-tabler
+                        name="file-text"
+                        class="icon-20 d-flex"
+                        [class]="step === 1 ? '' : 'text-gray-100'"></i-tabler>
+                    </span>
+                    <div class="m-l-16" [align]="'start'">
+                      <p class="f-s-14 m-t-4 m-b-0" [class]="step === 1 ? '' : 'text-gray-100'">
+                        Step 1
+                      </p>
+                      <h3
+                        class="f-w-600 mat-subtitle-1 f-s-16 lh-sm"
+                        [class]="step === 1 ? '' : 'text-gray-100'">
+                        Add Information
+                      </h3>
+                    </div>
+                  </div>
+                </button>
+              </div>
+              <div class="col-lg-12">
+                <div class="step-border"></div>
+              </div>
+              <div class="col-sm-6 col-lg-12 m-b-20">
+                <button mat-button class="p-x-16 p-b-4 h-80" (click)="nextStep(2)">
+                  <div class="d-flex align-items-start">
+                    <span
+                      class="bg-light-primary rounded-circle icon-40 d-flex align-items-center justify-content-center">
+                      <i-tabler
+                        name="music-plus"
+                        class="icon-20 d-flex"
+                        [class]="step === 2 ? '' : 'text-gray-100'"></i-tabler>
+                    </span>
+                    <div class="m-l-16" [align]="'start'">
+                      <p class="f-s-14 m-t-4 m-b-0" [class]="step === 2 ? '' : 'text-gray-100'">
+                        Step 2
+                      </p>
+                      <h3
+                        class="mat-subtitle-1 f-s-16 lh-sm"
+                        [class]="step === 2 ? '' : 'text-gray-100'">
+                        Add Music Video
+                      </h3>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-9" *ngIf="step === 1">
+            <div class="row">
+              <div class="col-lg-10">
+                <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+                  ชื่อเพลย์ลิสต์<span class="text-error">*</span>
+                </mat-label>
+                <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+                  <input id="playlistName" [formControlName]="'name'" matInput type="text" />
+                  <mat-error *ngIf="formGroup.get('name')?.hasError('required')">
+                    กรุณากรอก ชื่อเพลย์ลิสต์
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-2 m-b-16">
+                <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> สีตัวอักษร </mat-label>
+                <mat-form-field appearance="outline" class="w-100 m-b-8">
+                  <mat-select
+                    [formControlName]="'codeColor'"
+                    (selectionChange)="selectColor($event)">
+                    <mat-select-trigger class="h-20">
+                      <span
+                        class="border-color rounded-circle icon-18 d-flex align-items-center justify-content-center"
+                        [ngStyle]="{ background: this.code }"></span>
+                    </mat-select-trigger>
+                    <mat-option [value]="'#000'">
+                      <span
+                        class="rounded-circle icon-15 d-flex"
+                        [ngStyle]="{ background: '#000' }">
+                      </span>
+                    </mat-option>
+                    <mat-option [value]="'#fff'">
+                      <span
+                        class="rounded-circle icon-15 d-flex"
+                        [ngStyle]="{ background: '#fff', border: '1px solid' }">
+                      </span>
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-12">
+                <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> Slug </mat-label>
+                <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+                  <input [formControlName]="'slug'" matInput type="text" />
+                  <mat-error *ngIf="formGroup.get('slug')?.hasError('required')">
+                    กรุณากรอก slug
+                  </mat-error>
+                  <mat-error *ngIf="formGroup.get('slug')?.hasError('invalidSlug')">
+                    ไม่สามารถใช้อักขระพิเศษและตัวพิมพ์ใหญ่ได้ Ex. name-news
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-12">
+                <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+                  แนวเพลง<span class="text-error">*</span>
+                </mat-label>
+                <mat-form-field
+                  appearance="outline"
+                  class="w-100"
+                  color="primary"
+                  [class]="isStyle ? 'input-border-red' : ''">
+                  <input [formControlName]="'styleIds'" matInput type="text" />
+                </mat-form-field>
+                <mat-error *ngIf="isStyle" class="f-s-12 f-w-100 l-s-3">
+                  กรุณาเลือก แนวเพลง
+                </mat-error>
+                <button
+                  mat-flat-button
+                  id="addStyle"
+                  color="primary"
+                  class="m-r-8 m-b-8"
+                  type="button"
+                  (click)="openDialogStyle()">
+                  เพิ่มแนวเพลง
+                </button>
+              </div>
+              <div class="col-lg-12 m-b-16">
+                <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> รายละเอียด </mat-label>
+                <ckeditor
+                  #editorDescription
+                  id="editorDescription"
+                  [data]="descriptionEdit!"
+                  [config]="editorConfig"
+                  (ready)="onReady($event)"
+                  (change)="onChangeDescription($event)"
+                  [editor]="Editor">
+                </ckeditor>
+                <mat-error *ngIf="isDescription" class="f-s-12 f-w-100 l-s-3">
+                  กรุณากรอก รายละเอียด
+                </mat-error>
+              </div>
+              <div class="col-sm-12 col-lg-6 m-b-16">
+                <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"
+                  >รูปเพลย์ลิสต์<span class="text-error">*</span></mat-label
+                >
+                <div [class]="!isCheckImage ? 'card-image border-red' : 'card-image'">
+                  <div
+                    class="flex-column no-gutters align-items-center justify-content-center cursor-pointer p-10">
+                    <img
+                      *ngIf="checkStepOneThumbnail"
+                      [src]="imageSrc"
+                      alt="image playlist"
+                      class="w-100 h-200 img" />
+                    <div class="d-flex no-gutters justify-content-center">
+                      <app-crop-image
+                        [imgSrcOld]="imageSrc"
+                        [width]="200"
+                        [height]="225"
+                        [key]="'playlistThumbnail'"
+                        (imagePlayListThumbnailReady)="imagePlaylistThumbnailEvent($event)">
+                      </app-crop-image>
+                    </div>
+                  </div>
+                  <span class="f-s-14 d-block">เฉพาะไฟล์ JPEG และ PNG ขนาดสูงสุด 500 KB</span>
+                </div>
+                <mat-error *ngIf="!isCheckImage" class="f-s-12 f-w-100 l-s-3">
+                  กรุณาเลือก รูปเพลย์ลิสต์
+                </mat-error>
+              </div>
+              <div class="col-sm-12 col-lg-6 m-b-16">
+                <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"
+                  >รูปหน้าปกเพลย์ลิสต์<span class="text-error">*</span></mat-label
+                >
+                <div [class]="!isCheckImageCover ? 'card-image border-red' : 'card-image'">
+                  <div
+                    class="flex-column no-gutters align-items-center justify-content-center p-10">
+                    <img
+                      *ngIf="checkStepOneCover"
+                      [src]="imageSrcCover"
+                      alt="Image Cover"
+                      class="w-100 h-200 img" />
+                    <div class="d-flex no-gutters justify-content-center">
+                      <app-crop-image
+                        [imgSrcOld]="imageSrcCover"
+                        [width]="1280"
+                        [height]="460"
+                        [key]="'playlistCover'"
+                        (imagePlayListCoverReady)="imagePlaylistCoverEvent($event)" />
+                    </div>
+                  </div>
+                  <span class="f-s-14 d-block">เฉพาะไฟล์ JPEG และ PNG ขนาดสูงสุด 500 KB</span>
+                </div>
+                <mat-error *ngIf="!isCheckImageCover" class="f-s-12 f-w-100 l-s-3">
+                  กรุณาเลือก รูปปกเพลย์ลิสต์
+                </mat-error>
+              </div>
+              <div class="col-lg-12">
+                <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+                  Partner <span class="text-error">*</span></mat-label
+                >
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-select [formControlName]="'partner'">
+                    <mat-option *ngFor="let val of partnerList" value="{{ val.id }}">{{
+                      val.name
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="formGroup.get('partner')?.hasError('required')">
+                    กรุณาเลือก partner
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-12 m-t-6">
+                <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> สถานะ </mat-label>
+                <mat-slide-toggle
+                  [formControlName]="'isActive'"
+                  class="m-l-auto"></mat-slide-toggle>
+                {{ formGroup.get("isActive")?.value === true ? "ใช้งาน" : "ปิดการใช้งาน" }}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-lg-9" *ngIf="step === 2">
+            <mat-card class="cardWithShadow">
+              <mat-card-content>
+                <!--  Header -->
+                <div class="row no-gutters justify-content-between align-items-center gap-12">
+                  <!--  Right -->
+                  <div class="row no-gutters gap-12 col-sm-12 col-md-9 align-items-center">
+                    <div class="col-sm-12 col-md-12">
+                      <mat-form-field appearance="outline" class="w-100 hide-hint">
+                        <input
+                          matInput
+                          (keyup)="applyFilter($any($event.target).value)"
+                          placeholder="Search" />
+                        <mat-icon matSuffix>
+                          <i-tabler name="search" class="icon-20"></i-tabler>
+                        </mat-icon>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <!--  Left -->
+                  <div class="row no-gutters col-sm-12 col-md-2 text-right">
+                    <div class="col-sm-12 col-md-12">
+                      <button mat-flat-button color="primary" (click)="openDialog()">
+                        <mat-icon matSuffix>
+                          <i-tabler name="plus" class="icon-20"></i-tabler>
+                        </mat-icon>
+                        เพิ่มเพลง
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- Table -->
+                <div class="table-responsive m-t-24" *ngIf="videos">
+                  <table mat-table [dataSource]="dataSource" class="w-100" matSort>
+                    <!-- No Column -->
+                    <ng-container matColumnDef="no">
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="f-w-600 mat-subtitle-1 f-s-14 p-l-0"></th>
+                      <td
+                        mat-cell
+                        *matCellDef="let element; let colIndex = index"
+                        class="mat-body-1 f-s-14 p-l-0">
+                        {{ 1 + colIndex }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                      <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                        วิดีโอเพลง
+                      </th>
+                      <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+                        <div class="d-flex align-items-center">
+                          <button
+                            class="remove-border cursor-pointer"
+                            (click)="zoomImage(urlImage + element.image)">
+                            <img
+                              [src]="urlImage + element.image"
+                              alt="users"
+                              width="40"
+                              class="rounded" />
+                          </button>
+                          <div class="m-l-16">
+                            <p>
+                              {{ element.name }}
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                    <!-- Artist Column -->
+                    <ng-container matColumnDef="artist">
+                      <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                        ศิลปิน
+                      </th>
+                      <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+                        {{ element.artists.length > 0 ? element.artists[0].name : "-" }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Action Column -->
+                    <ng-container matColumnDef="action">
+                      <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                        Action
+                      </th>
+                      <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+                        <a
+                          href="/video/edit/{{ element.id }}"
+                          target="_blank"
+                          class="m-r-10 cursor-pointer">
+                          <i-tabler name="eye" class="icon-18"></i-tabler>
+                        </a>
+                        <button
+                          class="remove-border m-r-10 cursor-pointer"
+                          (click)="deleteRow(element.id)">
+                          <i-tabler name="trash" class="icon-18"></i-tabler>
+                        </button>
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="videoDisplayColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: videoDisplayColumns"></tr>
+                  </table>
+                </div>
+                <div *ngIf="!videos">
+                  <app-data-not-found></app-data-not-found>
+                </div>
+                <mat-error *ngIf="!isCheckMusic" class="f-s-12 f-w-100 l-s-3 m-t-16">
+                  กรุณาเลือก วิดีโอเพลง
+                </mat-error>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-t-12" *ngIf="isShowAlert">
+        <app-alert [color]="'error'">
+          {{ alertMessage }}
+        </app-alert>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="b-t-1">
+      <button mat-flat-button color="primary" *ngIf="step === 1" (click)="nextForm()">ถัดไป</button>
+      <button
+        mat-flat-button
+        color="primary"
+        *ngIf="step === 2"
+        (click)="submitForm()"
+        [disabled]="formGroup.disabled">
+        {{ !formGroup.disabled ? "บันทึก" : "Loading..." }}
+      </button>
+      <a href="/playlist/list" mat-flat-button color="warn" class="m-l-8">ยกเลิก</a>
+    </mat-card-actions>
+  </mat-card>
+</form>

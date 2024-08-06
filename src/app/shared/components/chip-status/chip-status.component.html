@@ -1,0 +1,50 @@
+<!--Active-Status-->
+<mat-chip class="rounded" *ngIf="isActive === true" [style.background-color]="backgroundColor">
+  <p class="f-w-600 f-s-14" [style.color]="textColor">{{ massage }}</p>
+</mat-chip>
+<mat-chip
+  class="rounded"
+  *ngIf="!isActive && reqStatus === undefined"
+  [style.background-color]="backgroundColor">
+  <p class="f-w-600 f-s-14" [style.color]="textColor">{{ massage }}</p>
+</mat-chip>
+
+<!--Request-Status-->
+<mat-chip
+  *ngIf="reqStatus === TicketStatus.approve"
+  class="rounded"
+  [style.background-color]="backgroundColor">
+  <p class="f-w-600 f-s-14" [style.color]="textColor">{{ massage }}</p>
+</mat-chip>
+<mat-chip
+  *ngIf="reqStatus === TicketStatus.waiting"
+  class="rounded"
+  [style.background-color]="backgroundColor">
+  <p class="f-w-600 f-s-14" [style.color]="textColor">{{ massage }}</p>
+</mat-chip>
+<mat-chip
+  class="rounded"
+  *ngIf="reqStatus === TicketStatus.inProgress"
+  [style.background-color]="backgroundColor">
+  <p class="f-w-600 f-s-14" [style.color]="textColor">{{ massage }}</p>
+</mat-chip>
+<mat-chip
+  class="rounded"
+  *ngIf="reqStatus === TicketStatus.reject"
+  [style.background-color]="backgroundColor">
+  <p class="f-w-600 f-s-14" [style.color]="textColor">{{ massage }}</p>
+</mat-chip>
+
+<!--Music-Video-Upload-Status-->
+<mat-chip
+  class="rounded"
+  *ngIf="reqStatus === 'approved'"
+  [style.background-color]="backgroundColor">
+  <p class="f-w-600 f-s-14" [style.color]="textColor">{{ massage }}</p>
+</mat-chip>
+<mat-chip
+  class="rounded"
+  *ngIf="reqStatus === 'in progress'"
+  [style.background-color]="backgroundColor">
+  <p class="f-w-600 f-s-14" [style.color]="textColor">{{ massage }}</p>
+</mat-chip>

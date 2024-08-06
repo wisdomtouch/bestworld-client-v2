@@ -1,0 +1,54 @@
+<form *ngIf="formGroup" [formGroup]="formGroup">
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-lg-12 m-b-8" *ngIf="data.isStatus">
+        <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> สถานะ </mat-label>
+        <mat-radio-group aria-label="Select an option" class="m-t-8" [formControlName]="'status'">
+          <mat-radio-button value="true" color="primary">ใช้งาน</mat-radio-button>
+          <mat-radio-button value="false" color="primary">ไม่ใช้งาน</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="col-lg-12 m-b-8" *ngIf="data.isDate">
+        <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> เลือกวันที่ </mat-label>
+        <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+          <input
+            matInput
+            [matDatepicker]="start"
+            placeholder="วันที่เริ่ม"
+            name="startAt"
+            [formControlName]="'startDate'" />
+          <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+          <mat-datepicker #start></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+          <input
+            matInput
+            [matDatepicker]="end"
+            placeholder="วันที่สิ้นสุด"
+            name="endAt"
+            [formControlName]="'endDate'" />
+          <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+          <mat-datepicker #end></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-12 m-b-8" *ngIf="data.isName">
+        <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> สร้างโดย </mat-label>
+        <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+          <input [formControlName]="'createBy'" matInput type="text" placeholder="ค้นหา" />
+        </mat-form-field>
+      </div>
+      <div class="col-lg-12" *ngIf="data.isName">
+        <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> แก้ไขโดย </mat-label>
+        <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+          <input [formControlName]="'updateBy'" matInput type="text" placeholder="ค้นหา" />
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-flat-button class="button-add" (click)="onSubmit()">ใช้ตัวกรอง</button>
+    <button mat-flat-button class="m-l-8 button-close" (click)="onClearData()">
+      ล้างค่าตัวกรอง
+    </button>
+  </mat-dialog-actions>
+</form>

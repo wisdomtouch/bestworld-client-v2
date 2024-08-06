@@ -1,0 +1,100 @@
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+@font-face {
+  font-family: SukhumvitSet;
+  font-weight: 700;
+  src: url("../../assets/fonts/th/SukhumvitSet-Bold.ttf");
+}
+
+@font-face {
+  font-family: SukhumvitSet;
+  font-weight: 600;
+  src: url("../../assets/fonts/th/SukhumvitSet-SemiBold.ttf");
+  unicode-range: U+0E00 –u + 0e7F;
+}
+
+@font-face {
+  font-family: SukhumvitSet;
+  font-weight: 500;
+  src: url("../../assets/fonts/th/SukhumvitSet-Medium.ttf");
+  unicode-range: U+0E00 –u + 0e7F;
+}
+
+@font-face {
+  font-family: SukhumvitSet;
+  font-weight: 400;
+  src: url("../../assets/fonts/th/SukhumvitSet-Regular.ttf");
+  unicode-range: U+0E00 –u + 0e7F;
+}
+
+@font-face {
+  font-family: SukhumvitSet;
+  font-weight: 300;
+  src: url("../../assets/fonts/th/SukhumvitSet-Light.ttf");
+  unicode-range: U+0E00 –u + 0e7F;
+}
+
+// Font
+$font-family: "Be Vietnam Pro", "SukhumvitSet", sans-serif;
+
+// light color variable
+$sidebarbg: white;
+$background: white;
+$cardbg: white;
+$toolbar: white;
+$cardshadow:
+  rgb(145 158 171 / 30%) 0px 0px 2px 0px,
+  rgb(145 158 171 / 12%) 0px 12px 24px -4px;
+$hoverBgColor: #f6f9fc;
+
+// Dark color variable
+$darksidebarbg: #2a3447;
+$darkbackground: #2a3447;
+$darkcardbg: #2a3447;
+$darktoolbar: #2a3447;
+$darkcardshadow:
+  rgba(145, 158, 171, 0.3) 0px 0px 2px 0px,
+  rgba(145, 158, 171, 0.02) 0px 12px 24px -4px;
+$darkborderColor: #333f55;
+$darkformborderColor: #465670;
+$darkhoverbgcolor: #333f55;
+$darkthemelightprimary: #253662;
+$darkthemelightaccent: #1c455d;
+$darkthemelightwarning: #4d3a2a;
+$darkthemelighterror: #4b313d;
+$darkthemelightsuccess: #1b3c48;
+
+// Sidenav
+$sidenav-desktop: 270px !default;
+$sidenav-mini: 80px !default;
+$header-height: 70px !default;
+
+//BorderColor
+$borderColor: #e5eaef;
+$borderformColor: #dfe5ef;
+
+// custom
+$primary: #5d87ff;
+$accent: #49beff;
+$warning: #ffae1f;
+$error: #fa896b;
+$success: #13deb9;
+$white: #ffffff;
+
+$light: #f2f6fa;
+
+$gray-100: #7c8fac;
+
+$light-primary: #ecf2ff;
+$light-accent: #e8f7ff;
+$light-warning: #fef5e5;
+$light-error: #fdede8;
+$light-success: #e6fffa;
+
+// layout
+$boxedWidth: 1200px;
+
+$border-radius: 7px;
+
+// text color
+$textPrimary: #2a3547;

@@ -1,0 +1,66 @@
+name: Check Branch Condition
+
+on:
+  pull_request:
+    types: [ opened, reopened, edited ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  BRANCH_NAME_PATTERN: feature|hotfix|bugfix|release|feat|fix|refactor|style|test|perf|build|ci|docs|chore
+  BRANCH_NAME_MSG: feature/, hotfix/, bugfix/, release/, feat/, fix/, refactor/, style/, test/, perf/, build/, ci/, docs/, and chore/
+
+jobs:
+  check-branch:
+    name: Branch Condition
+    runs-on:
+      group: Self-Hosted
+    steps:
+      - name: Check the source branch name
+        if: ${{ contains(github.head_ref, '/') }}
+        run: |
+          if ! [[ "$(echo ${GITHUB_HEAD_REF} | cut -d "/" -f1)" =~ (${{ env.BRANCH_NAME_PATTERN }}) ]]; then
+            echo "Your branch name is not start with on of the following accepting criteria: ${{ env.BRANCH_NAME_MSG }}"
+            exit 1
+          elif [[ "$(echo ${GITHUB_BASE_REF} | cut -d "/" -f1)" =~ (${{ env.BRANCH_NAME_PATTERN }}) ]] && [[ "$(echo ${GITHUB_HEAD_REF} | cut -d "/" -f1)" =~ (${{ env.BRANCH_NAME_PATTERN }}) ]]; then
+            echo "Your branch name is follow the branch naming convention"
+            exit 0
+          elif ! [[ "$(echo ${GITHUB_BASE_REF})" =~ (develop) ]]; then
+            echo "Your target branch name is not match."
+            exit 1
+          else
+            echo "Your branch name is follow the branch naming convention"
+            exit 0
+          fi
+      - name: Check the target branch name - develop
+        if: ${{ github.head_ref == 'develop' }}
+        run: |
+          if ! [[ "$(echo ${GITHUB_BASE_REF})" =~ (staging) ]]; then
+            echo "Your target branch name is not match. Please, switch target branch name to 'staging'"
+            exit 1
+          else
+            echo "Your target branch is correctly destination"
+            exit 0
+          fi
+      - name: Check the target branch name - staging
+        if: ${{ github.head_ref == 'staging' }}
+        run: |
+          if ! [[ "$(echo ${GITHUB_BASE_REF})" =~ (production) ]]; then
+            echo "Your target branch name is not match. Please, switch target branch name to 'production'"
+            exit 1
+          else
+            echo "Your target branch is correctly destination"
+            exit 0
+          fi
+      - name: Check the target branch name - production
+        if: ${{ github.head_ref == 'production' }}
+        run: |
+          echo "Your can not merge to any branch from 'production'"
+          exit 1
+      - name: Check the source branch name without /
+        if: ${{ !contains(github.head_ref, '/') && github.head_ref != 'develop' && github.head_ref != 'staging' && github.head_ref != 'production' }}
+        run: |
+          echo "Your branch name is not start with on of the following accepting criteria: ${{ env.BRANCH_NAME_MSG }}"
+          exit 1

@@ -1,0 +1,30 @@
+<h1 class="text-center">เลือกระดับแอดมิน</h1>
+<mat-dialog-content>
+  <!--  <div *ngFor="let item of filteredItems">-->
+  <!--    <mat-checkbox-->
+  <!--      color="primary"-->
+  <!--      (change)="selectedRow($event, item)"-->
+  <!--      [checked]="checkBox(item.roleName)">-->
+  <!--      {{ item.roleName }}-->
+  <!--    </mat-checkbox>-->
+  <!--  </div>-->
+  <!--  <div *ngFor="let item of filteredItems">-->
+  <!--  <mat-radio-group-->
+  <!--    color="primary"-->
+  <!--    (change)="selectedRow($event, item)">-->
+  <!--    <mat-radio-button value="after" color="primary"-->
+  <!--    >{{ item.roleName }}</mat-radio-button-->
+  <!--    >-->
+  <!--  </mat-radio-group>-->
+  <!--  </div>-->
+
+  <mat-selection-list [multiple]="false" (selectionChange)="selectedRow($event)">
+    <mat-list-option *ngFor="let item of filteredItems" [value]="item.id">
+      {{ item.roleName }}
+    </mat-list-option>
+  </mat-selection-list>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-flat-button class="button-add" (click)="onSubmit()">ใช้ตัวกรอง</button>
+  <button mat-flat-button class="m-l-8 button-close" (click)="onClearData()">ล้างค่าตัวกรอง</button>
+</mat-dialog-actions>

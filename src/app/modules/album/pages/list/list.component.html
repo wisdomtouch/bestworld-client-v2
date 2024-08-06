@@ -1,0 +1,266 @@
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <!--  Header -->
+    <div class="row no-gutters justify-content-between align-items-center gap-12">
+      <!--  Right -->
+      <div class="row no-gutters gap-12 col-sm-12 col-md-9 align-items-center">
+        <div>
+          <button mat-stroked-button [matMenuTriggerFor]="filtermenu">
+            <mat-icon matSuffix>
+              <i-tabler name="adjustments-horizontal" class="icon-20"></i-tabler>
+            </mat-icon>
+            <span
+              matBadge="{{ this.filterCount === 0 ? null : this.filterCount }}"
+              matBadgeOverlap="false"
+              class="text-decoration-none"
+              >ตัวกรอง
+            </span>
+          </button>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <mat-form-field appearance="outline" class="w-100 hide-hint">
+            <input matInput placeholder="Search" [formControl]="searchInput" />
+            <mat-icon matSuffix>
+              <i-tabler name="search" class="icon-20"></i-tabler>
+            </mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!--  Left -->
+      <div class="row no-gutters col-sm-12 col-md-2 text-right">
+        <div class="col-sm-12 col-md-12">
+          <a href="/album/create" mat-flat-button color="primary">
+            <mat-icon matSuffix>
+              <i-tabler name="plus" class="icon-20"></i-tabler>
+            </mat-icon>
+            สร้าง
+          </a>
+        </div>
+      </div>
+    </div>
+    <mat-menu
+      #filtermenu="matMenu"
+      xPosition="before"
+      yPosition="below"
+      [hasBackdrop]="false"
+      [overlapTrigger]="false"
+      class="topbar-dd cardWithShadow">
+      <app-filter-menu
+        [filterMenuData]="filterMenuData"
+        (selectStartDateEvent)="selectStartDateEvent($event)"
+        (selectEndDateEvent)="selectEndDateEvent($event)"
+        (filterCountEvent)="filterCountEvent($event)"
+        (statusEvent)="statusEvent($event)"
+        (createByEvent)="createByEvent($event)"
+        (updateByEvent)="updateByEvent($event)"
+        (clearEvent)="clearChipEvent($event)"
+        (closeMenuEvent)="closeMenu()">
+      </app-filter-menu>
+    </mat-menu>
+    <div class="row justify-content-end m-t-8">
+      <mat-chip
+        class="m-r-4 m-t-4"
+        *ngFor="let item of searchGroup; let i = index"
+        [removable]="true"
+        (removed)="onRemoved(item.type)">
+        <p class="f-s-14">{{ item.name }}</p>
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <mat-chip
+        *ngIf="this.searchGroup.length > 0"
+        (removed)="clearAllChipEvent()"
+        class="bg-light-primary m-t-4 m-r-4">
+        <p class="f-s-14">ล้างทั้งหมด</p>
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive m-t-24" *ngIf="albumPagination">
+      <table
+        mat-table
+        [dataSource]="albumPagination.albums"
+        class="w-100"
+        matSort
+        matSortActive="updatedAt"
+        matSortDisableClear
+        matSortDirection="desc">
+        <!-- No Column -->
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14 p-l-0">No</th>
+          <td
+            mat-cell
+            *matCellDef="let element; let colIndex = index"
+            class="mat-body-1 f-s-14 p-l-0">
+            {{ albumPagination.pagination.page * albumPagination.pagination.size + 1 + colIndex }}
+          </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+            ชื่ออัลบั้ม
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+            <div class="d-flex align-items-center">
+              <button
+                class="remove-border cursor-pointer"
+                (click)="zoomImage(urlImage + element.image)">
+                <img
+                  [src]="urlImage + element.image"
+                  alt="users"
+                  width="50"
+                  height="50"
+                  class="rounded" />
+              </button>
+              <div class="m-l-16">
+                <p>
+                  {{ element.name }}
+                </p>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Artist Column -->
+        <ng-container matColumnDef="artist">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">ศิลปิน</th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+            <a
+              href="artist/detail/{{ element.artist.id }}"
+              target="_blank"
+              class="text-decoration-none">
+              {{ element.artist.name }}
+            </a>
+          </td>
+        </ng-container>
+
+        <!-- Count Column -->
+        <ng-container matColumnDef="count">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">จำนวนเพลง</th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+            {{ element.totalSong }}
+          </td>
+        </ng-container>
+
+        <!-- View Column -->
+        <ng-container matColumnDef="view">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+            จำนวนเข้าชม
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+            {{ element.totalView }}
+          </td>
+        </ng-container>
+
+        <!-- Created Column -->
+        <ng-container matColumnDef="createdAt">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            disableClear
+            class="f-w-600 mat-subtitle-1 f-s-14">
+            วันที่เพิ่ม
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+            {{ element.createdAt | date: "d/MM/yyyy H:mm" }}
+          </td>
+        </ng-container>
+
+        <!-- By Column -->
+        <ng-container matColumnDef="by">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">สร้างโดย</th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+            <a
+              href="admin/detail/{{ element.createdBy.id }}"
+              target="_blank"
+              class="text-decoration-none">
+              {{ element.createdBy.firstname }}
+            </a>
+          </td>
+        </ng-container>
+
+        <!-- UpdatedAt Column -->
+        <ng-container matColumnDef="updatedAt">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            disableClear
+            class="f-w-600 mat-subtitle-1 f-s-14">
+            แก้ไขล่าสุด
+          </th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+            {{ element.updatedAt | date: "d/MM/yyyy H:mm" }}
+          </td>
+        </ng-container>
+
+        <!-- ByEdit Column -->
+        <ng-container matColumnDef="byEdit">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">แก้ไขโดย</th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+            <a
+              href="admin/detail/{{ element.updatedBy.id }}"
+              target="_blank"
+              class="text-decoration-none">
+              {{ element.updatedBy.firstname }}
+            </a>
+          </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">สถานะ</th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+            <app-chip-status
+              [isActive]="element.isActive"
+              [backgroundColor]="
+                element.isActive ? chipColorConstants.activeColor : chipColorConstants.inActiveColor
+              "
+              [textColor]="
+                element.isActive
+                  ? chipColorConstants.activeColorText
+                  : chipColorConstants.inActiveColorText
+              "
+              [massage]="element.isActive ? 'เปิดใช้งาน' : 'ปิดใช้งาน'">
+            </app-chip-status>
+          </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">Action</th>
+          <td mat-cell *matCellDef="let element" class="mat-body-1 f-s-14">
+            <div *ngIf="accountAlbumPermission" class="m-l-16">
+              <a
+                href="/album/detail/{{ element.id }}"
+                *ngIf="accountAlbumPermission.isGet"
+                class="m-r-10 cursor-pointer">
+                <i-tabler name="eye" class="icon-18"></i-tabler>
+              </a>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="albumDisplayColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: albumDisplayColumns"></tr>
+      </table>
+    </div>
+    <div *ngIf="albumPagination && albumPagination.albums.length <= 0">
+      <app-data-not-found></app-data-not-found>
+    </div>
+
+    <!--  Pagination -->
+    <mat-paginator
+      class="m-t-12"
+      *ngIf="albumPagination"
+      [length]="albumPagination.pagination.length"
+      (page)="(albumPagination.pagination.page)"
+      [pageSize]="albumPagination.pagination.size"
+      [pageSizeOptions]="paginationOption.pageSize"
+      [showFirstLastButtons]="true">
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>

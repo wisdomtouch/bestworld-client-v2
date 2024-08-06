@@ -1,0 +1,68 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "esModuleInterop": true,
+    // Strict Mode
+    "strict": true,
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "useUnknownInCatchVariables": true,
+    // No Unused Code
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    // No Implicit Code
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    // Others
+    "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noFallthroughCasesInSwitch": true,
+    "exactOptionalPropertyTypes": false,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "preserveConstEnums": true,
+    "moduleResolution": "Node",
+    "importHelpers": true,
+    "useDefineForClassFields": false,
+    "skipLibCheck": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "paths": {
+      "@app/*": ["./src/app/*"],
+      "@components/*": ["./src/app/components/*"],
+      "@constants/*": ["./src/app/constants/*"],
+      "@core/*": ["./src/app/core/*"],
+      "@layouts/*": ["./src/app/layouts/*"],
+      "@modules/*": ["./src/app/modules/*"],
+      "@pipes/*": ["./src/app/pipes/*"],
+      "@services/*": ["./src/app/services/*"],
+      "@utils/*": ["src/app/shared/utils/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@environments/*": ["./src/environments/*"]
+    }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"],
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true,
+    "types": ["apexcharts"]
+  }
+}

@@ -1,0 +1,17 @@
+services:
+  admin:
+    platform: "linux/amd64"
+    build:
+      context: ./
+      dockerfile: ./docker/merge/Dockerfile
+    container_name: ketube-admin
+    volumes:
+      - admin_node_modules:/srv/app/node_modules
+    networks:
+      - ketube-networks
+
+volumes:
+  admin_node_modules:
+
+networks:
+  ketube-networks:

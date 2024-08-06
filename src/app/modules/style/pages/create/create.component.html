@@ -1,0 +1,59 @@
+<form *ngIf="formGroup" [formGroup]="formGroup">
+  <mat-card class="cardWithShadow theme-card">
+    <mat-card-header class="bg-extra-light">
+      <mat-card-title class="m-b-0">เพิ่มแนวเพลง</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="b-t-1">
+      <div>
+        <div class="row m-t-20">
+          <div class="col-lg-6">
+            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+              ชื่อแนวเพลง <span class="text-error">*</span>
+            </mat-label>
+            <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+              <input id="styleName" [formControlName]="'name'" matInput type="text" />
+              <mat-error *ngIf="formGroup.get('name')?.hasError('required')">
+                กรูณากรอก ชื่อแนวเพลง
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> Slug </mat-label>
+            <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+              <input [formControlName]="'slug'" matInput type="text" />
+              <mat-error *ngIf="formGroup.get('slug')?.hasError('required')">
+                กรูณากรอก slug
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('slug')?.hasError('invalidSlug')">
+                ไม่สามารถใช้อักขระพิเศษและตัวพิมพ์ใหญ่ได้ Ex. name-news
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-12">
+            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> สถานะ </mat-label>
+            <mat-slide-toggle [formControlName]="'isActive'" class="m-l-auto"></mat-slide-toggle>
+            {{ formGroup.get("isActive")?.value === true ? "ใช้งาน" : "ปิดการใช้งาน" }}
+          </div>
+        </div>
+      </div>
+
+      <div class="m-t-12" *ngIf="isShowAlert">
+        <app-alert [color]="'error'">
+          {{ alertMessage }}
+        </app-alert>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="b-t-1">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="submitForm()"
+        [disabled]="formGroup.disabled">
+        {{ !formGroup.disabled ? "บันทึก" : "Loading..." }}
+      </button>
+      <a href="/style/list" mat-flat-button color="warn" class="m-l-8">ยกเลิก</a>
+    </mat-card-actions>
+  </mat-card>
+</form>

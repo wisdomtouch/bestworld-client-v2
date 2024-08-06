@@ -1,0 +1,226 @@
+<form class="admin-container" *ngIf="formGroup" [formGroup]="formGroup">
+  <mat-card class="cardWithShadow theme-card">
+    <div class="row justify-content-space-between align-items-lg-center">
+      <div class="col-6">
+        <mat-card-header>
+          <mat-card-title class="m-b-0">แก้ไขแอดมิน</mat-card-title>
+        </mat-card-header>
+      </div>
+      <div class="col-6">
+        <div class="row justify-content-end align-items-lg-center m-r-16">
+          <div class="m-t-8">
+            <button
+              mat-flat-button
+              color="warn"
+              *ngIf="accountAdminPermission?.isDelete"
+              class="remove-border m-r-10 cursor-pointer"
+              (click)="openDialogDelect(formGroup.value.id)">
+              <mat-icon matSuffix>
+                <i-tabler name="trash" class="icon-20"></i-tabler>
+              </mat-icon>
+              <mat-card-title class="f-s-16">ลบข้อมูล</mat-card-title>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <mat-card-content class="b-t-1">
+      <!-- Person Info -->
+      <div>
+        <div class="row m-t-20">
+          <!-- Input Email -->
+          <div class="col-lg-6">
+            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+              อีเมล <span class="text-error">*</span></mat-label
+            >
+            <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+              <input id="email" [formControlName]="'email'" matInput type="text" />
+              <mat-error *ngIf="formGroup.get('email')?.hasError('required')">
+                กรูณากรอก อีเมล
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('email')?.hasError('email')">
+                อีเมล ไม่ถูกต้อง
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6">
+            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+              ระดับแอดมิน <span class="text-error">*</span></mat-label
+            >
+            <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+              <mat-select [formControlName]="'roleId'">
+                <mat-option *ngFor="let val of rolesPagination?.roles" value="{{ val.id }}">{{
+                  val.roleName
+                }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="formGroup.get('roleId')?.hasError('required')">
+                กรูณาเลือก ระดับแอดมิน
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6">
+            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+              ชื่อ <span class="text-error">*</span></mat-label
+            >
+            <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+              <input id="firstName" [formControlName]="'firstName'" matInput type="text" />
+              <mat-error *ngIf="formGroup.get('firstName')?.hasError('required')">
+                กรูณากรอก ชื่อ
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6">
+            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+              นามสกุล <span class="text-error">*</span></mat-label
+            >
+            <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+              <input id="lastName" [formControlName]="'lastName'" matInput type="text" />
+              <mat-error *ngIf="formGroup.get('lastName')?.hasError('required')">
+                กรูณากรอก ชื่อ
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+              เบอร์โทร <span class="text-error">*</span></mat-label
+            >
+            <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+              <input id="mobile" [formControlName]="'mobile'" matInput type="text" />
+              <mat-error *ngIf="formGroup.get('mobile')?.hasError('required')">
+                กรูณากรอก เบอร์โทร
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('mobile')?.hasError('minlength')">
+                เบอร์โทรต้องมีอย่างน้อย 9 ตัวอักษร
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('mobile')?.hasError('maxlength')">
+                เบอร์โทรต้องมีไม่เกิน 10 ตัวอักษร
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-6">
+            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> ที่อยู่ </mat-label>
+            <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+              <input [formControlName]="'address'" matInput type="text" />
+              <mat-error *ngIf="formGroup.get('address')?.hasError('required')">
+                กรูณากรอก ที่อยู่
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-12 m-b-16">
+            <mat-checkbox color="primary" (click)="changePassword(isChange)">
+              <span class="mat-subtitle-2 f-w-600 d-block"> เปลี่ยนรหัสผ่าน </span>
+            </mat-checkbox>
+          </div>
+
+          <div *ngIf="isChange" class="col-lg-6">
+            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+              สร้างรหัสผ่าน <span class="text-error">*</span></mat-label
+            >
+            <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+              <input
+                matInput
+                [type]="passwordHide ? 'password' : 'text'"
+                [formControlName]="'password'" />
+              <button
+                mat-icon-button
+                matSuffix
+                (click)="passwordHide = !passwordHide"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="passwordHide">
+                <mat-icon class="op-5">{{
+                  passwordHide ? "visibility_off" : "visibility"
+                }}</mat-icon>
+              </button>
+              <mat-error *ngIf="formGroup.get('password')?.hasError('required')">
+                กรูณากรอก รหัสผ่าน
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('password')?.hasError('minlength')">
+                รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร เราขอแนะนำให้ใส่ตัวเลขอย่างน้อย 1
+                ตัวและอักขระพิเศษ 1 ตัว
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div *ngIf="isChange" class="col-lg-6">
+            <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+              ยืนยันรหัสผ่าน <span class="text-error">*</span></mat-label
+            >
+            <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+              <input
+                matInput
+                [type]="confirmPasswordHide ? 'password' : 'text'"
+                [formControlName]="'confirmPassword'" />
+              <button
+                mat-icon-button
+                matSuffix
+                (click)="confirmPasswordHide = !confirmPasswordHide"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="confirmPasswordHide">
+                <mat-icon class="op-5">{{
+                  confirmPasswordHide ? "visibility_off" : "visibility"
+                }}</mat-icon>
+              </button>
+              <mat-error *ngIf="formGroup.get('confirmPassword')?.hasError('required')">
+                กรูณากรอก ยืนยันรหัสผ่าน
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('confirmPassword')?.hasError('minlength')">
+                รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร เราขอแนะนำให้ใส่ตัวเลขอย่างน้อย 1
+                ตัวและอักขระพิเศษ 1 ตัว
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('confirmPassword')?.hasError('confirmedValidator')">
+                รหัสผ่านไม่ตรงกัน
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"
+          >รูปโปรไฟล์<span class="text-error">*</span></mat-label
+        >
+        <div class="col-md-4 m-b-16">
+          <div [class]="!isClickImage ? 'card-image border-red' : 'card-image'">
+            <div
+              class="flex-column no-gutters align-items-center justify-content-center cursor-pointer p-10">
+              <img *ngIf="imageSrc" [src]="imageSrc" alt="Image Profile" class="w-100 h-200 img" />
+              <div class="d-flex no-gutters justify-content-center">
+                <app-crop-image
+                  [imgSrcOld]="imageSrc"
+                  [width]="180"
+                  [height]="180"
+                  [key]="'adminProfile'"
+                  (imageAdminProfileReady)="imageAdminProfileEvent($event)">
+                </app-crop-image>
+              </div>
+            </div>
+            <span class="f-s-14 d-block">เฉพาะไฟล์ JPEG และ PNG ขนาดสูงสุด 500 KB</span>
+          </div>
+          <mat-error *ngIf="!isClickImage" class="f-s-12 f-w-100 l-s-3">
+            กรุณาเลือก รูปแอดมิน
+          </mat-error>
+        </div>
+      </div>
+
+      <div class="m-t-12" *ngIf="isShowAlert">
+        <app-alert [color]="'error'">
+          {{ alertMessage }}
+        </app-alert>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="b-t-1">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="submitForm()"
+        [disabled]="formGroup.disabled">
+        {{ !formGroup.disabled ? "บันทึก" : "Loading..." }}
+      </button>
+      <a href="/admin/list" mat-flat-button color="warn" class="m-l-8">ยกเลิก</a>
+    </mat-card-actions>
+  </mat-card>
+</form>

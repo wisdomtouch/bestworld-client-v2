@@ -1,0 +1,79 @@
+<div class="image-zoom-card p-20">
+  <p class="f-w-500 f-s-20">ดูตัวอย่างโฆษณา</p>
+  <img [src]="data.url" alt="Logo image" class="image-logo" />
+  <p *ngIf="data.isClick === 1 && data.position === 'home-banner'" class="f-w-200 f-s-16">
+    Scale 1:1 , Dimension = 637x342 , Size : {{ data.fileSizeDesktop }} MB
+  </p>
+  <p *ngIf="data.isClick === 2 && data.position === 'home-banner'" class="f-w-200 f-s-16">
+    Scale 1:1 , Dimension = 316x170 , Size : {{ data.fileSizeMobile }} MB
+  </p>
+  <p
+    *ngIf="
+      (data.isClick === 1 && data.position === 'home-between-new-music') ||
+      (data.isClick === 1 && data.position === 'search-recommend-music') ||
+      (data.isClick === 1 && data.position === 'playlist-right')
+    "
+    class="f-w-200 f-s-16">
+    Scale 1:1 , Dimension = 180x180 , Size : {{ data.fileSizeDesktop }} MB
+  </p>
+  <p
+    *ngIf="
+      (data.isClick === 2 && data.position === 'home-between-new-music') ||
+      (data.isClick === 2 && data.position === 'search-recommend-music') ||
+      (data.isClick === 2 && data.position === 'playlist-right')
+    "
+    class="f-w-200 f-s-16">
+    Scale 1:1 , Dimension = 160x160 , Size : {{ data.fileSizeMobile }} MB
+  </p>
+  <p
+    *ngIf="
+      (data.isClick === 1 && data.position === 'home-bottom') ||
+      (data.isClick === 1 && data.position === 'playlist-recommend-bottom') ||
+      (data.isClick === 1 && data.position === 'playlist-bottom') ||
+      (data.isClick === 1 && data.position === 'artist-top-hit-bottom') ||
+      (data.isClick === 1 && data.position === 'artist-all-bottom') ||
+      (data.isClick === 1 && data.position === 'artist-bottom')
+    "
+    class="f-w-200 f-s-16">
+    Scale 1:1 , Dimension = 970x120 , Size : {{ data.fileSizeDesktop }} MB
+  </p>
+  <p
+    *ngIf="
+      (data.isClick === 1 && data.position === 'karaoke-bottom') ||
+      (data.isClick === 1 && data.position === 'field-search-karaoke') ||
+      (data.isClick === 1 && data.position === 'album-bottom')
+    "
+    class="f-w-200 f-s-16">
+    Scale 1:1 , Dimension = 970x90 , Size : {{ data.fileSizeDesktop }} MB
+  </p>
+  <p *ngIf="data.isClick === 1 && data.position === 'field-search-home'" class="f-w-200 f-s-16">
+    Scale 1:1 , Dimension = 500x57 , Size : {{ data.fileSizeDesktop }} MB
+  </p>
+  <p
+    *ngIf="
+      (data.isClick === 2 && data.position === 'home-bottom') ||
+      (data.isClick === 2 && data.position === 'playlist-recommend-bottom') ||
+      (data.isClick === 2 && data.position === 'playlist-bottom') ||
+      (data.isClick === 2 && data.position === 'artist-top-hit-bottom') ||
+      (data.isClick === 2 && data.position === 'artist-all-bottom') ||
+      (data.isClick === 2 && data.position === 'artist-bottom')
+    "
+    class="f-w-200 f-s-16">
+    Scale 1:1 , Dimension = 320x320 , Size : {{ data.fileSizeMobile }} MB
+  </p>
+  <p
+    *ngIf="
+      (data.isClick === 2 && data.position === 'karaoke-bottom') ||
+      (data.isClick === 2 && data.position === 'field-search-karaoke') ||
+      (data.isClick === 2 && data.position === 'album-bottom')
+    "
+    class="f-w-200 f-s-16">
+    Scale 1:1 , Dimension = 300x50 , Size : {{ data.fileSizeMobile }} MB
+  </p>
+  <p *ngIf="data.isClick === 2 && data.position === 'field-search-home'" class="f-w-200 f-s-16">
+    Scale 1:1 , Dimension = 312x70 , Size : {{ data.fileSizeMobile }} MB
+  </p>
+  <div class="btn-close">
+    <button mat-flat-button color="warn" class="ml-4" (click)="onClose()">ปิด</button>
+  </div>
+</div>

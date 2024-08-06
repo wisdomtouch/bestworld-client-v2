@@ -1,0 +1,32 @@
+.admin-detail-container {
+  .img {
+    object-fit: contain;
+  }
+
+  .h-250 {
+    height: 250px;
+  }
+
+  .card-image {
+    padding: 16px 12px;
+    text-align: center;
+    border: 1px dashed #585858;
+    border-radius: 8px;
+  }
+
+  .border-red {
+    border: 1px dashed #fa896b;
+  }
+
+  .l-s-3 {
+    letter-spacing: 0.0333em;
+  }
+}
+
+.dot {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  background-color: #bbb;
+  border-radius: 50%;
+}

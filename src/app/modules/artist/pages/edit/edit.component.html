@@ -1,0 +1,209 @@
+<form class="artist-container" *ngIf="formGroup" [formGroup]="formGroup">
+  <mat-card class="cardWithShadow theme-card">
+    <div class="row no-gutters justify-content-space-between align-items-lg-center bg-extra-light">
+      <div class="col-6">
+        <mat-card-header>
+          <mat-card-title>แก้ไขศิลปิน</mat-card-title>
+        </mat-card-header>
+      </div>
+      <div class="col-6">
+        <div class="row justify-content-end align-items-lg-center m-r-16">
+          <div class="m-t-8">
+            <button
+              mat-flat-button
+              color="warn"
+              *ngIf="accountArtistPermission?.isDelete"
+              class="remove-border m-r-10 cursor-pointer"
+              (click)="openDialogDelete(formGroup.value.id)">
+              <mat-icon matSuffix>
+                <i-tabler name="trash" class="icon-20"></i-tabler>
+              </mat-icon>
+              <mat-card-title class="f-s-16">ลบข้อมูล</mat-card-title>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <mat-card-content class="b-t-1">
+      <div>
+        <div class="row m-t-20">
+          <div class="col-sm-12 col-lg-8">
+            <div class="row">
+              <div class="col-lg-10">
+                <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+                  ชื่อศิลปิน<span class="text-error">*</span>
+                </mat-label>
+                <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+                  <input id="artistName" [formControlName]="'name'" matInput type="text" />
+                  <mat-error *ngIf="formGroup.get('name')?.hasError('required')">
+                    กรุณากรอก ชื่อศิลปิน
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-2">
+                <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> สีตัวอักษร </mat-label>
+                <mat-form-field appearance="outline" class="w-100 m-b-8">
+                  <mat-select
+                    [formControlName]="'codeColor'"
+                    (selectionChange)="selectColor($event)">
+                    <mat-select-trigger class="h-20">
+                      <span
+                        class="border-color rounded-circle icon-18 d-flex align-items-center justify-content-center"
+                        [ngStyle]="{ background: this.code }"></span>
+                    </mat-select-trigger>
+                    <mat-option [value]="'#000'">
+                      <span
+                        class="rounded-circle icon-15 d-flex"
+                        [ngStyle]="{ background: '#000' }">
+                      </span>
+                    </mat-option>
+                    <mat-option [value]="'#fff'">
+                      <span
+                        class="rounded-circle icon-15 d-flex"
+                        [ngStyle]="{ background: '#fff', border: '1px solid' }">
+                      </span>
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="col-lg-12">
+                <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> Slug </mat-label>
+                <mat-form-field appearance="outline" class="w-100 m-b-8" color="primary">
+                  <input [formControlName]="'slug'" matInput type="text" />
+                  <mat-error *ngIf="formGroup.get('slug')?.hasError('required')">
+                    กรุณากรอก slug
+                  </mat-error>
+                  <mat-error *ngIf="formGroup.get('slug')?.hasError('invalidSlug')">
+                    ไม่สามารถใช้อักขระพิเศษและตัวพิมพ์ใหญ่ได้ Ex. name-news
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-12 m-b-8">
+                <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">
+                  แนวเพลง<span class="text-error">*</span>
+                </mat-label>
+                <mat-form-field
+                  appearance="outline"
+                  class="w-100"
+                  [class]="isStyle ? 'input-border-red' : ''">
+                  <input [formControlName]="'styleIds'" matInput type="text" />
+                </mat-form-field>
+                <mat-error *ngIf="isStyle" class="f-s-12 f-w-100 l-s-3">
+                  กรุณาเลือก แนวเพลง
+                </mat-error>
+                <button
+                  mat-flat-button
+                  id="addStyle"
+                  color="primary"
+                  class="m-r-8 m-b-8"
+                  type="button"
+                  (click)="openDialog()">
+                  เพิ่มแนวเพลง
+                </button>
+              </div>
+              <div class="col-lg-12 m-b-16">
+                <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"> รายละเอียด </mat-label>
+                <ckeditor
+                  #editorDescription
+                  id="editorDescription"
+                  [data]="descriptionEdit"
+                  [config]="editorConfig"
+                  (ready)="onReady($event)"
+                  (change)="onChangeDescription($event)"
+                  [editor]="Editor">
+                </ckeditor>
+                <mat-error *ngIf="isDescription" class="f-s-12 f-w-100 l-s-3">
+                  กรุณากรอก รายละเอียด
+                </mat-error>
+              </div>
+              <div class="col-lg-12">
+                <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block m-t-16"> สถานะ </mat-label>
+                <mat-slide-toggle
+                  [formControlName]="'isActive'"
+                  class="m-l-auto"></mat-slide-toggle>
+                <span>{{
+                  formGroup.get("isActive")?.value === true ? "ใช้งาน" : "ปิดการใช้งาน"
+                }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-4">
+            <div class="col-12 m-b-16">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"
+                >รูปศิลปิน<span class="text-error">*</span></mat-label
+              >
+              <div [class]="!isClickImage ? 'card-image border-red' : 'card-image'">
+                <div
+                  class="flex-column no-gutters align-items-center justify-content-center cursor-pointer p-10">
+                  <img
+                    *ngIf="imageSrc"
+                    [src]="imageSrc"
+                    alt="Image Profile"
+                    class="w-100 h-200 img" />
+                  <div class="d-flex no-gutters justify-content-center">
+                    <app-crop-image
+                      [imgSrcOld]="imageSrc"
+                      [width]="180"
+                      [height]="180"
+                      [key]="'artistProfile'"
+                      (imageArtistProfileReady)="imageArtistProfileEvent($event)">
+                    </app-crop-image>
+                  </div>
+                </div>
+                <span class="f-s-14 d-block">เฉพาะไฟล์ JPEG และ PNG ขนาดสูงสุด 500 KB </span>
+              </div>
+              <mat-error *ngIf="!isClickImage" class="f-s-12 f-w-100 l-s-3">
+                กรุณาเลือก รูปศิลปิน
+              </mat-error>
+            </div>
+            <div class="col-12 m-b-16">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block"
+                >รูปหน้าปกศิลปิน<span class="text-error">*</span></mat-label
+              >
+              <div [class]="!isClickImageCover ? 'card-image border-red' : 'card-image'">
+                <div class="flex-column no-gutters align-items-center justify-content-center p-10">
+                  <img
+                    *ngIf="imageSrcCover"
+                    [src]="imageSrcCover"
+                    alt="Image Cover"
+                    class="w-100 h-200 img" />
+                  <div class="d-flex no-gutters justify-content-center">
+                    <app-crop-image
+                      [imgSrcOld]="imageSrcCover"
+                      [width]="1280"
+                      [height]="460"
+                      [key]="'artistCover'"
+                      (imageArtistCoverReady)="imageArtistCoverEvent($event)" />
+                  </div>
+                </div>
+                <span class="f-s-14 d-block">เฉพาะไฟล์ JPEG และ PNG ขนาดสูงสุด 500 KB</span>
+              </div>
+              <mat-error *ngIf="!isClickImageCover" class="f-s-12 f-w-100 l-s-3">
+                กรุณาเลือก รูปปกศิลปิน
+              </mat-error>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-t-12" *ngIf="isShowAlert">
+        <app-alert [color]="'error'">
+          {{ alertMessage }}
+        </app-alert>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="b-t-1">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="submitForm()"
+        [disabled]="formGroup.disabled">
+        {{ !formGroup.disabled ? "บันทึก" : "Loading..." }}
+      </button>
+      <a href="/artist/list" mat-flat-button color="warn" class="m-l-8">ยกเลิก</a>
+    </mat-card-actions>
+  </mat-card>
+</form>

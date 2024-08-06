@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>กรุณา crop รูปที่ต้องการ</h1>
+<div mat-dialog-content>
+  <image-cropper
+    [maintainAspectRatio]="true"
+    [aspectRatio]="data.width / data.height"
+    [imageFile]="data.image"
+    [resizeToHeight]="data.height"
+    [resizeToWidth]="data.width"
+    (imageCropped)="imageCropped($event)"></image-cropper>
+</div>
+
+<mat-dialog-actions>
+  <button mat-flat-button class="button-add" [mat-dialog-close]="result()" cdkFocusInitial>
+    เสร็จสิ้น
+  </button>
+  <button mat-flat-button class="button-close" [mat-dialog-close]="false">ยกเลิก</button>
+</mat-dialog-actions>

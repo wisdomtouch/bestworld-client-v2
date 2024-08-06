@@ -1,0 +1,36 @@
+name: Code Analysis
+on:
+  push:
+    branches:
+      - develop
+      - staging
+      - production
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  code_analysis:
+    name: Code analysis - Main branch
+    if: false
+    runs-on:
+      group: Self-Hosted
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+        continue-on-error: true
+
+      - name: Code scanning
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        continue-on-error: true
+
+      - name: Clean up .scannerwork folder
+        run: |
+          docker run --name sonar --volume "$(pwd):/usr/src" sonarsource/sonar-scanner-cli rm -rf .scannerwork
+          docker container rm -f sonar

@@ -1,0 +1,248 @@
+<mat-card class="cardWithShadow theme-card">
+  <mat-card-header class="d-flex justify-content-between">
+    <mat-card-title class="m-b-0">รายละเอียดเพลย์ลิสต์</mat-card-title>
+    <a
+      href="/playlist/edit/{{ playlistDetail?.id }}"
+      mat-raised-button
+      color="primary"
+      class="m-r-8">
+      <div class="d-flex align-items-center">
+        <i-tabler class="icon-20" name="edit"></i-tabler> แก้ไข
+      </div>
+    </a>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <div class="row justify-content-between">
+      <div class="flex-column col-lg-5 col-sm-12 col-md-12">
+        <div class="d-flex col-12 justify-content-space-between">
+          <div class="col-sm-4 col-md-4 m-r-16">
+            <p class="f-w-500">Playlist ID</p>
+          </div>
+          <div class="col-sm-8 col-md-8">
+            <p class="f-w-300">{{ playlistDetail?.id }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-3 m-r-16">
+            <p class="f-w-600">ชื่อเพลย์ลิสต์</p>
+          </div>
+          <div class="row col-10 justify-content-center">
+            <div class="d-flex justify-content-start col-6">
+              <p class="f-w-300">{{ playlistDetail?.name }}</p>
+            </div>
+            <div class="row justify-content-start col-4">
+              <span
+                *ngIf="codeColor"
+                class="dot m-t-16 m-r-10"
+                [ngStyle]="{ 'background-color': codeColor, border: '1px solid' }"></span>
+              <p class="f-w-300">{{ playlistDetail?.codeColor }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-space-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-500">Slug</p>
+          </div>
+          <div class="col-8">
+            <p class="f-w-300">{{ playlistDetail?.slug }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-space-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">แนวเพลง</p>
+          </div>
+          <div class="col-8">
+            <div class="d-flex gap-8 style-item">
+              <div *ngFor="let item of playlistDetail?.style">
+                <a href="style/detail/{{ item.id }}" target="_blank" class="text-decoration-none">
+                  <p class="f-w-300">{{ item.name }}</p>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-space-between">
+          <div class="col-4 m-r-16">
+            <p class="f-w-600">สถานะปัจจุบัน</p>
+          </div>
+          <div class="d-flex col-8 align-items-lg-center">
+            <app-chip-status
+              [isActive]="playlistDetail?.isActive"
+              [backgroundColor]="
+                playlistDetail?.isActive
+                  ? chipColorConstants.activeColor
+                  : chipColorConstants.inActiveColor
+              "
+              [textColor]="
+                playlistDetail?.isActive
+                  ? chipColorConstants.activeColorText
+                  : chipColorConstants.inActiveColorText
+              "
+              [massage]="playlistDetail?.isActive ? 'เปิดใช้งาน' : 'ปิดใช้งาน'">
+            </app-chip-status>
+          </div>
+        </div>
+      </div>
+      <div class="playlist-detail-container col-lg-7 col-sm-12 col-md-12">
+        <div class="row justify-content-end p-b-16 m-r-16">
+          <div class="col-lg-6 col-md-12 col-sm-12">
+            <p class="m-b-16 f-w-600">รูปเพลย์ลิสต์</p>
+            <div [class]="'card-image'" class="col-12">
+              <div>
+                <div
+                  *ngIf="!playlistDetail?.image"
+                  class="bg-light-primary d-flex align-items-center justify-content-center cursor-pointer rounded h-250">
+                  <img src="assets/images/banners/no-image.png" alt="image" width="54" />
+                </div>
+                <img
+                  *ngIf="playlistDetail?.image"
+                  [src]="urlImage + playlistDetail?.image"
+                  alt="artist"
+                  class="rounded w-100 h-250 img" />
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-12 col-sm-12">
+            <p class="m-b-16 f-w-600">รูปหน้าปกเพลย์ลิสต์</p>
+            <div [class]="'card-image'" class="col-12">
+              <div>
+                <div
+                  *ngIf="!playlistDetail?.coverPage"
+                  class="bg-light-primary d-flex align-items-center justify-content-center cursor-pointer rounded h-250">
+                  <img src="assets/images/banners/no-image.png" alt="image" width="54" />
+                </div>
+                <img
+                  *ngIf="playlistDetail?.coverPage"
+                  [src]="urlImage + playlistDetail?.coverPage"
+                  alt="artist"
+                  class="rounded w-100 h-250 img" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-between">
+      <div class="flex-column col-lg-10 col-sm-12 col-md-12">
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-sm-4 col-md-2">
+            <p class="f-w-600">รายละเอียด</p>
+          </div>
+          <cdk-virtual-scroll-viewport
+            appendOnly
+            itemSize="50"
+            class="scroll-viewport col-sm-8 col-md-10 m-l-16 m-t-10">
+            <div [innerHTML]="playlistDetail?.description" class="p-x-16 p-y-10">
+              {{ playlistDetail?.description }}
+            </div>
+          </cdk-virtual-scroll-viewport>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 col-sm-4 col-md-2">
+            <p class="f-w-500">Partner</p>
+          </div>
+          <div class="col-8 col-sm-8 col-md-10">
+            <p class="f-w-300">{{ playlistDetail?.partner?.name ?? "-" }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 col-sm-4 col-md-2">
+            <p class="f-w-500">Publish Date</p>
+          </div>
+          <div class="col-8 col-sm-8 col-md-10">
+            <p class="f-w-300">{{ playlistDetail?.createdAt | date: "d/MM/yyyy ,H:mm" }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 col-sm-4 col-md-2">
+            <p class="f-w-600">สร้างโดย</p>
+          </div>
+          <div class="col-8 col-sm-8 col-md-10">
+            <a
+              href="admin/detail/{{ playlistDetail?.createdBy?.id }}"
+              target="_blank"
+              class="text-decoration-none">
+              <p class="f-w-300">
+                {{ playlistDetail?.createdBy?.firstname }} {{ playlistDetail?.createdBy?.lastname }}
+              </p>
+            </a>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 col-sm-4 col-md-2">
+            <p class="f-w-600">วันที่แก้ไข</p>
+          </div>
+          <div class="col-8 col-sm-8 col-md-10">
+            <p class="f-w-300">{{ playlistDetail?.updatedAt | date: "d/MM/yyyy ,H:mm" }}</p>
+          </div>
+        </div>
+        <div class="d-flex col-12 justify-content-between">
+          <div class="col-4 col-sm-4 col-md-2">
+            <p class="f-w-600">แก้ไขโดย</p>
+          </div>
+          <div class="col-8 col-sm-8 col-md-10">
+            <a
+              href="admin/detail/{{ playlistDetail?.updatedBy?.id }}"
+              target="_blank"
+              class="text-decoration-none">
+              <p class="f-w-300">
+                {{ playlistDetail?.updatedBy?.firstname }} {{ playlistDetail?.updatedBy?.lastname }}
+              </p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <mat-card class="cardWithShadow theme-card m-t-16" *ngIf="isShow">
+      <mat-card-content>
+        <div class="row m-l-20">
+          <div>
+            <button mat-stroked-button class="m-r-10">ทั้งหมด</button>
+          </div>
+          <div>
+            <button mat-stroked-button class="m-r-10">ย้อนหลัง 7 วัน</button>
+          </div>
+          <div>
+            <button mat-stroked-button class="m-r-10">ย้อนหลัง 30 วัน</button>
+          </div>
+          <div>
+            <button mat-stroked-button class="m-r-10">แสดงเฉพาะเดือนนี้</button>
+          </div>
+          <div>
+            <button mat-stroked-button class="m-r-10">กำหนดเอง</button>
+          </div>
+        </div>
+        <div class="row justify-content-space-around m-b-10">
+          <div class="col-lg-6 col-sm-12 col-md-6 m-b-10">
+            <mat-card-header>
+              <mat-card-title class="f-s-16">จำนวนการเข้าเพลย์ลิสต์</mat-card-title>
+              <mat-card-subtitle class="mat-body-1"
+                >ตั้งแต่ (วันเริ่มเผยแพร่เพลย์ลิสต์) ถึง ปัจจุบัน
+              </mat-card-subtitle>
+            </mat-card-header>
+            <div class="d-flex align-items-center m-l-20">
+              <i-tabler name="eye-filled" class="icon-40 m-r-8"></i-tabler>
+              <h2 class="f-s-32">1000</h2>
+            </div>
+          </div>
+        </div>
+        <mat-card-header>
+          <mat-card-title class="m-b-0">Statistic {{ playlistDetail?.name }} </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="b-t-1">
+          <apx-chart
+            [series]="gredientChartOptions.series"
+            [chart]="gredientChartOptions.chart"
+            [stroke]="gredientChartOptions.stroke"
+            [xaxis]="gredientChartOptions.xaxis"
+            [fill]="gredientChartOptions.fill"
+            [markers]="gredientChartOptions.markers"
+            [yaxis]="gredientChartOptions.yaxis"
+            [plotOptions]="gredientChartOptions.plotOptions"
+            [tooltip]="gredientChartOptions.tooltip"
+            [grid]="gredientChartOptions.grid">
+          </apx-chart>
+        </mat-card-content>
+      </mat-card-content>
+    </mat-card> </mat-card-content
+></mat-card>

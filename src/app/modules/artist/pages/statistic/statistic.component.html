@@ -1,0 +1,47 @@
+<mat-card class="cardWithShadow theme-card col-lg-12">
+  <div class="col-lg-4 col-sm-12 col-md-12 m-b-10">
+    <mat-card-title class="f-s-18 m-t-16">จำนวนศิลปินทั้งหมด</mat-card-title>
+    <mat-card-subtitle class="mat-body-1"
+      >ตั้งแต่ {{ artistStat?.statDate | date: "d/MM/yyyy" }} ถึง ปัจจุบัน</mat-card-subtitle
+    >
+    <div class="d-flex align-items-center">
+      <i-tabler name="user-square" class="icon-40 m-r-12"></i-tabler>
+      <h2 class="f-s-30">{{ artistStat?.totalArtists }}</h2>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end m-b-16 m-r-16">
+    <a href="/artist/list" class="remove-underline">
+      <div class="d-flex align-items-center m-l-20">
+        <h2 class="f-s-16 m-r-8">ดูศิลปินทั้งหมด</h2>
+        <i-tabler name="arrow-narrow-right" class="icon-30 m-r-8"></i-tabler>
+      </div>
+    </a>
+  </div>
+</mat-card>
+<mat-card class="cardWithShadow theme-card">
+  <p class="f-s-30 f-w-400 m-l-16">ศิลปินยอดนิยม</p>
+  <mat-card-content>
+    <div class="artist-card-container row justify-content-start gap-20 p-l-32">
+      <div *ngFor="let element of artrists" class="card-hover p-10">
+        <a href="artist/detail/{{ element.id }}" target="_blank" class="text-decoration-none">
+          <img class="rounded img" [src]="urlImage + element.image" alt="image" />
+        </a>
+        <p class="f-s-20 f-w-500 remove-padding m-b-6">{{ element.name }}</p>
+        <p class="f-s-16 remove-padding m-b-6">
+          Genre:
+          <span *ngFor="let style of element.styles">
+            <a href="style/detail/{{ style.id }}" target="_blank" class="text-decoration-none">
+              {{ style.name }}
+            </a>
+          </span>
+        </p>
+        <div class="row align-items-center m-l-2">
+          <i-tabler name="vinyl" class="icon-20 m-r-8"></i-tabler>
+          <p class="f-s-16 remove-padding">
+            {{ element?.videoCount }}<span class="m-l-8">Music videos</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
